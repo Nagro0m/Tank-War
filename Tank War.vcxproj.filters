@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Scripts">
+      <UniqueIdentifier>{6cfb183c-0147-4044-b96d-dbef63de297f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Scripts\Manager">
+      <UniqueIdentifier>{13b2b367-bff3-492d-9ab8-5b63e0c9a650}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Manager\Texture">
+      <UniqueIdentifier>{8690a378-fbee-434b-b3ef-0e22c0d5913b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Object">
+      <UniqueIdentifier>{1b41bb25-093d-4de3-85ce-c48a111d91fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Object\ShapeObject">
+      <UniqueIdentifier>{ba3868c5-8201-4b0e-867e-1f4602bc8a51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Object\TextObject">
+      <UniqueIdentifier>{3de91b87-0467-45de-a516-b3a87fff3bf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\GameLoop">
+      <UniqueIdentifier>{037e79e8-3c8e-4bab-a89f-dbfb65c87c86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Core">
+      <UniqueIdentifier>{d8aca0ce-33f2-4c43-acee-3638212547a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Core\Actor">
+      <UniqueIdentifier>{653e82b2-351d-4625-926c-2e697ae1cdc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Core\Components">
+      <UniqueIdentifier>{854b6c43-6c73-42c0-bdab-765d8fe17de4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Manager\Timer">
+      <UniqueIdentifier>{2ee65fbc-7fb0-44f4-b0f2-a1e6fe916f73}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Scripts\Manager\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeObject.cpp">
+      <Filter>Scripts\Object\ShapeObject</Filter>
+    </ClCompile>
+    <ClCompile Include="TextObject.cpp">
+      <Filter>Scripts\Object\TextObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Scripts\GameLoop</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Scripts\GameLoop</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Scripts\Core\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="TimerManager.cpp">
+      <Filter>Scripts\Manager\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="ActorManager.cpp">
+      <Filter>Scripts\Core\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Core.cpp">
+      <Filter>Scripts\Core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Singleton.h">
+      <Filter>Scripts\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreMinimal.h">
+      <Filter>Scripts\Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Scripts\Manager\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeObject.h">
+      <Filter>Scripts\Object\ShapeObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Scripts\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="TextObject.h">
+      <Filter>Scripts\Object\TextObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Scripts\GameLoop</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>Scripts\Core\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Scripts\Core\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerManager.h">
+      <Filter>Scripts\Manager\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="ActorManager.h">
+      <Filter>Scripts\Core\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Core.h">
+      <Filter>Scripts\Core</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
