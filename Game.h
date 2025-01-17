@@ -5,24 +5,33 @@
 class Game : public Singleton<Game>
 {
 	RenderWindow window;
-	Actor* charm;
+	using OnRenderWindow = function<void(RenderWindow&)>;
+	map<u_int, OnRenderWindow> onRenderWindow;
 
 public:
-	Vector2u GetWindowSize() const
+	FORCEINLINE u_int BindOnRenderWindow(const OnRenderWindow& _callback)
 	{
-		return window.getSize();
+		u_int _id = GetUniqueID();
+		onRenderWindow.insert({ _id, _callback });
+		return _id;
 	}
+
+	FORCEINLINE void UnbindOnRenderWindow(const u_int _uniqueID)
+	{
+		onRenderWindow.erase(_uniqueID);
+	}
+
 public:
 	Game();
 	~Game();
+
+public:
+	void Launch();
+	void UpdateWindow();
 
 private:
 	void Start();
 	void Update();
 	void Stop();
-
-public:
-	void Launch();
-	void UpdateWindow();
 };
 

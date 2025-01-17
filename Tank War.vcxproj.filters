@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Manager">
+      <UniqueIdentifier>{21b0a7f1-1d36-4f0e-96fb-dc4c5a63c930}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object">
+      <UniqueIdentifier>{a86aed9b-421a-4106-8cf0-4c58c728cad5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object\ShapeObject">
+      <UniqueIdentifier>{2594650f-5c10-435a-a76d-a14179f7d009}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object\TextObject">
+      <UniqueIdentifier>{567cffd3-b47f-4bcc-aa30-814aad06aa23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameLoop">
+      <UniqueIdentifier>{90fc2d30-bb37-4f8f-bf42-e6e0c7ed4b24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{13a1fdac-d8b9-4504-8c17-75c861239769}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Components">
+      <UniqueIdentifier>{6735ad7b-87bb-4e7c-9841-91356e9e44a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Actors">
+      <UniqueIdentifier>{542c48f5-c503-4e43-bd32-b198da1184ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Manager\Texture">
+      <UniqueIdentifier>{ab48a26b-a621-4a05-a45c-1a0df1bdac5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Manager\Actor">
+      <UniqueIdentifier>{ffa3f325-b135-4bbb-9396-a6c018437918}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Manager\Timer">
+      <UniqueIdentifier>{95ee3889-efae-4838-ab7d-081a62975101}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Manager\Sound">
+      <UniqueIdentifier>{53ffcc76-5513-49aa-9557-a9e2378bd61c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Manager\Music">
+      <UniqueIdentifier>{b73ca388-3cc7-4438-b3b3-9423849b146c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Manager\Sound\SoundSample">
+      <UniqueIdentifier>{e0b61ec3-ef64-4280-b4fa-9f9b27106a5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Logger">
+      <UniqueIdentifier>{1b7c9b0f-d956-476e-b26d-84dab8c5773d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Exception">
+      <UniqueIdentifier>{7fd0a8f4-7f0e-4231-9b53-fddf8387d1e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Color">
+      <UniqueIdentifier>{d3a44156-15a0-4783-bf34-a1d6ffd88084}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Components\Collision">
+      <UniqueIdentifier>{b8950ea2-05a2-435f-9d8e-11d4a11d22ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Actors\MeshActor">
+      <UniqueIdentifier>{05ab3ff8-4e55-4095-a5b9-88eedd13bc73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Actors\CircleActor">
+      <UniqueIdentifier>{4e47275b-9074-4dbb-a2fb-7faa4d1f9bde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Actors\TriangleActor">
+      <UniqueIdentifier>{344ee839-b4c7-4cf7-8b8e-7843169e1a45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Components\Mesh">
+      <UniqueIdentifier>{a1847e44-b058-4bad-b1d1-441dbfcb5d1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Actors\RectangleActor">
+      <UniqueIdentifier>{4701c374-2416-45f3-861b-e3358a38b7aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Actors\SquareActor">
+      <UniqueIdentifier>{a200e97d-00a0-41ce-a8b4-3c2020b76c74}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeObject.cpp">
+      <Filter>Source Files\Object\ShapeObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="TextObject.cpp">
+      <Filter>Source Files\Object\TextObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files\GameLoop</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Source Files\Core\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Core.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Source Files\Core\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ActorManager.cpp">
+      <Filter>Source Files\Manager\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Source Files\Manager\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Source Files\Manager\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundSample.cpp">
+      <Filter>Source Files\Manager\Sound\SoundSample</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Header Files\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="Colors.cpp">
+      <Filter>Header Files\Color</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionComponent.cpp">
+      <Filter>Source Files\Core\Components\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshActor.cpp">
+      <Filter>Source Files\Core\Actors\MeshActor</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleActor.cpp">
+      <Filter>Source Files\Core\Actors\CircleActor</Filter>
+    </ClCompile>
+    <ClCompile Include="TriangleActor.cpp">
+      <Filter>Source Files\Core\Actors\TriangleActor</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshComponent.cpp">
+      <Filter>Source Files\Core\Components\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="RectangleActor.cpp">
+      <Filter>Source Files\Core\Actors\RectangleActor</Filter>
+    </ClCompile>
+    <ClCompile Include="SquareActor.cpp">
+      <Filter>Source Files\Core\Actors\SquareActor</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Singleton.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreMinimal.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeObject.h">
+      <Filter>Source Files\Object\ShapeObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Source Files\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="TextObject.h">
+      <Filter>Source Files\Object\TextObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Source Files\GameLoop</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>Source Files\Core\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Core.h">
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Source Files\Core\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ActorManager.h">
+      <Filter>Source Files\Manager\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Source Files\Manager\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerManager.h">
+      <Filter>Source Files\Manager\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundSample.h">
+      <Filter>Source Files\Manager\Sound\SoundSample</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Source Files\Manager\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Macro.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Header Files\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomException.h">
+      <Filter>Header Files\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="Colors.h">
+      <Filter>Header Files\Color</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionComponent.h">
+      <Filter>Source Files\Core\Components\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshActor.h">
+      <Filter>Source Files\Core\Actors\MeshActor</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleActor.h">
+      <Filter>Source Files\Core\Actors\CircleActor</Filter>
+    </ClInclude>
+    <ClInclude Include="TriangleActor.h">
+      <Filter>Source Files\Core\Actors\TriangleActor</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshComponent.h">
+      <Filter>Source Files\Core\Components\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="RectangleActor.h">
+      <Filter>Source Files\Core\Actors\RectangleActor</Filter>
+    </ClInclude>
+    <ClInclude Include="SquareActor.h">
+      <Filter>Source Files\Core\Actors\SquareActor</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

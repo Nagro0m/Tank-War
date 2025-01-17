@@ -1,4 +1,4 @@
-#include "Color.h"
+#include "Colors.h"
 
 // === Gradient === 
 string Gradient::GradientString(const string _text, const bool _textOnly) const
