@@ -6,6 +6,22 @@
 *.db-wal
 *.opendb
 *.ipch
+*.log
+*.tlog
+*.ilk
+*.idb
+*.obj
+*.recipe
+*.json
+.vs/TankWar/v17/.suo
+TankWar/x64/Debug/vc143.pdb
+x64/Debug/sfml-audio-d-3.dll
+x64/Debug/sfml-graphics-d-3.dll
+x64/Debug/sfml-network-d-3.dll
+x64/Debug/sfml-system-d-3.dll
+x64/Debug/sfml-window-d-3.dll
+x64/Debug/TankWar.exe
+x64/Debug/TankWar.pdb
 *.json
 x64/Debug/Tank War.pdb
 x64/Debug/Tank War.exe
