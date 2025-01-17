@@ -38,6 +38,10 @@ public:
 		Super::SetRotation(_angle);
 		shape->setRotation(_angle);
 	}
+	FORCEINLINE virtual void SetTexture(const Texture& _texture)
+	{
+		texture = _texture;
+	}
 	FORCEINLINE virtual void SetTransformData(const TransformData& _transformeData)
 	{
 		Super::SetTransformData(_transformeData);
