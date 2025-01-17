@@ -4,6 +4,7 @@
 
 class Game : public Singleton<Game>
 {
+	Vector2u windowSize;
 	RenderWindow window;
 	using OnRenderWindow = function<void(RenderWindow&)>;
 	map<u_int, OnRenderWindow> onRenderWindow;

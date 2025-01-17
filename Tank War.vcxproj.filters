@@ -88,6 +88,9 @@
     <Filter Include="Script\Object\TextObject">
       <UniqueIdentifier>{567cffd3-b47f-4bcc-aa30-814aad06aa23}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Menu">
+      <UniqueIdentifier>{a2df7f5a-6381-4748-98bc-eec51bbd7f59}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -152,6 +155,9 @@
     </ClCompile>
     <ClCompile Include="Utilities.cpp">
       <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Script\GameLoop</Filter>
@@ -226,6 +232,9 @@
     </ClInclude>
     <ClInclude Include="Utilities.h">
       <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Script\GameLoop</Filter>
