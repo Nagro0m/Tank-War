@@ -1,10 +1,21 @@
 #include "CoreMinimal.h"
 #include "Game.h"
+#include <thread>
 
 void InitConfig()
 {
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 }
+
+//float SimulateDeltaTime()
+//{
+//    static auto _lastTime = chrono::high_resolution_clock::now();
+//    auto _currentTime = chrono::high_resolution_clock::now();
+//    chrono::duration<float> _elapsed = _currentTime - _lastTime;
+//    _lastTime = _currentTime;
+//    return _elapsed.count() * 1000.0f;
+//}
+
 
 int main()
 {
@@ -12,21 +23,10 @@ int main()
 
     Game::GetInstance().Launch();
 
-    //RenderWindow _window(VideoMode({ 200, 200 }), "SFML Demo");
-    //ShapeObject* _shape = new ShapeObject(100.f, "Mario.png");
-    //SLEEP(50ms);
-    //while (_window.isOpen())
-    //{
-    //    while (const optional _event = _window.pollEvent())
-    //    {
-    //        if (_event->is<Event::Closed>())
-    //            _window.close();
-    //    }
-    //    _window.clear();
-    //    _window.draw(*_shape->GetDrawable());
-    //    _window.display();
-    //}
-    //delete _shape;
-
     return EXIT_SUCCESS;
 }
+
+//Faire une apparition sur une carte de formes aléatoires.
+//Cercle, triangle, carré, rectangle - taille différente, couleure différente, texture différente
+
+//Il apparait, puis lorsqu'il disparait, il tourne sur lui même.
