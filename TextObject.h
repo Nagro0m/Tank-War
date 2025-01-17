@@ -1,15 +1,16 @@
 #pragma once
 #include "Object.h"
-
 class TextObject : public Object
 {
 	Text* text;
 
 public:
-	FORCEINLINE virtual Text* GetDrawable() const override
+	FORCEINLINE virtual Drawable* GetDrawable() const override
 	{
 		return text;
 	}
+
+	#pragma region Setter
 	FORCEINLINE virtual void SetOrigin(const Vector2f& _origin)
 	{
 		Super::SetOrigin(_origin);
@@ -25,36 +26,39 @@ public:
 		Super::SetScale(_scale);
 		text->setScale(_scale);
 	}
-	FORCEINLINE virtual void SetRotation(const Angle& _rotation)
+	FORCEINLINE virtual void SetRotation(const Angle& _angle)
 	{
-		Super::SetRotation(_rotation);
-		text->setRotation(_rotation);
+		Super::SetRotation(_angle);
+		text->setRotation(_angle);
 	}
-	FORCEINLINE virtual void SetTransform(const TransformData& _transformData)
+	FORCEINLINE virtual void SetTransformData(const TransformData& _transformeData)
 	{
-		Super::SetTransform(_transformData);
-		text->setOrigin(_transformData.origin);
-		text->setPosition(_transformData.position);
-		text->setRotation(_transformData.rotation);
-		text->setScale(_transformData.scale);
+		Super::SetTransformData(_transformeData);
+		text->setOrigin(_transformeData.origin);
+		text->setPosition(_transformeData.position);
+		text->setScale(_transformeData.scale);
+		text->setRotation(_transformeData.rotation);
 	}
+	#pragma endregion
+
 	FORCEINLINE virtual void Move(const Vector2f& _offset)
 	{
 		Super::Move(_offset);
 		text->move(_offset);
+	}
+	FORCEINLINE virtual void Scale(const Vector2f& _factor)
+	{
+		Super::Scale(_factor);
+		text->scale(_factor);
 	}
 	FORCEINLINE virtual void Rotate(const Angle& _angle)
 	{
 		Super::Rotate(_angle);
 		text->rotate(_angle);
 	}
-	FORCEINLINE virtual void Scale(const Vector2f& _factor)
-	{
-		Super::Scale(_factor);
-		text->setOrigin(_factor);
-	}
 
-
+public:
 	TextObject();
 	~TextObject();
 };
+

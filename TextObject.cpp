@@ -6,5 +6,4 @@ TextObject::TextObject()
 
 TextObject::~TextObject()
 {
-	delete text;
 }
