@@ -3,7 +3,6 @@
 
 Actor::Actor()
 {
-	Register();
 }
 
 
@@ -45,5 +44,5 @@ void Actor::BeginDestroy()
 
 void Actor::Register()
 {
-	M_ACTOR.AddActor(this);
+	M_ACTOR.AddActor(dynamic_cast<MeshActor*>(this));
 }

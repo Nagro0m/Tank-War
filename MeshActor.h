@@ -18,11 +18,17 @@ public:
 		return mesh->GetShape();
 	}
 
+	FORCEINLINE u_int GetRenderMeshToken() const
+	{
+		return renderMeshToken;
+	}
+
 public:
 	MeshActor(const float _radius, const size_t& _pointCount,
 		const string& _path, const IntRect& _rect);
 	MeshActor(const Vector2f& _size, const string& _path, const IntRect& _rect = IntRect());
 	virtual~MeshActor();
+
 private:
 	void RenderMesh(RenderWindow& _window);
 };

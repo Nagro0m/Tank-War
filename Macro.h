@@ -1,7 +1,6 @@
 #pragma once
 #pragma warning(disable: 4275)
-
-
+#pragma warning(disable: 4244)
 
 // STL
 #include <iostream>
