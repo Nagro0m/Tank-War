@@ -7,6 +7,7 @@ class Actor : public Core
 {
 	ShapeObject* shape;
 	set<Component*> components;
+	string path;
 
 public:
 	FORCEINLINE void SetShape(ShapeObject* _shape)
@@ -16,6 +17,11 @@ public:
 	FORCEINLINE ShapeObject* GetShape()
 	{
 		return shape;
+	}
+
+	FORCEINLINE string GetPath()
+	{
+		return path;
 	}
 
 public:

@@ -2,7 +2,6 @@
 #include "CoreMinimal.h"
 
 template <typename Type>
-
 class Singleton
 {
 public:

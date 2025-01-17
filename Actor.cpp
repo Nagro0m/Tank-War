@@ -4,12 +4,14 @@
 Actor::Actor(const float _radius, const string& _path, const IntRect _rect, const int _pointCount)
 {
 	shape = new ShapeObject(_radius, _path, _rect, _pointCount);
+	path = _path;
 	Register();
 }
 
 Actor::Actor(Vector2f _size, const string& _path, const IntRect _rect)
 {
 	shape = new ShapeObject(_size, _path, _rect);
+	path = _path;
 	Register();
 
 }

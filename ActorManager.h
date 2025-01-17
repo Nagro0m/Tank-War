@@ -7,7 +7,7 @@ class ActorManager : public Singleton<ActorManager>
 	set<Actor*> allActors;
 
 public:
-	FORCEINLINE set<Actor*> GetALlActors() const
+	FORCEINLINE set<Actor*> GetAllActors() const
 	{
 		return allActors;
 	}
