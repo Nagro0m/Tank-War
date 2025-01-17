@@ -1,34 +1,42 @@
 #include "Logger.h"
+#include "TimerManager.h"
 
-Logger::Logger() {}
+string Logger::logsPath = "Logs/log.txt";
+ofstream Logger::stream = ofstream(logsPath, ios_base::app);
 
-void Logger::PrintLog(const VerbosityType& _type, const string& _text, const string& _debug)
+string VerbosityData::RetrieveFullText(const bool _useColor, const bool _useTime) const
+{
+	const string& _time = _useTime ? "<" + TimerManager<Seconds>::GetInstance().GetCurrentRealTime() + ">" : "";
+	string _fullText = _time + GetPrefix(_useColor) + (_useColor ? color.GradientString(text) : text);
+	if (USE_DEBUG || useDebug)
+	{
+		_fullText += (_useColor ? RESET WHITE"  " : "  ") + debug;
+	}
+	return _fullText + (_useColor ? RESET : "");
+
+}
+
+void Logger::PrintLog(const VerbosityType& _type,const string& _text, const string& _debug)
 {
 	if (WRITE_IN_LOG(_type))
 	{
 		const VerbosityData& _verbosity = VerbosityData(_type, _text, _debug);
-
-		const string& _logText = _verbosity.GetFullText(false, true);
-		WriteInLogs(_logText);
+		
+		WriteInLogs(_verbosity.RetrieveFullText(false, true));
 		if (WRITE_IN_CONSOLE(_type))
 		{
-			const string& _consoleText = _verbosity.GetFullText(true, true);
-			WriteInConsole(_consoleText);
+			WriteInConsole(_verbosity.RetrieveFullText(true, true));
 		}
 	}
 }
 
 void Logger::WriteInLogs(const string& _text)
 {
-	ofstream _file("Logs/Log.txt", ios::app);
-	if (_file.is_open())
-	{
-		_file << _text << endl;
-		_file.close();
-	}
+	stream << _text << endl;
 }
 
 void Logger::WriteInConsole(const string& _text)
 {
 	cout << _text << endl;
 }
+

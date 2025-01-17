@@ -1,14 +1,27 @@
 #pragma once
 #include "Core.h"
 
+class Actor;
+
 class Component : public Core
 {
-public:
-	Component();
-	~Component();
+protected:
+	Actor* owner;
 
-//protected:
-//	virtual void BeginPlay() override;
-//	virtual void Tick(const float _deltaTime) override;
-//	virtual void BeginDestroy() override;
+public:
+
+	FORCEINLINE Actor* GetOwner()const
+	{
+		return owner;
+	}
+
+public:
+	Component(Actor* _actor);
+	virtual ~Component() = default;
+public:
+
+	virtual void BeginPlay() override;
+	virtual void Tick(const float _deltaTime) override;
+	virtual void BeginDestroy() override;
 };
+

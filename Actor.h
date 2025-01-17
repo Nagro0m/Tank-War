@@ -5,56 +5,33 @@
 
 class Actor : public Core
 {
-	ShapeObject* shape;
 	set<Component*> components;
-	string path;
 
 public:
-	FORCEINLINE void SetShape(ShapeObject* _shape)
-	{
-		shape = _shape;
-	}
-	FORCEINLINE ShapeObject* GetShape()
-	{
-		return shape;
-	}
-
-	FORCEINLINE string GetPath()
-	{
-		return path;
-	}
+	Actor();
+	virtual ~Actor();
 
 public:
-	Actor(const float _radius, const string& _path,
-		const IntRect _rect = IntRect(), const int _pointCount = 30);
-	//Rectangle
-	Actor(Vector2f _size, const string& _path,
-		const IntRect _rect = IntRect());
-
-	~Actor();
-
-private:
-	void Register();
-public:
-	virtual void BeginPlay() override;
-	virtual void Tick(const float _deltaTime) override;
-	virtual void BeginDestroy() override;
-
-public:
+	#pragma region Component
 	void AddComponent(Component* _component);
 	void RemoveComponent(Component* _component);
-
-	template<typename Type>
-	Type* GetComponent()
+	template<typename T>
+	T* GetComponent()
 	{
 		for (Component* _component : components)
 		{
-			if (is_same_v<decltype(_component), Type>)
-			{
-				return dynamic_cast<Type>(_component);
-			}
+			if (is_same_v<decltype(_component), T>) return dynamic_cast<T>(_component);
 		}
 
 		return nullptr;
 	}
+	#pragma endregion
+
+	virtual void BeginPlay() override;
+	virtual void Tick(const float _deltaTime) override;
+	virtual void BeginDestroy() override;
+
+private: 
+	void Register();
 };
+

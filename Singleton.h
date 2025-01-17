@@ -1,13 +1,15 @@
 #pragma once
 #include "CoreMinimal.h"
 
-template <typename Type>
+
+
+template <typename Class>
 class Singleton
 {
 public:
-	FORCEINLINE static Type& GetInstance()
+	FORCEINLINE static Class& GetInstance()
 	{
-		static Type _instance;
+		static Class _instance;
 		return _instance;
 	}
 };

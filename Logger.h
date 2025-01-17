@@ -1,16 +1,8 @@
 #pragma once
-#include "TimerManager.h"
+#include "Colors.h"
 #include "CustomException.h"
 
-//LOG(VeryVerbose, "VeryVerbose");
-//LOG(Verbose, "Verbose");
-//LOG(Log, "Log");
-//LOG(Display, "Display");
-//LOG(Warning, "Warning");
-//LOG(Error, "Error");
-//LOG(Fatal, "Fatal");
-
-#define DEBUG_FILE
+//#define DEBUG_FILE
 
 #ifdef DEBUG_FILE
 #define PATH __FILE__
@@ -27,8 +19,9 @@
 #define WRITE_IN_LOG(_verbosity) _type >= Log
 #define WRITE_IN_CONSOLE(_verbosity) _type > Log
 
-#define DEBUG_INFO  WHITE" => (" + string(PATH)  +  " | " + to_string(__LINE__) + ")"
+#define DEBUG_INFO "(" + string(PATH)  +  " | " + to_string(__LINE__) + ")"
 #define LOG(_verbosity, _msg) Logger::PrintLog(_verbosity, _msg, DEBUG_INFO)
+
 
 using namespace std;
 
@@ -45,9 +38,10 @@ enum VerbosityType
     VT_COUNT
 };
 
+
 class VerbosityData
 {
-    string color;
+    Gradient color;
     string prefix;
     string text;
     string debug;
@@ -59,25 +53,12 @@ private:
         string _prefix = prefix;
         if (_useColor)
         {
-            _prefix = RESET "[" + color + prefix + RESET + "]";
+            _prefix = RESET + color.GradientString(prefix) + RESET;
         }
-        else _prefix = "[" + prefix + "]";
-        return _prefix;
+        return "[" + _prefix + "]";
     }
 public:
-    __forceinline string GetFullText(const bool _useColor = true, const bool _useTime = false) const
-    {
-        const string& _color = _useColor ? color : "";
-        const string& _reset = _useColor ? RESET : "";
-        const string& _time = _useTime ? "<" + TM_Seconds::GetInstance().GetTime() + "> " : "";
-        string _fullText = _time + GetPrefix(_useColor) + _color + " " + text + " " + _reset;
-        if (USE_DEBUG || useDebug)
-        {
-            _fullText += "\n\t" + debug;
-        }
-        return _fullText;
-    }
-
+    __forceinline string RetrieveFullText(const bool _useColor = true, const bool _useTime = false) const;
 public:
     VerbosityData(const VerbosityType& _type, const string& _text,
         const string& _debug)
@@ -94,7 +75,7 @@ private:
     {
         if (_type == VT_COUNT)
         {
-            throw CustomException("Exception => Invalid VerbosityType");
+            throw exception("Exception => Invalid VerbosityType");
         }
 
         const vector<string>& _verbosityTexts =
@@ -117,17 +98,16 @@ private:
             throw CustomException("Exception => Invalid VerbosityType");
         }
 
-        const vector<string>& _verbosityColors =
+        const vector<Gradient>& _verbosityColors =
         {
-               WHITE,
-               WHITE,
-               GREEN,
-               GREEN_INTENSE_TEXT,
-               YELLOW,
-               RED,
-               DARK_RED,
+            Gradient(ColorData(27, 27, 33), ColorData(37, 37, 51)),            //VERY VERBOSE
+            Gradient(ColorData(55, 55, 61), ColorData(69, 69, 93)),            //VERBOSE
+            Gradient(ColorData(100, 100, 119), ColorData(143, 143, 194)),    //LOG
+            Gradient(ColorData(221, 221, 246), ColorData(122, 122, 236)),    //DISPLAY
+            Gradient(ColorData(255, 231, 0), ColorData(255, 76, 17)),        //WARNING
+            Gradient(ColorData(193, 6, 11), ColorData(249, 56, 67)),        //ERROR
+            Gradient(ColorData(255, 0, 95), ColorData(118, 37, 184)),        //FATAL
         };
-
 
         color = _verbosityColors[_type];
     }
@@ -141,16 +121,13 @@ private:
         };
         useDebug = _debugableVerbosity.find(_type) != _debugableVerbosity.end();
     }
+
 };
 
 class Logger
 {
-    string logsPath;
-
-public:
-
-public:
-    Logger();
+    static string logsPath;
+    static ofstream stream;
 
 public:
     static void PrintLog(const VerbosityType& _type, const string& _text, const string& _debug = "");
@@ -159,3 +136,4 @@ private:
     static void WriteInLogs(const string& _text);
     static void WriteInConsole(const string& _text);
 };
+
