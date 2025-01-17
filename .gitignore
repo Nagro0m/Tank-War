@@ -6,3 +6,48 @@
 *.db-wal
 *.opendb
 *.ipch
+*.json
+x64/Debug/Tank War.pdb
+x64/Debug/Tank War.exe
+x64/Debug/sfml-window-d-3.dll
+x64/Debug/sfml-system-d-3.dll
+x64/Debug/sfml-network-d-3.dll
+x64/Debug/sfml-graphics-d-3.dll
+x64/Debug/sfml-audio-d-3.dll
+Tank War/x64/Debug/vc143.pdb
+Tank War/x64/Debug/vc143.idb
+Tank War/x64/Debug/Utilities.obj
+Tank War/x64/Debug/TriangleActor.obj
+Tank War/x64/Debug/TextureManager.obj
+Tank War/x64/Debug/TextObject.obj
+Tank War/x64/Debug/Tank War.tlog/Tank War.lastbuildstate
+Tank War/x64/Debug/Tank War.tlog/link.write.1.tlog
+Tank War/x64/Debug/Tank War.tlog/link.secondary.1.tlog
+Tank War/x64/Debug/Tank War.tlog/link.read.1.tlog
+Tank War/x64/Debug/Tank War.tlog/link.command.1.tlog
+Tank War/x64/Debug/Tank War.tlog/CL.write.1.tlog
+Tank War/x64/Debug/Tank War.tlog/CL.read.1.tlog
+Tank War/x64/Debug/Tank War.tlog/Cl.items.tlog
+Tank War/x64/Debug/Tank War.tlog/CL.command.1.tlog
+Tank War/x64/Debug/Tank War.log
+Tank War/x64/Debug/Tank War.ilk
+Tank War/x64/Debug/Tank War.exe.recipe
+Tank War/x64/Debug/Tank War.Build.CppClean.log
+Tank War/x64/Debug/SquareActor.obj
+Tank War/x64/Debug/SoundSample.obj
+Tank War/x64/Debug/SoundManager.obj
+Tank War/x64/Debug/ShapeObject.obj
+Tank War/x64/Debug/RectangleActor.obj
+Tank War/x64/Debug/Object.obj
+Tank War/x64/Debug/MeshComponent.obj
+Tank War/x64/Debug/MeshActor.obj
+Tank War/x64/Debug/Main.obj
+Tank War/x64/Debug/Logger.obj
+Tank War/x64/Debug/Game.obj
+Tank War/x64/Debug/Core.obj
+Tank War/x64/Debug/Component.obj
+Tank War/x64/Debug/Colors.obj
+Tank War/x64/Debug/CollisionComponent.obj
+Tank War/x64/Debug/CircleActor.obj
+Tank War/x64/Debug/ActorManager.obj
+Tank War/x64/Debug/Actor.obj
