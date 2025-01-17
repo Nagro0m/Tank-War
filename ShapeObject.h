@@ -5,6 +5,7 @@ class ShapeObject : public Object
 {
 	Shape* shape;
 	Texture texture;
+	Vector2f direction;
 
 public:
 	FORCEINLINE Texture& GetTexture()
@@ -16,6 +17,15 @@ public:
 	{
 		return shape;
 	}
+	FORCEINLINE virtual Vector2f GetDirection() const
+	{
+		return direction;
+	}
+	FORCEINLINE virtual void SetDirection(Vector2f _direction)
+	{ 
+		direction = _direction;
+	}
+
 	FORCEINLINE virtual void SetOrigin(const Vector2f& _origin)
 	{
 		Super::SetOrigin(_origin);

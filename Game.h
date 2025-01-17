@@ -8,16 +8,21 @@ class Game : public Singleton<Game>
 	Actor* charm;
 
 public:
+	Vector2u GetWindowSize() const
+	{
+		return window.getSize();
+	}
+public:
 	Game();
 	~Game();
 
 private:
 	void Start();
 	void Update();
-	void UpdateWindow();
 	void Stop();
 
 public:
 	void Launch();
+	void UpdateWindow();
 };
 
