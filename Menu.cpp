@@ -12,8 +12,7 @@ void Menu::SetupElements(Vector2u _windowSize)
     MeshActor* _background = new MeshActor(Vector2f(_windowSize.x, _windowSize.y), "Menu/BG/MenuBg");
     // 
     // TANK WAR TITLE
-    MeshActor* _title = new MeshActor(Vector2f(_windowSize.x/2, _windowSize.x / 8), "Menu/Title");
-    _title->GetShape()->SetPosition(Vector2f(_windowSize.x / 4, 0));
+
 
     //BACKGROUND BUTTON
     MeshActor* _bgButton = new MeshActor(Vector2f(_windowSize.x / 4, _windowSize.y / 1.6), "Menu/BgButton");
