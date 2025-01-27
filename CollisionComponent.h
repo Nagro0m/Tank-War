@@ -10,21 +10,15 @@ enum CollisionType
 
 enum LayerType
 {
-	LT_WorldDynamic,
-	LT_WorldStatic
+	LT_STATIC,
+	LT_DYNAMIC,
 
-	// ========= \\
+	// =========== \\
 
 
 };
-
-/*
-* 1 Actor => 1 LayerMask
-* 
-*/
 
 class CollisionComponent : public Component
 {
-	LayerType type;
+	LayerType layer;
 };
-

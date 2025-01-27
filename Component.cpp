@@ -1,19 +1,7 @@
 #include "Component.h"
 #include "Actor.h"
 
-Component::Component(Actor* _actor)
+Component::Component(Actor* _owner)
 {
-	owner = _actor;
-}
-
-void Component::BeginPlay()
-{
-}
-
-void Component::Tick(const float _deltaTime)
-{
-}
-
-void Component::BeginDestroy()
-{
+	owner = _owner;
 }

@@ -1,64 +1,54 @@
 #pragma once
-#include "CoreMinimal.h"
+#include "Sample.h"
 
-class SoundSample
+class SoundSample : public Sample
 {
 	using SoundStatus = SoundSource::Status;
 
-	float volume;
 	Sound* sound;
 	SoundBuffer buffer;
-	string path;
 
-public:
-	FORCEINLINE void SetMuteStatus(const bool _isMuted)
-	{
-		UpdateVolume(_isMuted ? 0.0f : volume);
-	}
-	FORCEINLINE void SetVolume(const float _volume)
-	{
-		UpdateVolume(volume = _volume);
-	}
-	FORCEINLINE void SetLoop(const bool _isLoop)
-	{
-		sound->setLooping(_isLoop);
-	}
-	FORCEINLINE void SetPitch(const float _pitch)
-	{
-		sound->setPitch(_pitch);
-	}
+	#pragma region Sample
 
-	FORCEINLINE bool IsVailable()const
-	{
-		return sound->getStatus() != SoundStatus::Playing;
-	}
-	FORCEINLINE float GetVolume()const
-	{
-		return sound->getVolume();
-	}
-	FORCEINLINE string GetPath()const
-	{
-		return path;
-	}
-
-
-
-private:
-	FORCEINLINE void UpdateVolume(const float _volume)
+	FORCEINLINE virtual void UpdateVolume(const float _volume) override
 	{
 		sound->setVolume(_volume);
 	}
-	FORCEINLINE SoundStatus GetStatus()const
+	FORCEINLINE virtual int GetStatus() const override
 	{
-		return sound->getStatus();
+		return CAST(int, sound->getStatus());
 	}
+public:
+	FORCEINLINE virtual bool IsAvailable() const override
+	{
+		return CAST(SoundStatus, GetStatus()) != SoundStatus::Playing;
+	}
+	FORCEINLINE virtual void SetLoop(const bool _isLoop) override
+	{
+		sound->setLooping(_isLoop);
+	}
+	FORCEINLINE virtual bool AddPitch(const float _pitchOffset) override
+	{
+		float _newPitch = sound->getPitch() + _pitchOffset;
+		if (_newPitch > 100.0f || _newPitch < 0.0f) return false;
+
+		sound->setPitch(_newPitch);
+		return true;
+	}
+
+	#pragma endregion
+
+public:
+	FORCEINLINE float GetVolume() const
+	{
+		return sound->getVolume();
+	}
+
 public:
 	SoundSample(const string& _path);
 	~SoundSample();
 
-public:
-	void Play(const Time& _time = Time());
-	void Pause();
-	void Stop();
+	virtual void Play(const Time& _time = Time()) override;
+	virtual void Pause() override;
+	virtual void Stop() override;
 };
-

@@ -1,17 +1,22 @@
 #include "MeshComponent.h"
-MeshComponent::MeshComponent(Actor* _owner, const float _radius, const string& _path,
-	const size_t& _pointCount, const IntRect& _rect)
-	: Component(_owner)
+
+MeshComponent::MeshComponent(Actor* _owner, const float _radius, const size_t& _pointCount,
+							 const string& _path, const IntRect& _rect)
+						   : Component(_owner)
 {
-	shape = new ShapeObject(_radius, _path, _pointCount, _rect);
+	shape = new ShapeObject(_radius, _path, _rect, _pointCount);
 }
 
-MeshComponent::MeshComponent(Actor* _owner, const Vector2f& _size, const string& _path,
-	const IntRect& _rect)
-	: Component(_owner)
+MeshComponent::MeshComponent(Actor* _owner, const RectangleShapeData& _data) : Component(_owner)
 {
-	shape = new ShapeObject(_size, _path, _rect);
+	shape = new ShapeObject(_data);
 }
+
+MeshComponent::MeshComponent(Actor* _owner, const MeshComponent* _other) : Component(_owner) 
+{
+	shape = new ShapeObject(*_other->shape);
+}
+
 
 MeshComponent::~MeshComponent()
 {
