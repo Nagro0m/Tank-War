@@ -1,7 +1,6 @@
 #include "CameraActor.h"
 #include "GameManager.h"
-#include "Duck.h"
-#include "DuckHuntGame.h"
+#include "Game.h"
 
 CameraActor::CameraActor(const string& _name) : Actor(_name)
 {
@@ -26,19 +25,6 @@ CameraActor::CameraActor(const CameraActor& _other) : Actor(_other)
 	camera = CreateComponent<CameraComponent>(_other.camera);
 	target = nullptr; //TODO check
 }
-
-//TODO check to remove
-//void CameraActor::Construct()
-//{
-//	Super::Construct();
-//	M_GAME.GetCurrent()->SetView(*camera->GetView());
-//}
-//
-//void CameraActor::Deconstruct()
-//{
-//	Super::Deconstruct();
-//	M_GAME.GetCurrent()->RemoveView();
-//}
 
 void CameraActor::Tick(const float _deltaTime)
 {
