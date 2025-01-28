@@ -4,6 +4,7 @@
 #include "MusicSample.h"
 #include "Level.h"
 #include "Label.h"
+#include "TankCreation.h"
 
 class TankWarGame : public Game
 {
