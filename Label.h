@@ -30,6 +30,20 @@ public:
 		Super::SetOrigin(_origin);
 		text->SetOrigin(_origin);
 	}
+	FORCEINLINE void SetCharacterSize(const unsigned int _size)
+	{
+		text->GetDrawable()->setCharacterSize(_size);
+	}
+	FORCEINLINE void SetOriginAtMiddle()
+	{
+		const FloatRect& _bounds = text->GetDrawable()->getGlobalBounds();
+		SetOrigin(_bounds.getCenter());
+	}
+
+	FORCEINLINE TextObject* GetText() const
+	{
+		return text;
+	}
 	FORCEINLINE virtual void Move(const Vector2f& _offset) override
 	{
 		Super::Move(_offset);
