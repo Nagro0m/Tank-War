@@ -11,14 +11,16 @@ TankWarGame::~TankWarGame()
 
 void TankWarGame::Start()
 {
+	level = Level();
+	level.GenerateLevel();
 	Super::Start();
-
 	//GenerateMainMenu();
 }
 
 bool TankWarGame::Update()
 {
 	Super::Update();
+
 	return IsOver();
 }
 

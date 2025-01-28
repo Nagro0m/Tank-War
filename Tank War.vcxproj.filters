@@ -246,6 +246,9 @@
     <ClCompile Include="TankWarGame.cpp">
       <Filter>Scripts\GameLoop\Tank</Filter>
     </ClCompile>
+    <ClCompile Include="LevelGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -382,6 +385,9 @@
     </ClInclude>
     <ClInclude Include="TankWarGame.h">
       <Filter>Scripts\GameLoop\Tank</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelGenerator.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

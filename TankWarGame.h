@@ -9,17 +9,20 @@
 class TankWarGame : public Game
 {
 	MeshActor* background;
-	Label* label;
 	MusicSample* music;
+	Level level;
+	Label* label;
 	vector<MeshActor*> uiAssets;
+	
 public:
 	TankWarGame();
-
 	~TankWarGame();
+	
 public:
 	virtual void Start() override;
 	virtual bool Update() override;
 	virtual void Stop() override;
+
 
 public:
 	void GenerateMainMenu();
