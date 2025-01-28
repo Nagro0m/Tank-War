@@ -76,9 +76,6 @@
     <Filter Include="Scripts\Managers\Font">
       <UniqueIdentifier>{a27c8130-50ec-4ebf-bfa7-ed2ba11c894b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\Core\Actors\Texts">
-      <UniqueIdentifier>{3a236a4d-3434-4099-898c-b9f32bc86ba4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scripts\Core\Components\Animation">
       <UniqueIdentifier>{486f8b75-db00-4b39-9f9f-f217ee614670}</UniqueIdentifier>
     </Filter>
@@ -129,6 +126,15 @@
     </Filter>
     <Filter Include="Scripts\GameLoop\Tank">
       <UniqueIdentifier>{2abb6587-f0b9-4a73-bbfa-c2a7ee8d471c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Core\Actors\Widget">
+      <UniqueIdentifier>{fac05104-6eab-4079-802a-d3aa09b09396}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Core\Actors\Widget\Texts">
+      <UniqueIdentifier>{3a236a4d-3434-4099-898c-b9f32bc86ba4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Managers\HUD">
+      <UniqueIdentifier>{73f0cff4-baf8-4747-a839-d21480348b41}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -190,7 +196,7 @@
       <Filter>Scripts\Managers\Font</Filter>
     </ClCompile>
     <ClCompile Include="Label.cpp">
-      <Filter>Scripts\Core\Actors\Texts</Filter>
+      <Filter>Scripts\Core\Actors\Widget\Texts</Filter>
     </ClCompile>
     <ClCompile Include="AudioManager.cpp">
       <Filter>Scripts\Managers\Audio</Filter>
@@ -248,6 +254,33 @@
     </ClCompile>
     <ClCompile Include="LevelGenerator.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Hull.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Kismet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tank.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TankCreation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Track.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget.cpp">
+      <Filter>Scripts\Core\Actors\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD.cpp">
+      <Filter>Scripts\Managers\HUD</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -318,7 +351,7 @@
       <Filter>Scripts\Managers\Font</Filter>
     </ClInclude>
     <ClInclude Include="Label.h">
-      <Filter>Scripts\Core\Actors\Texts</Filter>
+      <Filter>Scripts\Core\Actors\Widget\Texts</Filter>
     </ClInclude>
     <ClInclude Include="AudioManager.h">
       <Filter>Scripts\Managers\Audio</Filter>
@@ -388,6 +421,36 @@
     </ClInclude>
     <ClInclude Include="LevelGenerator.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Hull.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Kismet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tank.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TankCreation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Track.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Widget.h">
+      <Filter>Scripts\Core\Actors\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD.h">
+      <Filter>Scripts\Managers\HUD</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
