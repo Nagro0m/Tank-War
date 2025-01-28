@@ -2,6 +2,11 @@
 #include "ActorManager.h"
 #include "CameraManager.h"
 #include "TimerManager.h"
+#include "HUD.h"
+#include "Label.h"
+
+using namespace Camera;
+using namespace UI;
 
 Game::Game()
 {
@@ -12,6 +17,12 @@ Game::Game()
 void Game::Start()
 {
     window.create(VideoMode({ 1920, 1080 }), "Tank War", State::Windowed);
+
+    M_CAMERA.CreateCamera(Vector2f(), Vector2f(800.0f, 600.0f), "DefaultCamera");
+
+    Label* _label = M_HUD.CreateWidget<Label>("Coucou", World);
+    _label->SetZOrder(1);
+    M_HUD.AddToViewport(_label);
 };
 
 bool Game::Update()

@@ -6,6 +6,8 @@
 #include "Label.h"
 #include "TankCreation.h"
 
+using namespace UI;
+
 class TankWarGame : public Game
 {
 	MeshActor* background;

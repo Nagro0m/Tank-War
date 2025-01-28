@@ -9,9 +9,43 @@ class MeshActor : public Actor
 	u_int renderMeshToken;
 
 public:
+	FORCEINLINE Vector2f GetForwardVector() const
+	{
+		const Angle& _angle = GetRotation();
+		const float _radians = _angle.asRadians();
+		return Vector2f(cos(_radians), sin(_radians));
+	}
+	FORCEINLINE Vector2f GetDownVector() const
+	{
+		const Angle& _angle = GetRotation();
+		const float _radians = _angle.asRadians();
+		return Vector2f(sin(_radians), -cos(_radians));
+	}
+	FORCEINLINE Vector2f GetRightVector() const
+	{
+		const Angle& _angle = GetRotation();
+		const float _radians = _angle.asRadians();
+		return Vector2f(cos(_radians), -sin(_radians));
+	}
+	FORCEINLINE Vector2f GetLeftVector() const
+	{
+		const Angle& _angle = GetRotation();
+		const float _radians = _angle.asRadians();
+		return Vector2f(-cos(_radians), sin(_radians));
+	}
+	FORCEINLINE Vector2f GetBackVector() const
+	{
+		const Angle& _angle = GetRotation();
+		const float _radians = _angle.asRadians();
+		return Vector2f(-cos(_radians), -sin(_radians));
+	}
 	FORCEINLINE MeshComponent* GetMesh() const
 	{
 		return mesh;
+	}
+	FORCEINLINE FloatRect GetHitbox() const
+	{
+		return mesh->GetShape()->GetDrawable()->getGlobalBounds();
 	}
 	FORCEINLINE void SetTextureRect(const Vector2i& _start, const Vector2i& _size)
 	{
@@ -22,7 +56,7 @@ public:
 		M_TEXTURE.SetTextureRect(mesh->GetShape()->GetDrawable(), _rect);
 	}
 
-	#pragma region Modifier
+#pragma region Modifier
 
 	FORCEINLINE virtual void SetPosition(const Vector2f& _position) override
 	{
@@ -64,7 +98,7 @@ public:
 		mesh->GetShape()->Scale(_factor);
 	}
 
-	#pragma endregion
+#pragma endregion
 
 public:
 	MeshActor() = default;
@@ -72,10 +106,8 @@ public:
 	MeshActor(const RectangleShapeData& _data, const string& _name = "MeshActor");
 	MeshActor(const MeshActor& _other);
 
-	
-
-private:
-	void RenderMesh(RenderWindow& _window);
+protected:
+	virtual void RenderMesh(RenderWindow& _window);
 
 public:
 	virtual void Construct() override;
