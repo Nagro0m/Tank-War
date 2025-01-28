@@ -2,14 +2,14 @@
 #include "Level.h"
 #include "GameManager.h"
 
-LevelElement::LevelElement(SubclassOf<MeshActor>* _actor, const float _chance)
+LevelElement::LevelElement(SubclassOf<MeshActor>* _actor, const int _chance)
 {
 	prefab = _actor;
 	chance = _chance;
 	variants = vector<LevelElement*>();
 }
 
-LevelElement::LevelElement(SubclassOf<MeshActor>* _actor, const float _chance, const vector<LevelElement*>& _variants)
+LevelElement::LevelElement(SubclassOf<MeshActor>* _actor, const int _chance, const vector<LevelElement*>& _variants)
 {
 	prefab = _actor;
 	chance = _chance;

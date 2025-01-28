@@ -7,7 +7,7 @@ class Level;
 
 class LevelElement
 {
-	float chance;
+	int chance;
 	vector<LevelElement*> variants;
 	SubclassOf<MeshActor>* prefab;
 public:
@@ -22,8 +22,8 @@ public:
 
 public:
 #pragma region Constructors
-	LevelElement(SubclassOf<MeshActor>* _actor, const float _chance);
-	LevelElement(SubclassOf<MeshActor>* _actor, const float _chance, const vector<LevelElement*>& _variants);
+	LevelElement(SubclassOf<MeshActor>* _actor, const int _chance);
+	LevelElement(SubclassOf<MeshActor>* _actor, const int _chance, const vector<LevelElement*>& _variants);
 	/// <summary>
 	/// Constructeur pour créer un LevelElement qui servira de sol
 	/// </summary>
@@ -106,7 +106,7 @@ private:
 		while (!_variantsId.empty())
 		{
 			const u_int& _id = GetRandomNumberInRange(0, static_cast<u_int>(_variantsId.size() - 1));
-			const float _random = GetRandomNumberInRange(0.0f, 1.0f);
+			const int _random = GetRandomNumberInRange(0, 100);
 			if (_random <= _vector[_id]->GetChance())
 			{
 				LevelElement* _element = _vector[_id];
