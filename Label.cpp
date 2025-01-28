@@ -16,5 +16,6 @@ UI::Label::~Label()
 
 void UI::Label::Render(RenderWindow& _window)
 {
+	if (visibility == Hidden) return;
 	_window.draw(*text->GetDrawable());
 }
