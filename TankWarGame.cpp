@@ -13,7 +13,7 @@ void TankWarGame::Start()
 {
 	Super::Start();
 
-	GenerateMainMenu();
+	//GenerateMainMenu();
 }
 
 bool TankWarGame::Update()
