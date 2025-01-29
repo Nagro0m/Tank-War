@@ -1,24 +1,3 @@
-#pragma once
-#include "Hull.h"
-#include "Weapon.h"
-#include "Track.h"
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-
-class Tank
-{
-	//Corps du tank
-	Hull* hull;
-	//Canon
-	Weapon* weapon;
-	//Chenilles
-	Track* track;
-
-	int life;
-	bool isMoving;
-=======
-=======
->>>>>>> Stashed changes
 #include "Socket.h"
 
 namespace Tank
@@ -62,9 +41,3 @@ namespace Tank
 		void Detachpart(const TankPart& _socketType);
 	};
 }
->>>>>>> Stashed changes
-
-public:
-	Tank();
-	~Tank();
-};
