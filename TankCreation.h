@@ -61,7 +61,7 @@ struct WeaponData
 		Vector2f _size = { 20.0f, 40.0f }; //TODO décider taille final
 		// _size = taille de la texture * facteur (grossissement ou inverse)
 
-
+		//error possible sur la boucle for par rapport au type
 		int _length = CAST(int, WeaponsName.size());
 
 		for (int _index = 0; _index < _length; _index++)
