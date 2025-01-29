@@ -3,19 +3,41 @@
 #include "Weapon.h"
 #include "Track.h"
 
-class Tank
+
+namespace Tank
 {
-	//Corps du tank
-	Hull* hull;
-	//Canon
-	Weapon* weapon;
-	//Chenilles
-	Track* track;
+	enum TankPart
+	{
+		Hull,
+		Weapon,
+		Track
+	};
 
-	int life;
-	bool isMoving;
+	class Tank : public MeshActor
+	{
+		////Corps du tank
+		//Hull* hull;
+		////Canon
+		//Weapon* weapon;
+		////Chenilles
+		//Track* track;
 
-public:
-	Tank();
-	~Tank();
-};
+		int life;
+		bool isMoving;
+
+	public:
+		Actor* GetPart(const TankPart& _socketName) const
+		{
+
+		}
+
+	public:
+		Tank();
+		~Tank();
+
+	public:
+		void Attachpart(const TankPart& _socketName, Actor* _part);
+		void Detachpart(const TankPart& _socketName);
+	};
+}
+
