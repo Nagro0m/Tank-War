@@ -34,6 +34,8 @@ public:
 
 	void GenerateLevel();
 
+public:
+	~Level();
 
 	// TODO move to PlayerController
 	//static void SetViewTarget()

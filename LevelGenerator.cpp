@@ -2,25 +2,27 @@
 #include "Level.h"
 #include "GameManager.h"
 
-LevelElement::LevelElement(SubclassOf<MeshActor>* _actor, const int _chance)
+LevelElement::LevelElement(MeshActor* _actor, const int _chance)
 {
 	prefab = _actor;
 	chance = _chance;
 	variants = vector<LevelElement*>();
 }
 
-LevelElement::LevelElement(SubclassOf<MeshActor>* _actor, const int _chance, const vector<LevelElement*>& _variants)
+LevelElement::LevelElement(MeshActor* _actor, const int _chance, const vector<LevelElement*>& _variants)
 {
 	prefab = _actor;
 	chance = _chance;
 	variants = _variants;
 }
-LevelElement::LevelElement(SubclassOf<MeshActor>* _actor, const vector<LevelElement*>& _variants)
+
+LevelElement::LevelElement(MeshActor* _actor, const vector<LevelElement*>& _variants)
 {
 	prefab = _actor;
-	chance = -1.0f;
+	chance = 0;
 	variants = _variants;
 }
+
 LevelElement::~LevelElement()
 {
 	for (LevelElement* _variant : variants)
@@ -34,7 +36,6 @@ LevelElement* LevelElement::GetRandomVariant()
 {
 	LevelElement* _element = LevelGenerator::GetRandomElement(variants);
 	return _element ? _element : this;
-
 }
 
 LevelGenerator::LevelGenerator(Level* _level, const u_int& _sizeX, const u_int& _sizeY, const u_int& _spaceBetweenElements)
@@ -72,11 +73,19 @@ map<Vector2f, MeshActor*> LevelGenerator::GenerateMap()
 	map<Vector2f, MeshActor*> _map;
 
 	GenerateGround();
+
 	for (u_int _y = 0; _y < sizeY; _y+=spaceBetweenElements)
 	{
+		if (_y + spaceBetweenElements >= sizeY) continue;
+
 		for (u_int _x = 0; _x < sizeX; _x+=spaceBetweenElements)
 		{
-			GenerateRandomElement(Vector2f((float)_x, (float)_y));
+			if (_x + spaceBetweenElements >= sizeX) continue;
+
+			const float _offsetX = GetRandomNumberInRange<float>(-15.0f, 15.0f);
+			const float _offsetY = GetRandomNumberInRange<float>(-15.0f, 15.0f);
+			const Vector2f& _position = Vector2f((float)_x + _offsetX, (float)_y + _offsetY);
+			GenerateRandomElement(_position);
 		}
 	}
 
@@ -101,8 +110,9 @@ bool LevelGenerator::GenerateRandomElement(const Vector2f& _pos)
 	LevelElement* _element = GetRandomElement(elementsList);
 	if (!_element) return false;
 
-	MeshActor* _actor = level->SpawnActor(_element->GetSubclass());
+	MeshActor* _actor = Level::SpawnActor(_element->GetSubclass());
 	_actor->SetPosition(_pos);
+	_actor->SetOriginAtMiddle();
 	generatedElements.push_back(_actor);
 
 	return true;
@@ -124,7 +134,20 @@ void LevelGenerator::GenerateGround()
 			}
 			MeshActor* _ground = Level::SpawnActor(_groundElement->GetSubclass());
 			_ground->SetPosition(Vector2f((float)_x, (float)_y));
+			_ground->SetOriginAtMiddle();
 		}
 	}
+}
+
+int LevelGenerator::GetRandomDirection()
+{
+	const vector<int> _directions =
+	{
+		0,
+		90,
+		180
+	};
+	const int _directionsCount = static_cast<u_short>(_directions.size());
+	return _directions[GetRandomNumberInRange(0, _directionsCount - 1)];
 }
 

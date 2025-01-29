@@ -9,25 +9,25 @@ class LevelElement
 {
 	int chance;
 	vector<LevelElement*> variants;
-	SubclassOf<MeshActor>* prefab;
+	MeshActor* prefab;
 public:
 	FORCEINLINE float GetChance() const
 	{
 		return chance;
 	}
-	FORCEINLINE SubclassOf<MeshActor> GetSubclass() const
+	FORCEINLINE MeshActor GetSubclass() const
 	{
 		return *prefab;
 	}
 
 public:
 #pragma region Constructors
-	LevelElement(SubclassOf<MeshActor>* _actor, const int _chance);
-	LevelElement(SubclassOf<MeshActor>* _actor, const int _chance, const vector<LevelElement*>& _variants);
+	LevelElement(MeshActor* _actor, const int _chance);
+	LevelElement(MeshActor* _actor, const int _chance, const vector<LevelElement*>& _variants);
 	/// <summary>
 	/// Constructeur pour créer un LevelElement qui servira de sol
 	/// </summary>
-	LevelElement(SubclassOf<MeshActor>* _actor, const vector<LevelElement*>& _variants=vector<LevelElement*>());
+	LevelElement(MeshActor* _actor, const vector<LevelElement*>& _variants=vector<LevelElement*>());
 	LevelElement() = default;
 	~LevelElement();
 #pragma endregion
@@ -84,7 +84,7 @@ private:
 	bool IsElementOverlap(const Vector2f& _pos) const;
 	bool GenerateRandomElement(const Vector2f& _pos);
 	void GenerateGround();
-
+	int GetRandomDirection();
 	friend LevelElement;
 
 	// On fait un set d'IDs pour pouvoir choisir aléatoirement un élément parmis la liste, histoire de ne pas les faire dans l'ordre du vecteur et maximiser le random
