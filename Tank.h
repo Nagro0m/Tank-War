@@ -3,6 +3,7 @@
 #include "Weapon.h"
 #include "Track.h"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 class Tank
 {
@@ -16,6 +17,8 @@ class Tank
 	int life;
 	bool isMoving;
 =======
+=======
+>>>>>>> Stashed changes
 #include "Socket.h"
 
 namespace Tank
