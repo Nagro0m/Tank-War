@@ -101,23 +101,38 @@ private:
 
 	static LevelElement* GetRandomElement(const vector<LevelElement*>& _vector)
 	{
-		set<u_int> _variantsId = ComputeSetOfIndex(_vector);
+		if (_vector.empty()) return nullptr;
 
-		while (!_variantsId.empty())
+		int _spawnChance = 60; // % de chance qu'un élément spawn
+
+		if (GetRandomNumberInRange(0, 100) > _spawnChance)
+			return nullptr; // Aucun élément ne spawn
+
+		// Créer une table cumulative pour les chances
+		vector<int> _cumulativeChances;
+		int _totalChance = 0;
+
+		for (const LevelElement* _element : _vector)
 		{
-			const u_int& _id = GetRandomNumberInRange(0, static_cast<u_int>(_variantsId.size() - 1));
-			const int _random = GetRandomNumberInRange(0, 100);
-			if (_random <= _vector[_id]->GetChance())
-			{
-				LevelElement* _element = _vector[_id];
-				if (!_element->HasVariants()) return _element;
-				return _element->GetRandomVariant();
-			}
-			_variantsId.erase(_id);
+			_totalChance += _element->GetChance();
+			_cumulativeChances.push_back(_totalChance);
 		}
 
+		// Tirage aléatoire en fonction de la table cumulative
+		const int _random = GetRandomNumberInRange(0, _totalChance - 1);
+		const u_int _vectorSize = CAST(u_int, _vector.size());
+		for (u_int _index = 0; _index < _vectorSize; ++_index)
+		{
+			if (_random < _cumulativeChances[_index])
+			{
+				LevelElement* _element = _vector[_index];
+				return _element->HasVariants() ? _element->GetRandomVariant() : _element;
+			}
+		}
 		return nullptr;
 	}
+
+
 #pragma endregion
 
 };

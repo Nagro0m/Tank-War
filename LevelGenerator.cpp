@@ -123,6 +123,22 @@ void LevelGenerator::GenerateGround()
 {
 	if (!ground) return;
 
+	// Placer les barbelés autour de la carte
+	for (u_int _y = 0; _y <= sizeY + groundTileSize.y; _y += groundTileSize.y)
+	{
+		for (u_int _x = 0; _x <= sizeX + groundTileSize.x; _x += groundTileSize.x)
+		{
+			// Vérifier si nous sommes en dehors des limites jouables
+			bool isBorder = (_x == 0 || _x == sizeX || _y == 0 || _y == sizeY);
+			if (isBorder)
+			{
+				MeshActor* _barbed = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(90.0f, 90.0f), "Object/Barbed")));
+				_barbed->SetPosition(Vector2f((float)(_x - groundTileSize.x), (float)(_y - groundTileSize.y)));
+				_barbed->SetOriginAtMiddle();
+			}
+		}
+	}
+
 	for (u_int _y = 0; _y < sizeY; _y += groundTileSize.y)
 	{
 		for (u_int _x = 0; _x < sizeX; _x += groundTileSize.x)
@@ -137,6 +153,7 @@ void LevelGenerator::GenerateGround()
 			_ground->SetOriginAtMiddle();
 		}
 	}
+
 }
 
 int LevelGenerator::GetRandomDirection()
