@@ -7,16 +7,12 @@
 
 namespace Tank
 {
-<<<<<<< Updated upstream
 	enum TankPart
 	{
 		Hull,
 		Weapon,
 		Track
 	};
-=======
-	
->>>>>>> Stashed changes
 
 	class Tank : public MeshActor
 	{
@@ -37,14 +33,6 @@ namespace Tank
 		}
 
 	public:
-<<<<<<< Updated upstream
-		Tank();
-		~Tank();
-
-	public:
-		void Attachpart(const TankPart& _socketName, Actor* _part);
-		void Detachpart(const TankPart& _socketName);
-=======
 		Tank(const Vector2f& _size);
 		~Tank();
 
@@ -52,7 +40,5 @@ namespace Tank
 		void InitSocket();
 		void AttachPart(const TankPart& _socketName, Actor* _part);
 		void DetachPart(const TankPart& _socketName);
->>>>>>> Stashed changes
 	};
 }
-
