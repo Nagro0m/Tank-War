@@ -13,6 +13,8 @@ void TankWarGame::Start()
 {
 	level = Level();
 	level.GenerateLevel();
+	TankCreation _tank = TankCreation();
+	_tank.CreateTank();
 	Super::Start();
 	//GenerateMainMenu();
 }

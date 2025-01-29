@@ -1,4 +1,5 @@
 #include "Socket.h"
+#include "MeshActor.h"
 
 namespace Tank
 {

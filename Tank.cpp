@@ -21,11 +21,15 @@ namespace Tank
 	void Tank::InitSocket()
 	{
 		AddChild(new Socket(Hull), AT_SNAP_TO_TARGET);
+		AddChild(new Socket(Weapon), AT_SNAP_TO_TARGET);
+		AddChild(new Socket(Track_Left), AT_SNAP_TO_TARGET);
+		AddChild(new Socket(Track_Right), AT_SNAP_TO_TARGET);
 	}
 
 	void Tank::Attachpart(const TankPart& _socketType, Actor* _part)
 	{
-		if (!_part) {
+		if (!_part) 
+		{
 			cerr << "Erreur : tentative d'attacher un pointeur nul" << _socketType << endl;
 			return;
 		}

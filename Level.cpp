@@ -2,8 +2,8 @@
 
 void Level::GenerateLevel()
 {
-	LevelGenerator _generator = LevelGenerator(this, 5760, 3240, 106);
-	//LevelGenerator _generator = LevelGenerator(this, 1920, 1080, 106);
+	//LevelGenerator _generator = LevelGenerator(this, 5760, 3240, 106);
+	LevelGenerator _generator = LevelGenerator(this, 1920, 1080, 106);
 
 	vector<LevelElement*> _groundVariants;
 	LevelElement* _ground = new LevelElement(new MeshActor(RectangleShapeData({ 180.0f, 180.0f }, "Object/Grounds_3")), _groundVariants);
@@ -17,7 +17,7 @@ void Level::GenerateLevel()
 	LevelElement* _tree = new LevelElement(new MeshActor(RectangleShapeData(_size, "Object/Tree_1")), 10, _treeVariants);
 
 	vector<LevelElement*> _grassVariants;
-	const Vector2f& _grassSize = Vector2f(20.0f, 20.0f);
+	const Vector2f& _grassSize = Vector2f(30.0f, 30.0f);
 	_grassVariants.push_back(new LevelElement(new MeshActor(RectangleShapeData(_grassSize, "Object/Grass_2")), 2));
 	LevelElement* _grass = new LevelElement(new MeshActor(RectangleShapeData(_grassSize, "Object/Grass_1")), 5, _grassVariants);
 			
@@ -37,7 +37,6 @@ void Level::GenerateLevel()
 	_generator.AddGenerableElement(_rock);
 	_generator.AddGenerableElement(_grass);
 	_generator.AddGenerableElement(_root);
-	//_generator.AddGenerableElement(new LevelElement(new SubclassOf<MeshActor>(new MeshActor(50.0f, 30, "Object/Root_1")), 0.3f));
 
 	_generator.GenerateMap();
 }

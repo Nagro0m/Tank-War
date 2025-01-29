@@ -27,4 +27,4 @@ namespace Tank
 		Socket(const TankPart& _type);
 		~Socket();
 	};
-}s
+}
