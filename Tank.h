@@ -1,19 +1,7 @@
-#pragma once
-#include "Hull.h"
-#include "Weapon.h"
-#include "Track.h"
 #include "Socket.h"
-
 
 namespace Tank
 {
-	enum TankPart
-	{
-		Hull,
-		Weapon,
-		Track
-	};
-
 	class Tank : public MeshActor
 	{
 		////Corps du tank
@@ -27,18 +15,29 @@ namespace Tank
 		bool isMoving;
 
 	public:
-		Actor* GetPart(const TankPart& _socketName) const
+		FORCEINLINE set<Socket*> GetSocketByTankPart(const TankPart& _type)
 		{
-
+			set<Socket*> _socketsType;
+			set<Actor*> _sockets = GetChildren();
+			for (Actor* _socketActor : _sockets)
+			{
+				Socket* _socket = dynamic_cast<Socket*>(_socketActor);
+				if (_socket->GetTankPartType() == _type)
+				{
+					_socketsType.insert(_socket);
+				}
+			}
+			return _socketsType;
 		}
 
+
 	public:
-		Tank(const Vector2f& _size);
+		Tank();
 		~Tank();
 
 	public:
 		void InitSocket();
-		void AttachPart(const TankPart& _socketName, Actor* _part);
-		void DetachPart(const TankPart& _socketName);
+		void Attachpart(const TankPart& _socketType, Actor* _part);
+		void Detachpart(const TankPart& _socketType);
 	};
 }

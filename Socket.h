@@ -13,14 +13,18 @@ namespace Tank
 
 	class Socket : public Actor
 	{
+
 	public:
 		TankPart partType;
 
 	public:
+		FORCEINLINE TankPart GetTankPartType() const
+		{
+			return partType;
+		}
+
+	public:
 		Socket(const TankPart& _type);
 		~Socket();
-
 	};
-}
-
-
+}s

@@ -1,13 +1,13 @@
 #include "Tank.h"
 
+
 namespace Tank
 {
-	Tank::Tank(const Vector2f& _size) : MeshActor(RectangleShapeData(_size))
+	Tank::Tank()
 	{
 		life = 100.0f;
 		isMoving = true;
-
-		
+		InitSocket();
 	}
 
 	Tank::~Tank()
@@ -20,34 +20,25 @@ namespace Tank
 
 	void Tank::InitSocket()
 	{
-		map<TankPart, Vector2f> _socketPosition =
-		{
-			{Hull, Vector2f()},
-			{Weapon, Vector2f()},
-			{Track_Left, Vector2f()},
-			{Track_Right, Vector2f()}
-		};
+		AddChild(new Socket(Hull), AT_SNAP_TO_TARGET);
+	}
 
-		for (const pair<TankPart, Vector2f> _pos : _socketPosition)
+	void Tank::Attachpart(const TankPart& _socketType, Actor* _part)
+	{
+		if (!_part) {
+			cerr << "Erreur : tentative d'attacher un pointeur nul" << _socketType << endl;
+			return;
+		}
+
+		set<Socket*> _sockets = GetSocketByTankPart(_socketType);
+
+		for (Socket* _socket : _sockets)
 		{
-			Socket* _socket = new Socket(_pos.first);
-			_socket->SetPosition(_pos.second);
-			AddChild(_socket, AT_SNAP_TO_TARGET);
+			_socket->AddChild(_part, AT_SNAP_TO_TARGET);
 		}
 	}
 
-	void Tank::AttachPart(const TankPart& _socketName, Actor* _part)
+	void Tank::Detachpart(const TankPart& _socketType)
 	{
-		if (!_part) return;
-
-		
-
-		//this->AddChild(_part, AT_SNAP_TO_TARGET);
-	}
-
-	void Tank::DetachPart(const TankPart& _socketName)
-	{
-		
 	}
 }
-
