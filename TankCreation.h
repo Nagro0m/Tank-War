@@ -3,11 +3,12 @@
 #include "Track.h"
 #include "Weapon.h"
 #include "Hull.h"
+#include "CameraManager.h"
 
 struct HullsData
 {
 	vector<string> hullsName;
-	map<string, SubclassOf<Hull>> hulls;
+	map<string, Hull> hulls;
 
 	HullsData()
 	{
@@ -31,9 +32,8 @@ struct HullsData
 		for (int _index = 0; _index < _length; _index++)
 		{
 			Vector2f _size = { 50.0f, 50.0f }; //TODO décider taille final
-			Hull _hull = Hull(_size, "/Tank/Hulls_1/Hulls_1", PNG, false, IntRect(Vector2i(256 * _index, 0), { 256,256 }));
-			SubclassOf<Hull> _hullSubClassOf = SubclassOf<Hull>(_hull);
-			hulls.insert({hullsName[_index],_hullSubClassOf});
+			Hull _hull = Hull(_size, "/Tank/Hulls_1/Hulls_1", PNG, false, IntRect());
+			hulls.insert({hullsName[_index], _hull });
 		}
 	}
 };
@@ -42,7 +42,7 @@ struct WeaponsData
 {
 private:
 	vector<string> weaponsName;
-	map<string, SubclassOf<Weapon>> weapons;
+	map<string, shared_ptr<Weapon>> weapons;
 
 public:
 
@@ -69,10 +69,9 @@ public:
 
 		for (int _index = 0; _index < _length; _index++)
 		{
-			Vector2f _size = { 50.0f, 50.0f }; //TODO décider taille final
-			Weapon _weapon = Weapon(_size, "/Tank/Weapons_1/Weapons_1", PNG, false, IntRect(Vector2i(94 * _index, 0 ), { 94,212 }));
-			SubclassOf<Weapon> _weaponlSubClassOf = SubclassOf<Weapon>(_weapon);
-			weapons.insert({ weaponsName[_index],_weaponlSubClassOf});
+			Vector2f _size = { 50.0f, 100.0f }; //TODO décider taille final
+			shared_ptr<Weapon> _weapon = make_shared<Weapon>(_size, "/Tank/Weapons_1/Weapons_1", PNG, false, IntRect(Vector2i(94 * _index, 0), { 94, 212 }));
+			weapons.insert({ weaponsName[_index], _weapon});
 		}
 	}
 
@@ -83,12 +82,12 @@ public:
 	}
 
 	// Accesseur pour récupérer une arme spécifique
-	const SubclassOf<Weapon>* GetWeapon(const string& _weaponName) const
+	shared_ptr<Weapon> GetWeapon(const string& _weaponName) const
 	{
 		auto _it = weapons.find(_weaponName);
 		if (_it != weapons.end())
 		{
-			return &_it->second;
+			return _it->second;
 		}
 		return nullptr; // Retourne nullptr si l'arme n'existe pas
 	}
@@ -100,7 +99,6 @@ public:
 	}
 };
 
-
 //Création du tank
 //Choisir les éléments
 class TankCreation
@@ -110,7 +108,9 @@ class TankCreation
 	map<string, Track*> tracks;
 	WeaponsData weaponsData;
 	HullsData hullsData;
-	vector<MeshActor*> creationMenu;
+	map<string, MeshActor*> creationMenu;
+	CameraActor* cameraCreationMenu;
+	shared_ptr<Weapon> currentWeapon;
 
 public:
 	TankCreation();
@@ -118,12 +118,14 @@ public:
 public:
 	void CreateTank();
 
-	void DisplayWeaponSprite(const SubclassOf<Weapon>& _weapon, const Vector2f& _position);
+	void DisplayWeaponSprite(const Weapon& _weapon, const Vector2f& _position);
 
 	void HandleWeaponSelection(int& _currentWeaponIndex, const vector<string>& _weaponsName);
 
 private:
 	void LoadTankComponents();
+
+	void GenerateTankCreationMenu();
 
 	MeshActor* CreateActors(const Vector2f& _size, const string& _texture, const Vector2f& _position,
 		bool _useMiddleOrigin = true, float _rotation = 0.0f)
