@@ -110,6 +110,7 @@ class TankCreation
 	HullsData hullsData;
 	map<string, MeshActor*> creationMenu;
 	CameraActor* cameraCreationMenu;
+	shared_ptr<Weapon> currentWeapon;
 
 public:
 	TankCreation();

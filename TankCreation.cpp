@@ -1,4 +1,5 @@
 #include "TankCreation.h"
+#include "ActorManager.h"
 
 TankCreation::TankCreation()
 {
@@ -24,19 +25,34 @@ void TankCreation::DisplayWeaponSprite(const Weapon& _weapon, const Vector2f& _p
 {
 }
 
-// Gère la sélection d'armes avec le défilement (gauche/droite)
 void TankCreation::HandleWeaponSelection(int& currentWeaponIndex, const vector<string>& weaponsName)
 {
-    //if (Input::IsKeyPressed(Key::Left)) // Si la touche de gauche est pressée
+    //if (Input::IsKeyPressed(Key::Left))
     //{
     //    currentWeaponIndex = (currentWeaponIndex - 1 + weaponsName.size()) % weaponsName.size();
     //}
-    //else if (Input::IsKeyPressed(Key::Right)) // Si la touche de droite est pressée
+    //else if (Input::IsKeyPressed(Key::Right))
     //{
     //    currentWeaponIndex = (currentWeaponIndex + 1) % weaponsName.size();
     //}
-}
 
+    // Supprimer l'ancienne arme
+    if (currentWeapon)
+    {
+        M_ACTOR.RemoveActor(currentWeapon.get());
+        currentWeapon.reset();
+    }
+
+    // Créer la nouvelle arme
+    currentWeapon = weaponsData.GetWeapon(weaponsName[currentWeaponIndex]);
+    if (currentWeapon)
+    {
+        Weapon* _weapon = Level::SpawnActor(*currentWeapon.get());
+        _weapon->GetMesh()->GetShape()->Rotate(degrees(90));
+        _weapon->GetMesh()->GetShape()->SetPosition(Vector2f(creationMenu["Menu/TankCreation/WeaponButton"]->GetPosition().x,
+            creationMenu["Menu/TankCreation/WeaponButton"]->GetPosition().y - 200.0f));
+    }
+}
 
 void TankCreation::LoadTankComponents()
 {
@@ -89,7 +105,6 @@ void TankCreation::GenerateTankCreationMenu()
             if (_currentWeapon)
             {
                 Weapon* _weapon = Level::SpawnActor(*_currentWeapon.get());
-                _weapon->GetMesh()->GetShape()->SetOrigin
                 _weapon->GetMesh()->GetShape()->Rotate(degrees(90));
                 _weapon->GetMesh()->GetShape()->SetPosition(Vector2f(_adjustedPosition.x, _adjustedPosition.y - 200.0f));
             }
@@ -104,3 +119,4 @@ void TankCreation::GenerateTankCreationMenu()
         
     }
 }
+
