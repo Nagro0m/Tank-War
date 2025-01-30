@@ -21,11 +21,11 @@ void Tank::TankCreation::CreateTank()
 }
 
 // Affiche l'arme en utilisant son sprite et la position spécifiée
-void TankCreation::DisplayWeaponSprite(const Weapon& _weapon, const Vector2f& _position)
+void Tank::TankCreation::DisplayWeaponSprite(const Weapon& _weapon, const Vector2f& _position)
 {
 }
 
-void TankCreation::HandleWeaponSelection(int& currentWeaponIndex, const vector<string>& weaponsName)
+void Tank::TankCreation::HandleWeaponSelection(int& currentWeaponIndex, const vector<string>& weaponsName)
 {
     //if (Input::IsKeyPressed(Key::Left))
     //{
@@ -54,12 +54,12 @@ void TankCreation::HandleWeaponSelection(int& currentWeaponIndex, const vector<s
     }
 }
 
-void TankCreation::LoadTankComponents()
+void Tank::TankCreation::LoadTankComponents()
 {
 
 }
 
-void TankCreation::GenerateTankCreationMenu()
+void Tank::TankCreation::GenerateTankCreationMenu()
 {
     Vector2f _basePosition = Vector2f(-1000.0f, -1000.0f);
     vector<tuple<Vector2f, string, Vector2f, bool, float>> _assets =
