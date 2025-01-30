@@ -14,9 +14,9 @@ class Actor : public Core, public ITransformableModifier, public ITransformableV
 	string displayName;
 	set<Component*> components;
 	RootComponent* root;
-	Actor* parent;
+	shared_ptr<Actor> parent;
 	AttachmentType attachment;
-	set<Actor*> children;
+	set<shared_ptr<Actor>> children;
 
 protected:
 	template <typename Type, typename ...Args, IS_BASE_OF(Component, Type)>
@@ -26,11 +26,12 @@ protected:
 		AddComponent(_component);
 		return _component;
 	}
-	FORCEINLINE void CreateSocket(const string& _name, const TransformData& _transform = TransformData(),
-		const AttachmentType& _type = AT_SNAP_TO_TARGET)
+	template <typename Type = Actor, typename ...Args, IS_BASE_OF(Actor, Type)>
+	FORCEINLINE Type* CreateSocket(const AttachmentType& _type = AT_SNAP_TO_TARGET, Args... _args)
 	{
-		Actor* _socket = new Actor(_name, _transform);
+		Type* _socket = new Type(_args...);
 		AddChild(_socket, _type);
+		return _socket;
 	}
 
 public:
@@ -62,17 +63,17 @@ public:
 #pragma region Children
 
 private:
-	FORCEINLINE void SetParent(Actor* _parent)
+	FORCEINLINE void SetParent(const shared_ptr<Actor>& _parent)
 	{
 		parent = _parent;
 	}
-	FORCEINLINE void UpdateChildTransform(Actor* _child)
+	FORCEINLINE void UpdateChildTransform(const shared_ptr<Actor>& _child)
 	{
 		UpdateChildPosition(_child);
 		UpdateChildRotation(_child);
 		UpdateChildScale(_child);
 	}
-	FORCEINLINE void UpdateChildPosition(Actor* _child)
+	FORCEINLINE void UpdateChildPosition(const shared_ptr<Actor>& _child)
 	{
 		const vector<function<Vector2f()>>& _computePosition =
 		{
@@ -87,7 +88,7 @@ private:
 		const AttachmentType& _type = _child->GetAttachmentType();
 		_child->SetPosition(_computePosition[_type]());
 	}
-	FORCEINLINE void UpdateChildRotation(Actor* _child)
+	FORCEINLINE void UpdateChildRotation(const shared_ptr<Actor>& _child)
 	{
 		const vector<function<Angle()>>& _computeRotation =
 		{
@@ -102,7 +103,7 @@ private:
 		const AttachmentType& _type = _child->GetAttachmentType();
 		_child->SetRotation(_computeRotation[_type]());
 	}
-	FORCEINLINE void UpdateChildScale(Actor* _child)
+	FORCEINLINE void UpdateChildScale(const shared_ptr<Actor>& _child)
 	{
 		const vector<function<Vector2f()>>& _computeScale =
 		{
@@ -119,14 +120,14 @@ private:
 	}
 
 public:
-	FORCEINLINE void AddChild(Actor* _child, const AttachmentType& _type)
+	FORCEINLINE void AddChild(const shared_ptr<Actor>& _child, const AttachmentType& _type)
 	{
 		_child->SetAttachmentType(_type);
-		_child->SetParent(this);
+		_child->SetParent(shared_ptr<Actor>(this));
 		UpdateChildTransform(_child);
 		children.insert(_child);
 	}
-	FORCEINLINE void RemoveChild(Actor* _child)
+	FORCEINLINE void RemoveChild(const shared_ptr<Actor>& _child)
 	{
 		if (!_child || !children.contains(_child)) return;
 
@@ -141,17 +142,17 @@ public:
 	{
 		return attachment;
 	}
-	FORCEINLINE Actor* GetParent() const
+	FORCEINLINE shared_ptr<Actor> GetParent() const
 	{
 		return parent;
 	}
-	FORCEINLINE set<Actor*> GetChildren() const
+	FORCEINLINE set<shared_ptr<Actor>> GetChildren() const
 	{
 		return children;
 	}
-	FORCEINLINE Actor* GetChildrenAtIndex(const int _index) const
+	FORCEINLINE shared_ptr<Actor> GetChildrenAtIndex(const int _index) const
 	{
-		set<Actor*>::const_iterator _it = children.begin();
+		set<shared_ptr<Actor>>::const_iterator _it = children.begin();
 		advance(_it, _index);
 		return *_it;
 	}
@@ -191,7 +192,7 @@ public:
 	{
 		root->SetPosition(_position);
 
-		for (Actor* _child : children)
+		for (shared_ptr<Actor> _child : children)
 		{
 			UpdateChildPosition(_child);
 		}
@@ -200,7 +201,7 @@ public:
 	{
 		root->SetRotation(_rotation);
 
-		for (Actor* _child : children)
+		for (shared_ptr<Actor> _child : children)
 		{
 			UpdateChildRotation(_child);
 		}
@@ -209,7 +210,7 @@ public:
 	{
 		root->SetScale(_scale);
 
-		for (Actor* _child : children)
+		for (shared_ptr<Actor> _child : children)
 		{
 			UpdateChildScale(_child);
 		}
@@ -222,7 +223,7 @@ public:
 	{
 		root->Move(_offset);
 
-		for (Actor* _child : children)
+		for (shared_ptr<Actor> _child : children)
 		{
 			_child->Move(_offset);
 		}
@@ -231,7 +232,7 @@ public:
 	{
 		root->Rotate(_angle);
 
-		for (Actor* _child : children)
+		for (shared_ptr<Actor> _child : children)
 		{
 			_child->Rotate(_angle);
 		}
@@ -240,7 +241,7 @@ public:
 	{
 		root->Scale(_factor);
 
-		for (Actor* _child : children)
+		for (shared_ptr<Actor> _child : children)
 		{
 			_child->Scale(_factor);
 		}

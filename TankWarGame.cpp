@@ -1,6 +1,6 @@
 #include "TankWarGame.h"
 #include "AudioManager.h"
-
+using namespace Tank;
 TankWarGame::TankWarGame()
 {
 }

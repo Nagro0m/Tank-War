@@ -4,18 +4,12 @@
 class MovementComponent : public Component
 { 
 	float speed;
-	float rotateSpeed;
 	Vector2f direction;
-	Actor* target;
 
 public:
-	FORCEINLINE void SetRotateSpeed(const float _rotateSpeed)
+	FORCEINLINE void SetSpeed(const float _speed)
 	{
-		rotateSpeed = _rotateSpeed;
-	}
-	FORCEINLINE void SetTarget(Actor* _target)
-	{
-		target = _target;
+		speed = _speed;
 	}
 	
 public:
@@ -27,5 +21,4 @@ protected:
 
 private:
 	void Move(const float _deltaTime);
-	void RotateAround(const float _deltaTime);
 };

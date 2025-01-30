@@ -1,15 +1,15 @@
 #include "TankCreation.h"
 #include "ActorManager.h"
 
-TankCreation::TankCreation()
+Tank::TankCreation::TankCreation()
 {
-	hullsData = HullsData();
-	weaponsData = WeaponsData();
+    hullsData = HullsData();
+    weaponsData = WeaponsData();
 
-	LoadTankComponents();
+    LoadTankComponents();
 }
 
-void TankCreation::CreateTank()
+void Tank::TankCreation::CreateTank()
 {
     GenerateTankCreationMenu();
 
@@ -119,4 +119,3 @@ void TankCreation::GenerateTankCreationMenu()
         
     }
 }
-

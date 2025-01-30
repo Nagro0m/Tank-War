@@ -5,7 +5,9 @@
 #include "Hull.h"
 #include "CameraManager.h"
 
-struct HullsData
+namespace Tank
+{
+	struct HullsData
 {
 	vector<string> hullsName;
 	map<string, Hull> hulls;
@@ -144,3 +146,4 @@ private:
 		return _actor;
 	}
 };
+}
