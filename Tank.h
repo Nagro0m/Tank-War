@@ -6,7 +6,11 @@
 
 namespace Tank
 {
-	
+	enum PlayerNumber
+	{
+		Player_1,
+		Player_2,
+	};
 	class Tank : public Actor
 	{
 		////Corps du tank
@@ -15,16 +19,15 @@ namespace Tank
 		//Weapon* weapon;
 		////Chenilles
 		//Track* track;
+		PlayerNumber playerNumber;
 		map<TankPartType, shared_ptr<TankPart>> allTankParts;
 		int life;
 		bool isMoving;
 		MovementComponent* movement;
 		CollisionComponent* collisions;
-	public:
-
 
 	public:
-		Tank();
+		Tank(const PlayerNumber& _playeNumber = Player_1);
 
 	public:
 		template<typename Type, IS_BASE_OF(TankPart, Type)>
@@ -38,6 +41,13 @@ namespace Tank
 			AddChild(_part, AT_SNAP_TO_TARGET);
 			allTankParts[_socketType] = _part;
 		}
-		void Detachpart(const TankPartType& _socketType);
+		void DetachPart(const TankPartType& _socketType);
+
+		virtual void Construct() override;
+	private:
+		void UpSpeed();
+		void DownSpeed();
+		void TurnLeft();
+		void TurnRight();
 	};
 }
