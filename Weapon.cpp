@@ -1,12 +1,12 @@
 #include "Weapon.h"
 
-Weapon::Weapon(const Vector2f& _size, const string& _path, const TextureExtensionType& _textureType
+Tank::Weapon::Weapon(const Vector2f& _size, const string& _path, const TextureExtensionType& _textureType
 			  ,const bool _isRepeated, const IntRect& _rect)
-			  : MeshActor(RectangleShapeData(_size, _path, _textureType, _isRepeated, _rect), "Weapon")
+			  : TankPart(Weapon_Part,RectangleShapeData(_size, _path, _textureType, _isRepeated, _rect))
 {
 
 }
 
-void Weapon::Move(const Vector2f _newPosition)
+void Tank::Weapon::Move(const Vector2f _newPosition)
 {
 }

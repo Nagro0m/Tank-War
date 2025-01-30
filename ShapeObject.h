@@ -51,7 +51,7 @@ struct RectangleShapeData
 	TextureExtensionType textureType;
 	bool isRepeated;
 
-	RectangleShapeData(const Vector2f& _size, const string& _path = "", const TextureExtensionType& _textureType = PNG,
+	RectangleShapeData(const Vector2f& _size = Vector2f(), const string& _path = "", const TextureExtensionType& _textureType = PNG,
 					   const bool _isRepeated = false, const IntRect& _rect = IntRect())
 	{
 		size = _size;

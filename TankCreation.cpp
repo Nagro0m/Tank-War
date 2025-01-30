@@ -1,15 +1,15 @@
 #include "TankCreation.h"
 #include "CameraManager.h"
 
-TankCreation::TankCreation()
+Tank::TankCreation::TankCreation()
 {
-	hullsData = HullsData();
-	weaponsData = WeaponsData();
+    hullsData = HullsData();
+    weaponsData = WeaponsData();
 
-	LoadTankComponents();
+    LoadTankComponents();
 }
 
-void TankCreation::CreateTank()
+void Tank::TankCreation::CreateTank()
 {
     Vector2f _basePosition = Vector2f(-1000.0f, -1000.0f);
     vector<tuple<Vector2f, string, Vector2f, bool, float>> _assets =
@@ -81,12 +81,12 @@ void TankCreation::CreateTank()
 }
 
 // Affiche l'arme en utilisant son sprite et la position spécifiée
-void TankCreation::DisplayWeaponSprite(const SubclassOf<Weapon>& _weapon, const Vector2f& _position)
+void Tank::TankCreation::DisplayWeaponSprite(const SubclassOf<Weapon>& _weapon, const Vector2f& _position)
 {
 }
 
 // Gère la sélection d'armes avec le défilement (gauche/droite)
-void TankCreation::HandleWeaponSelection(int& currentWeaponIndex, const vector<string>& weaponsName)
+void Tank::TankCreation::HandleWeaponSelection(int& currentWeaponIndex, const vector<string>& weaponsName)
 {
     //if (Input::IsKeyPressed(Key::Left)) // Si la touche de gauche est pressée
     //{
@@ -99,7 +99,7 @@ void TankCreation::HandleWeaponSelection(int& currentWeaponIndex, const vector<s
 }
 
 
-void TankCreation::LoadTankComponents()
+void Tank::TankCreation::LoadTankComponents()
 {
 
 }

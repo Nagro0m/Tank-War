@@ -7,11 +7,11 @@ namespace MyInput
 
     struct InputData
     {
-        vector<Code> codes;
+        set<Code> codes;
         bool isAnyKey;
         function<void()> callbacks;
 
-        InputData(const function<void()>& _callback, const vector<Code>& _codes = {}, const bool _isAnyKey = false)
+        InputData(const function<void()>& _callback, const set<Code>& _codes = {}, const bool _isAnyKey = false)
         {
             callbacks = _callback;
             codes = _codes;
@@ -29,11 +29,7 @@ namespace MyInput
     private:
         inline bool ContainKey(const Code& _code)
         {
-            for (const Code& _currentCodes : codes)
-            {
-                if (_code == _currentCodes) return true;
-            }
-            return false;
+            return codes.contains(_code);
         }
     };
 
@@ -45,7 +41,7 @@ namespace MyInput
     public:
         void ConsumeData(RenderWindow& _window);
 
-        void BindAction(const vector<Code>& _codes, const function<void()>& _callback);
+        void BindAction(const set<Code>& _codes, const function<void()>& _callback);
         void BindAction(const Code& _codes, const function<void()>& _callback);
     };
 }

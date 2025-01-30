@@ -303,7 +303,7 @@
     <ClCompile Include="TankCreation.cpp">
       <Filter>TankGame\Tank</Filter>
     </ClCompile>
-    <ClCompile Include="Socket.cpp">
+    <ClCompile Include="TankPart.cpp">
       <Filter>TankGame</Filter>
     </ClCompile>
   </ItemGroup>
@@ -476,7 +476,7 @@
     <ClInclude Include="TankCreation.h">
       <Filter>TankGame\Tank</Filter>
     </ClInclude>
-    <ClInclude Include="Socket.h">
+    <ClInclude Include="TankPart.h">
       <Filter>TankGame</Filter>
     </ClInclude>
   </ItemGroup>

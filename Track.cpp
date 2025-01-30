@@ -1,10 +1,10 @@
 #include "Track.h"
 
-Track::Track()
+Tank::Track::Track() : TankPart(Tracks_Part, RectangleShapeData())
 {
 }
 
-void Track::Move(const Vector2f _newPosition)
+void Tank::Track::Move(const Vector2f _newPosition)
 {
 
 }

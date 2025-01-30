@@ -1,9 +1,13 @@
-#include "Socket.h"
-#include "MeshActor.h"
+#include "Hull.h"
+#include "Weapon.h"
+#include "Actor.h"
+#include "MovementComponent.h"
+#include "CollisionComponent.h"
 
 namespace Tank
 {
-	class Tank : public MeshActor
+	
+	class Tank : public Actor
 	{
 		////Corps du tank
 		//Hull* hull;
@@ -11,34 +15,29 @@ namespace Tank
 		//Weapon* weapon;
 		////Chenilles
 		//Track* track;
-
+		map<TankPartType, shared_ptr<TankPart>> allTankParts;
 		int life;
 		bool isMoving;
-
+		MovementComponent* movement;
+		CollisionComponent* collisions;
 	public:
-		FORCEINLINE set<Socket*> GetSocketByTankPart(const TankPart& _type)
-		{
-			set<Socket*> _socketsType;
-			set<Actor*> _sockets = GetChildren();
-			for (Actor* _socketActor : _sockets)
-			{
-				Socket* _socket = dynamic_cast<Socket*>(_socketActor);
-				if (_socket->GetTankPartType() == _type)
-				{
-					_socketsType.insert(_socket);
-				}
-			}
-			return _socketsType;
-		}
 
 
 	public:
 		Tank();
-		~Tank();
 
 	public:
-		void InitSocket();
-		void Attachpart(const TankPart& _socketType, Actor* _part);
-		void Detachpart(const TankPart& _socketType);
+		template<typename Type, IS_BASE_OF(TankPart, Type)>
+		void AttachPart(const TankPartType& _socketType, shared_ptr<Type> _part)
+		{
+			if (!_part || allTankParts.at(_socketType))
+			{
+				LOG(Error, "Erreur : tentative d'attacher un pointeur nul" + to_string(_socketType));
+				return;
+			}
+			AddChild(_part, AT_SNAP_TO_TARGET);
+			allTankParts[_socketType] = _part;
+		}
+		void Detachpart(const TankPartType& _socketType);
 	};
 }
