@@ -11,7 +11,7 @@ namespace Tank
 		Player_1,
 		Player_2,
 	};
-	class Tank : public Actor
+	class TankActor : public Actor
 	{
 		////Corps du tank
 		//Hull* hull;
@@ -27,7 +27,7 @@ namespace Tank
 		CollisionComponent* collisions;
 
 	public:
-		Tank(const PlayerNumber& _playeNumber = Player_1);
+		TankActor(const PlayerNumber& _playeNumber = Player_1);
 
 	public:
 		template<typename Type, IS_BASE_OF(TankPart, Type)>

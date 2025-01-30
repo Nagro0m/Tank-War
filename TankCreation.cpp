@@ -1,11 +1,13 @@
 #include "TankCreation.h"
 #include "ActorManager.h"
+#include "InputManager.h"
+#include "Tank.h"
 
 Tank::TankCreation::TankCreation()
 {
     hullsData = HullsData();
     weaponsData = WeaponsData();
-
+    tank = make_shared<TankActor>();
     LoadTankComponents();
 }
 
@@ -27,14 +29,18 @@ void Tank::TankCreation::DisplayWeaponSprite(const Weapon& _weapon, const Vector
 
 void Tank::TankCreation::HandleWeaponSelection(int& currentWeaponIndex, const vector<string>& weaponsName)
 {
-    //if (Input::IsKeyPressed(Key::Left))
-    //{
-    //    currentWeaponIndex = (currentWeaponIndex - 1 + weaponsName.size()) % weaponsName.size();
-    //}
-    //else if (Input::IsKeyPressed(Key::Right))
-    //{
-    //    currentWeaponIndex = (currentWeaponIndex + 1) % weaponsName.size();
-    //}
+    //INPUT J1
+    M_INPUT.BindAction(Code::Q, [&]() {currentWeaponIndex = currentWeaponIndex == 0 ? CAST(int,weaponsName.size()) : currentWeaponIndex - 1; }, "Menu_Player1_Left");
+    M_INPUT.BindAction(Code::D, [&]() {currentWeaponIndex = currentWeaponIndex == CAST(int, weaponsName.size()) - 1 ? 0 : currentWeaponIndex + 1; }, "Menu_Player1_Right");
+    
+    //TODO check si ca marche c'est théoriquement bon !
+    M_INPUT.BindAction(Code::Enter, [&]() {tank->AttachPart(Weapon_Part, weaponsData.GetWeapon(weaponsName[currentWeaponIndex])); }, "Menu_Player1_Valid");
+    
+    //INPUT J2
+    //TODO réfléchir a mettre un index pour le deuxieme joueur si selection en même temps..
+    /*M_INPUT.BindAction(Code::Left, [&] () {}, "Menu_Player2_Left");
+    M_INPUT.BindAction(Code::Right, [&] () {}, this), "Menu_Player2_Right");*/
+
 
     // Supprimer l'ancienne arme
     if (currentWeapon)

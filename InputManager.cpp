@@ -37,21 +37,36 @@ void MyInput::InputManager::ConsumeData(RenderWindow& _window)
 #pragma endregion
         else if (const Event::KeyPressed* _key = _event->getIf<Event::KeyPressed>())
         {
-            for (InputData& _inputData : inputData)
+            for (pair<string, InputData> _inputData : inputsData)
             {
-                if (_inputData.TryToExcute(_key)) break;
+                if (_inputData.second.TryToExcute(_key)) break;
             }
         }
     }
 }
 
-void MyInput::InputManager::BindAction(const set<Code>& _codes, const function<void()>& _callback)
+void MyInput::InputManager::BindAction(const set<Code>& _codes, const function<void()>& _callback,
+    string _inputName, const bool _isEnabled)
 {
-    inputData.push_back(InputData(_callback, _codes, _codes.empty()));
-
+    if (inputsData.contains(_inputName))
+    {
+        //TODO enlever c'est juste au cas ou vous voulez vous en servir (si oui enlever le return)
+        //_inputName = "Input_" + to_string(GetUniqueID());
+        return;
+    }
+    inputsData[_inputName] = InputData(_callback, _codes, _codes.empty());
+    inputsData[_inputName].isActived = _isEnabled;
 }
 
-void MyInput::InputManager::BindAction(const Code& _codes, const function<void()>& _callback)
+void MyInput::InputManager::BindAction(const Code& _codes, const function<void()>& _callback,
+    string _inputName, const bool _isEnabled)
 {
-    inputData.push_back(InputData(_callback, { _codes }));
+    if (inputsData.contains(_inputName))
+    {
+        //TODO enlever c'est juste au cas ou vous voulez vous en servir (si oui enlever le return)
+        //_inputName = "Input_" + to_string(GetUniqueID());
+        return;
+    }
+    inputsData[_inputName] = InputData(_callback, { _codes });
+    inputsData[_inputName].isActived = _isEnabled;
 }

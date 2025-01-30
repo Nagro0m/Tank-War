@@ -15,6 +15,7 @@ void TankWarGame::Start()
 	level.GenerateLevel();
 	TankCreation _tank = TankCreation();
 	_tank.CreateTank();
+	//TODO mettre une boucle pour la création des deux tanks avant de lancer le jeu mais faire en sorte que les imputs marche quand même..
 	Super::Start();
 	//GenerateMainMenu();
 }
@@ -36,7 +37,8 @@ void TankWarGame::GenerateMainMenu()
 	Vector2f _windowSize = CAST(Vector2f, window.getSize());
 	background = CreateActors(_windowSize, "Menu/Background/MenuBackground", _windowSize / 2.0f);
 	//music = M_AUDIO.PlaySample<MusicSample>("BackgroundMusic");
-
+	
+	
 	vector<tuple<Vector2f, string, Vector2f, bool, float>> _assets =
 	{
 		{Vector2f(1000, 350), "Menu/TitleWithTank", {_windowSize.x / 2.0f, _windowSize.y / 7.0f}, true, 0.0f},

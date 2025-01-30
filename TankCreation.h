@@ -4,12 +4,17 @@
 #include "Weapon.h"
 #include "Hull.h"
 
+
+//TODO maybe pas trop propre déplacer les fonction utilisant dans cpp / et forward dcp
+#include "CameraManager.h"
+#include "ActorManager.h"
+
 namespace Tank
 {
 	struct HullsData
 	{
 		vector<string> hullsName;
-		map<string, SubclassOf<Hull>> hulls;
+		map<string, Hull> hulls;
 
 		HullsData()
 		{
@@ -33,9 +38,8 @@ namespace Tank
 			for (int _index = 0; _index < _length; _index++)
 			{
 				Vector2f _size = { 50.0f, 50.0f }; //TODO décider taille final
-				Hull _hull = Hull(_size, "/Tank/Hulls_1/Hulls_1", PNG, false, IntRect(Vector2i(256 * _index, 0), { 256,256 }));
-				SubclassOf<Hull> _hullSubClassOf = SubclassOf<Hull>(_hull);
-				hulls.insert({ hullsName[_index],_hullSubClassOf });
+				Hull _hull = Hull(_size, "/Tank/Hulls_1/Hulls_1", PNG, false, IntRect());
+				hulls.insert({ hullsName[_index], _hull });
 			}
 		}
 	};
@@ -44,7 +48,7 @@ namespace Tank
 	{
 	private:
 		vector<string> weaponsName;
-		map<string, SubclassOf<Weapon>> weapons;
+		map<string, shared_ptr<Weapon>> weapons;
 
 	public:
 
@@ -71,13 +75,20 @@ namespace Tank
 
 			for (int _index = 0; _index < _length; _index++)
 			{
-				Vector2f _size = { 50.0f, 50.0f }; //TODO décider taille final
-				Weapon _weapon = Weapon(_size, "/Tank/Weapons_1/Weapons_1", PNG, false, IntRect(Vector2i(94 * _index, 0), { 94,212 }));
-				SubclassOf<Weapon> _weaponlSubClassOf = SubclassOf<Weapon>(_weapon);
-				weapons.insert({ weaponsName[_index],_weaponlSubClassOf });
+				Vector2f _size = { 50.0f, 100.0f }; //TODO décider taille final
+				Weapon* _weaponPtr = Level::SpawnActor(Weapon(_size, "/Tank/Weapons_1/Weapons_1", PNG, false, IntRect(Vector2i(94 * _index, 0), { 94, 212 })));
+				shared_ptr<Weapon> _weaponSharePtr = shared_ptr<Weapon>(_weaponPtr);
+				weapons.insert({ weaponsName[_index], _weaponSharePtr });
 			}
 		}
 
+		~WeaponsData()
+		{
+			for (const pair<string, shared_ptr<Weapon>>& _weapon : weapons)
+			{
+				M_ACTOR.RemoveActor(_weapon.second.get());
+			}
+		}
 		//obtenir la liste des noms d'armes
 		const vector<string>& GetWeaponsName() const
 		{
@@ -85,12 +96,12 @@ namespace Tank
 		}
 
 		// Accesseur pour récupérer une arme spécifique
-		const SubclassOf<Weapon>* GetWeapon(const string& _weaponName) const
+		shared_ptr<Weapon> GetWeapon(const string& _weaponName) const
 		{
 			auto _it = weapons.find(_weaponName);
 			if (_it != weapons.end())
 			{
-				return &_it->second;
+				return _it->second;
 			}
 			return nullptr; // Retourne nullptr si l'arme n'existe pas
 		}
@@ -98,10 +109,9 @@ namespace Tank
 		// Vérifie si une arme existe
 		bool HasWeapon(const string& _weaponName) const
 		{
-			return weapons.find(_weaponName) != weapons.end();
+			return weapons.contains(_weaponName);
 		}
 	};
-
 
 	//Création du tank
 	//Choisir les éléments
@@ -112,20 +122,24 @@ namespace Tank
 		map<string, Track*> tracks;
 		WeaponsData weaponsData;
 		HullsData hullsData;
-		vector<MeshActor*> creationMenu;
-
+		map<string, MeshActor*> creationMenu;
+		CameraActor* cameraCreationMenu;
+		shared_ptr<Weapon> currentWeapon;
+		shared_ptr<class TankActor> tank;
 	public:
 		TankCreation();
 
 	public:
 		void CreateTank();
 
-		void DisplayWeaponSprite(const SubclassOf<Weapon>& _weapon, const Vector2f& _position);
+		void DisplayWeaponSprite(const Weapon& _weapon, const Vector2f& _position);
 
 		void HandleWeaponSelection(int& _currentWeaponIndex, const vector<string>& _weaponsName);
 
 	private:
 		void LoadTankComponents();
+
+		void GenerateTankCreationMenu();
 
 		MeshActor* CreateActors(const Vector2f& _size, const string& _texture, const Vector2f& _position,
 			bool _useMiddleOrigin = true, float _rotation = 0.0f)
@@ -144,4 +158,5 @@ namespace Tank
 			return _actor;
 		}
 	};
+
 }
