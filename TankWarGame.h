@@ -4,8 +4,7 @@
 #include "MusicSample.h"
 #include "Level.h"
 #include "Label.h"
-#include "TankCreation.h"
-#include "TankCreation.h"
+#include "Tank.h"
 #include "CameraManager.h"
 
 using namespace UI;
@@ -17,7 +16,8 @@ class TankWarGame : public Game
 	Level level;
 	Label* label;
 	map<string, MeshActor*> uiAssets;
-
+	Tank* player1Tank;
+	Tank* player2Tank;
 	CameraActor* cameraMainMenu;
 
 	

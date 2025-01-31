@@ -1,20 +1,17 @@
 #include "Tank.h"
 
-
-namespace Tank
+Tank::Tank(const string& _path) : MeshActor(RectangleShapeData(Vector2f(100.0f, 150.0f), _path))
 {
-	Tank::Tank()
-	{
-		life = 100.0f;
-		isMoving = true;
-		allTankParts = map<TankPartType, shared_ptr<TankPart>>();
-	}
+	life = 100.0f;
+	isMoving = false;
+}
 
+void Tank::BeginPlay()
+{
+	Super::BeginPlay();
+}
 
-	void Tank::Detachpart(const TankPartType& _socketType)
-	{
-		if (!allTankParts.contains(_socketType)) return;
-		RemoveChild(allTankParts.at(_socketType));
-		allTankParts.at(_socketType).reset();
-	}
+void Tank::Tick(const float _deltaTime)
+{
+	Super::Tick(_deltaTime);
 }

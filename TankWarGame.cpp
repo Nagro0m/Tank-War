@@ -1,8 +1,14 @@
 #include "TankWarGame.h"
 #include "AudioManager.h"
-using namespace Tank;
+
 TankWarGame::TankWarGame()
 {
+	background = nullptr;
+	music = nullptr;
+	label = nullptr;
+	player1Tank = nullptr;
+	player2Tank = nullptr;
+	cameraMainMenu = nullptr;
 }
 
 TankWarGame::~TankWarGame()
@@ -13,9 +19,10 @@ void TankWarGame::Start()
 {
 	level = Level();
 	level.GenerateLevel();
-	MainMenu();
-	//TankCreation _tank = TankCreation();
-	//_tank.CreateTank();
+	//MainMenu();
+	player1Tank = Level::SpawnActor(Tank("Tank/Tank_1"));
+	player2Tank = Level::SpawnActor(Tank("Tank/Tank_2"));
+	player2Tank->SetPosition(Vector2f(150, 150));
 	Super::Start();
 }
 
