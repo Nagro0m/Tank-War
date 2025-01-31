@@ -19,6 +19,8 @@ class TankWarGame : public Game
 	Tank* player1Tank;
 	Tank* player2Tank;
 	CameraActor* cameraMainMenu;
+	CameraActor* cameraPlayer1;
+	CameraActor* cameraPlayer2;
 
 	
 public:

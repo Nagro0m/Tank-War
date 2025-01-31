@@ -1,9 +1,8 @@
 #include "Tank.h"
-#include "InputManager.h"
 #include "CameraManager.h"
 #include "TimerManager.h"
 
-Tank::Tank(const string& _path) : MeshActor(RectangleShapeData(Vector2f(60.0f, 110.0f), _path))
+Tank::Tank(vector<Code> _code, const string& _path) : MeshActor(RectangleShapeData(Vector2f(60.0f, 110.0f), _path))
 {
 	life = 100.0f;
 	isMoving = false;
@@ -11,6 +10,8 @@ Tank::Tank(const string& _path) : MeshActor(RectangleShapeData(Vector2f(60.0f, 1
 	speed = 1.0f;
 	pitch = 1.0f;
 	sound = nullptr;
+	maxSpeed = 10.0f;
+	code = _code;
 }
 
 void Tank::Construct()
@@ -23,15 +24,18 @@ void Tank::Construct()
 	_backgroundEngineSound->SetLoop(true);
 	_backgroundEngineSound->SetVolume(5.0f);
 
-	M_INPUT.BindAction({ Code::Q }, bind(&Tank::Left, this));
-	M_INPUT.BindAction({ Code::D }, bind(&Tank::Right, this));
-	M_INPUT.BindAction({ Code::Z }, bind(&Tank::SpeedUp, this));
-	M_INPUT.BindAction({ Code::S }, bind(&Tank::SlowDown, this));
+	M_INPUT.BindAction({ code[0]}, bind(&Tank::Left, this));
+	M_INPUT.BindAction({ code[1] }, bind(&Tank::Right, this));
+	M_INPUT.BindAction({ code[2] }, bind(&Tank::SpeedUp, this));
+	M_INPUT.BindAction({ code[3] }, bind(&Tank::SlowDown, this));
+
+
 }
 
 void Tank::BeginPlay()
 {
 	Super::BeginPlay();
+
 }
 
 void Tank::Tick(const float _deltaTime)
@@ -39,8 +43,6 @@ void Tank::Tick(const float _deltaTime)
 	Super::Tick(_deltaTime);
 
 	Move(move * speed * _deltaTime * 10.0f);
-	cout << "vitesse : " << to_string(speed) << endl;
-
 }
 
 void Tank::ComputeDirection(const float _rotation)
@@ -107,5 +109,10 @@ void Tank::PlaySample()
 	sound = M_AUDIO.PlaySample<SoundSample>("Tank_Engine", WAV);
 	sound->SetVolume(35.0f);
 	sound->SetLoop(true);
+}
+
+void Tank::Life()
+{
+
 }
 

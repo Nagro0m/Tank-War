@@ -2,6 +2,7 @@
 #include "MovementComponent.h"
 #include "CollisionComponent.h"
 #include "AudioManager.h"
+#include "InputManager.h"
 
 class Tank : public MeshActor
 {
@@ -13,11 +14,13 @@ class Tank : public MeshActor
 	float speed;
 	float pitch;
 	SoundSample* sound;
+	float maxSpeed;
+	vector<Code> code;
 public:
 
 
 public:
-	Tank(const string& _path);
+	Tank(vector<Code> _code, const string& _path);
 
 	void Construct();
 
@@ -31,4 +34,5 @@ public:
 	void SpeedUp();
 	void SlowDown();
 	void PlaySample();
+	void Life();
 };
