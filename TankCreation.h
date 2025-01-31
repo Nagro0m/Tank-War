@@ -14,7 +14,7 @@ namespace Tank
 	struct HullsData
 	{
 		vector<string> hullsName;
-		map<string, Hull> hulls;
+		map<string, shared_ptr<Hull>> hulls;
 
 		HullsData()
 		{
@@ -30,86 +30,99 @@ namespace Tank
 				"Hull_8",
 			};
 
-			//Vector2f _size = { 50.0f, 50.0f }; //TODO décider taille final
-			// _size = taille de la texture * facteur (grossissement ou inverse)
-
-			int _length = CAST(int, hullsName.size());
+			int _length = static_cast<int>(hullsName.size());
 
 			for (int _index = 0; _index < _length; _index++)
 			{
-				Vector2f _size = { 50.0f, 50.0f }; //TODO décider taille final
-				Hull _hull = Hull(_size, "/Tank/Hulls_1/Hulls_1", PNG, false, IntRect());
-				hulls.insert({ hullsName[_index], _hull });
+				Vector2f _size = { 200.0f, 200.0f }; // Taille par défaut (modifiable)
+
+				// Création de l'arme
+				auto _hullPtr = make_shared<Hull>
+					(
+						_size, "/Tank/Hulls_1/Hulls_1", PNG, false,
+						IntRect(Vector2i(256 * _index, 0), { 256, 256 })
+					);
+
+				hulls.insert({ hullsName[_index], _hullPtr });
 			}
+		}
+
+		// Obtenir la liste des noms d'armes
+		const vector<string>& GetHullsName() const
+		{
+			return hullsName;
+		}
+
+		// Récupérer une arme spécifique
+		shared_ptr<Hull> GetHull(const string& _hullName) const
+		{
+			auto _it = hulls.find(_hullName);
+			return (_it != hulls.end()) ? _it->second : nullptr;
+		}
+
+		// Vérifie si une arme existe
+		bool HasHull(const string& _hullName) const
+		{
+			return hulls.find(_hullName) != hulls.end();
 		}
 	};
 
-	struct WeaponsData
-	{
+	struct WeaponsData {
 	private:
 		vector<string> weaponsName;
 		map<string, shared_ptr<Weapon>> weapons;
 
 	public:
-
-		WeaponsData()
-		{
-			weaponsName =
+		WeaponsData() {
+			weaponsName = 
 			{
-				"Weapon_1",
-				"Weapon_2",
-				"Weapon_3",
-				"Weapon_4",
-				"Weapon_5",
-				"Weapon_6",
-				"Weapon_7",
-				"Weapon_8",
+				"Weapon_1", "Weapon_2", "Weapon_3", "Weapon_4",
+				"Weapon_5", "Weapon_6", "Weapon_7", "Weapon_8"
 			};
 
+			int _length = static_cast<int>(weaponsName.size());
 
-			//Vector2f _size = { 20.0f, 40.0f }; //TODO décider taille final
-			// _size = taille de la texture * facteur (grossissement ou inverse)
-
-			//error possible sur la boucle for par rapport au type
-			int _length = CAST(int, weaponsName.size());
-
-			for (int _index = 0; _index < _length; _index++)
+			for (int _index = 0; _index < _length; _index++) 
 			{
-				Vector2f _size = { 50.0f, 100.0f }; //TODO décider taille final
-				Weapon* _weaponPtr = Level::SpawnActor(Weapon(_size, "/Tank/Weapons_1/Weapons_1", PNG, false, IntRect(Vector2i(94 * _index, 0), { 94, 212 })));
-				shared_ptr<Weapon> _weaponSharePtr = shared_ptr<Weapon>(_weaponPtr);
-				weapons.insert({ weaponsName[_index], _weaponSharePtr });
+				Vector2f _size = { 50.0f, 100.0f }; // Taille par défaut (modifiable)
+
+				// Création de l'arme
+				auto _weaponPtr = make_shared<Weapon>
+				(
+					_size, "/Tank/Weapons_1/Weapons_1", PNG, false,
+					IntRect(Vector2i(94 * _index, 0), { 94, 212 })
+				);
+
+				weapons.insert({ weaponsName[_index], _weaponPtr });
 			}
 		}
 
-		~WeaponsData()
-		{
-			for (const pair<string, shared_ptr<Weapon>>& _weapon : weapons)
+		~WeaponsData() {
+			for (const auto& _weapon : weapons) 
 			{
-				M_ACTOR.RemoveActor(_weapon.second.get());
+				if (_weapon.second) {
+					M_ACTOR.RemoveActor(_weapon.second.get());
+				}
 			}
 		}
-		//obtenir la liste des noms d'armes
-		const vector<string>& GetWeaponsName() const
+
+		// Obtenir la liste des noms d'armes
+		const vector<string>& GetWeaponsName() const 
 		{
 			return weaponsName;
 		}
 
-		// Accesseur pour récupérer une arme spécifique
-		shared_ptr<Weapon> GetWeapon(const string& _weaponName) const
+		// Récupérer une arme spécifique
+		shared_ptr<Weapon> GetWeapon(const string& _weaponName) const 
 		{
 			auto _it = weapons.find(_weaponName);
-			if (_it != weapons.end())
-			{
-				return _it->second;
-			}
-			return nullptr; // Retourne nullptr si l'arme n'existe pas
+			return (_it != weapons.end()) ? _it->second : nullptr;
 		}
 
 		// Vérifie si une arme existe
-		bool HasWeapon(const string& _weaponName) const
+		bool HasWeapon(const string& _weaponName) const 
 		{
-			return weapons.contains(_weaponName);
+			return weapons.find(_weaponName) != weapons.end();
 		}
 	};
 
@@ -123,8 +136,10 @@ namespace Tank
 		WeaponsData weaponsData;
 		HullsData hullsData;
 		map<string, MeshActor*> creationMenu;
-		CameraActor* cameraCreationMenu;
+		//CameraActor* cameraCreationMenu;
 		shared_ptr<Weapon> currentWeapon;
+		int currentWeaponIndex;
+		shared_ptr<Hull> currentHull;
 		shared_ptr<class TankActor> tank;
 	public:
 		TankCreation();
@@ -132,9 +147,13 @@ namespace Tank
 	public:
 		void CreateTank();
 
-		void DisplayWeaponSprite(const Weapon& _weapon, const Vector2f& _position);
+		void SetupInputBindings();
 
-		void HandleWeaponSelection(int& _currentWeaponIndex, const vector<string>& _weaponsName);
+		void UpdateWeaponSelection();
+
+		void RefreshWeaponDisplay();
+
+		void Update();
 
 	private:
 		void LoadTankComponents();

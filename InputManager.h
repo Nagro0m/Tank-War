@@ -48,6 +48,18 @@ namespace MyInput
             inputsData[_inputDataName].isActived = _isActive;
         }
 
+        bool IsKeyPressed(const Code& _code)
+        {
+            for (const auto& [key, input] : inputsData)
+            {
+                if (input.isActived && input.codes.contains(_code))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
     public:
         void ConsumeData(RenderWindow& _window);
 

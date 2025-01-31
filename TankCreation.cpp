@@ -8,61 +8,71 @@ Tank::TankCreation::TankCreation()
     hullsData = HullsData();
     weaponsData = WeaponsData();
     tank = make_shared<TankActor>();
+    currentWeaponIndex = 0;
+
     LoadTankComponents();
+    SetupInputBindings();  // Initialisation des touches
 }
 
 void Tank::TankCreation::CreateTank()
 {
     GenerateTankCreationMenu();
-
-    // Configurer la caméra et le menu
-    cameraCreationMenu->SetTarget(creationMenu["Menu/SelectMenu"]);
-    //Camera::M_CAMERA.SetCurrent(_tankCamera);
-
-    //HandleWeaponSelection(currentWeaponIndex, weaponsName);
+    RefreshWeaponDisplay();  // Affiche l'arme au démarrage
 }
 
-// Affiche l'arme en utilisant son sprite et la position spécifiée
-void Tank::TankCreation::DisplayWeaponSprite(const Weapon& _weapon, const Vector2f& _position)
+void Tank::TankCreation::SetupInputBindings()
 {
+    M_INPUT.BindAction(Code::Enter, [&]() {
+        tank->AttachPart(Weapon_Part, weaponsData.GetWeapon(weaponsData.GetWeaponsName()[currentWeaponIndex]));
+        LOG(Display, "Weapon selected: " + weaponsData.GetWeaponsName()[currentWeaponIndex]);
+        }, "Menu_Player1_Valid");
 }
 
-void Tank::TankCreation::HandleWeaponSelection(int& currentWeaponIndex, const vector<string>& weaponsName)
+void Tank::TankCreation::UpdateWeaponSelection()
 {
-    //INPUT J1
-    M_INPUT.BindAction(Code::Q, [&]() {currentWeaponIndex = currentWeaponIndex == 0 ? CAST(int,weaponsName.size()) : currentWeaponIndex - 1; }, "Menu_Player1_Left");
-    M_INPUT.BindAction(Code::D, [&]() {currentWeaponIndex = currentWeaponIndex == CAST(int, weaponsName.size()) - 1 ? 0 : currentWeaponIndex + 1; }, "Menu_Player1_Right");
-    
-    //TODO check si ca marche c'est théoriquement bon !
-    M_INPUT.BindAction(Code::Enter, [&]() {tank->AttachPart(Weapon_Part, weaponsData.GetWeapon(weaponsName[currentWeaponIndex])); }, "Menu_Player1_Valid");
-    
-    //INPUT J2
-    //TODO réfléchir a mettre un index pour le deuxieme joueur si selection en même temps..
-    /*M_INPUT.BindAction(Code::Left, [&] () {}, "Menu_Player2_Left");
-    M_INPUT.BindAction(Code::Right, [&] () {}, this), "Menu_Player2_Right");*/
+    const vector<string>& weaponsName = weaponsData.GetWeaponsName();
 
+    if (M_INPUT.IsKeyPressed(Code::Q))
+    {
+        currentWeaponIndex = (currentWeaponIndex == 0) ? CAST(int, weaponsName.size()) - 1 : currentWeaponIndex - 1;
+        LOG(Display, "Q pressed - Weapon index: " + to_string(currentWeaponIndex));
+        RefreshWeaponDisplay();
+    }
+    else if (M_INPUT.IsKeyPressed(Code::D))
+    {
+        currentWeaponIndex = (currentWeaponIndex == CAST(int, weaponsName.size()) - 1) ? 0 : currentWeaponIndex + 1;
+        LOG(Display, "D pressed - Weapon index: " + to_string(currentWeaponIndex));
+        RefreshWeaponDisplay();
+    }
+}
 
-    // Supprimer l'ancienne arme
+void Tank::TankCreation::RefreshWeaponDisplay()
+{
     if (currentWeapon)
     {
         M_ACTOR.RemoveActor(currentWeapon.get());
         currentWeapon.reset();
     }
 
-    // Créer la nouvelle arme
-    currentWeapon = weaponsData.GetWeapon(weaponsName[currentWeaponIndex]);
+    currentWeapon = weaponsData.GetWeapon(weaponsData.GetWeaponsName()[currentWeaponIndex]);
     if (currentWeapon)
     {
         Weapon* _weapon = Level::SpawnActor(*currentWeapon.get());
         _weapon->GetMesh()->GetShape()->Rotate(degrees(90));
-        _weapon->GetMesh()->GetShape()->SetPosition(Vector2f(creationMenu["Menu/TankCreation/WeaponButton"]->GetPosition().x,
+        _weapon->GetMesh()->GetShape()->SetPosition(Vector2f(
+            creationMenu["Menu/TankCreation/WeaponButton"]->GetPosition().x,
             creationMenu["Menu/TankCreation/WeaponButton"]->GetPosition().y - 200.0f));
     }
 }
 
+void Tank::TankCreation::Update()
+{
+    UpdateWeaponSelection();
+}
+
 void Tank::TankCreation::LoadTankComponents()
 {
-
+    // Chargement des composants du tank (à implémenter si nécessaire)
 }
 
 void Tank::TankCreation::GenerateTankCreationMenu()
@@ -71,57 +81,30 @@ void Tank::TankCreation::GenerateTankCreationMenu()
     vector<tuple<Vector2f, string, Vector2f, bool, float>> _assets =
     {
         {Vector2f(500, 630), "Menu/SelectMenu", Vector2f(0.0f, 0.0f), true, 90.0f},
-        {Vector2f(60, 60), "Menu/TankCreation/Cross", Vector2f(-285.0f, -200.0f), true, 0.0f},
-        {Vector2f(80, 80), "Menu/TankCreation/Validation", Vector2f(8.0f, 170.0f), true, 0.0f},
         {Vector2f(80, 80), "Menu/TankCreation/LeftArrow", Vector2f(-200.0f, 75.0f), true, 0.0f},
         {Vector2f(80, 80), "Menu/TankCreation/RightArrow", Vector2f(200.0f, 75.0f), true, 0.0f},
-        {Vector2f(300, 100), "Menu/TankCreation/HullButton", Vector2f(8.0f, 75.0f), true, 0.0f},
-        {Vector2f(300, 100), "Menu/TankCreation/WeaponButton", Vector2f(8.0f, 75.0f), true, 0.0f},
-        {Vector2f(300, 100), "Menu/TankCreation/TrackButton", Vector2f(8.0f, 75.0f), true, 0.0f},
+        {Vector2f(300, 100), "Menu/TankCreation/WeaponButton", Vector2f(8.0f, 75.0f), true, 0.0f}
     };
 
-    // Crée une instance de WeaponsData pour accéder aux données des armes
-    WeaponsData weaponsData;
-
-    cameraCreationMenu = Camera::M_CAMERA.CreateCamera(CameraActor(Vector2f(), Vector2f(1280, 720), "TankCamera"));
-
-    // Récupère les armes disponibles pour les afficher
-    const vector<string>& weaponsName = weaponsData.GetWeaponsName();
-
-    // Déclaration pour gérer l'index de l'arme actuellement affichée
-    int currentWeaponIndex = 0;
+    const vector<string>& _weaponsName = weaponsData.GetWeaponsName();
 
     for (const auto [_size, _texture, _position, _useMiddleOrigin, _rotation] : _assets)
     {
-        // Ajustement de la taille en fonction de la caméra
-        Vector2f cameraSize = cameraCreationMenu->GetScale();
         Vector2f screenSize = Vector2f(1920, 1080);
-        float _scaleFactor = cameraSize.x / screenSize.x;
+        float _scaleFactor = screenSize.x;
         Vector2f _adjustedPosition = _basePosition + _position;
 
-        if (_texture == "Menu/TankCreation/TrackButton")
+        if (_texture == "Menu/TankCreation/WeaponButton")
         {
-
-        }
-        else if (_texture == "Menu/TankCreation/WeaponButton")
-        {
-
-            // Affichage de l'arme courante
-            shared_ptr<Weapon> _currentWeapon = weaponsData.GetWeapon(weaponsName[currentWeaponIndex]);
-            if (_currentWeapon)
+            currentWeapon = weaponsData.GetWeapon(_weaponsName[currentWeaponIndex]);
+            if (currentWeapon)
             {
-                Weapon* _weapon = Level::SpawnActor(*_currentWeapon.get());
+                Weapon* _weapon = Level::SpawnActor(*currentWeapon.get());
                 _weapon->GetMesh()->GetShape()->Rotate(degrees(90));
                 _weapon->GetMesh()->GetShape()->SetPosition(Vector2f(_adjustedPosition.x, _adjustedPosition.y - 200.0f));
             }
         }
-        else if (_texture == "Menu/TankCreation/HullButton")
-        {
 
-        }
-
-        // Pour les autres éléments du menu, on garde le comportement classique
         creationMenu[_texture] = CreateActors(_size, _texture, _adjustedPosition, _useMiddleOrigin, _rotation);
-
     }
 }
