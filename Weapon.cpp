@@ -8,7 +8,7 @@ Tank::Weapon::Weapon(const Vector2f& _size, const string& _path, const TextureEx
 	animation = nullptr;
 }
 
-Weapon::Weapon(const Weapon& _weapon) : MeshActor(_weapon)
+Tank::Weapon::Weapon(const Weapon& _weapon) : TankPart(_weapon)
 {
 	shoot = _weapon.shoot;
 	animation = _weapon.animation;

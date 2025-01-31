@@ -6,6 +6,7 @@
 #include "Label.h"
 #include "TankCreation.h"
 #include "TankCreation.h"
+#include "CameraManager.h"
 
 using namespace UI;
 
@@ -15,7 +16,10 @@ class TankWarGame : public Game
 	MusicSample* music;
 	Level level;
 	Label* label;
-	vector<MeshActor*> uiAssets;
+	map<string, MeshActor*> uiAssets;
+
+	CameraActor* cameraMainMenu;
+
 	
 public:
 	TankWarGame();
@@ -27,7 +31,10 @@ public:
 	virtual void Stop() override;
 
 
+
 public:
+
+	void MainMenu();
 	void GenerateMainMenu();
 
 	void GenerateSettingsMenu();
