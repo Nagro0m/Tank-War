@@ -9,6 +9,8 @@ TankWarGame::TankWarGame()
 	player1Tank = nullptr;
 	player2Tank = nullptr;
 	cameraMainMenu = nullptr;
+	cameraPlayer1 = nullptr;
+	cameraPlayer2 = nullptr;
 }
 
 TankWarGame::~TankWarGame()
@@ -20,20 +22,48 @@ void TankWarGame::Start()
 	level = Level();
 	level.GenerateLevel();
 	//MainMenu();
-	player1Tank = Level::SpawnActor(Tank("Tank/Tank_1"));
-	player2Tank = Level::SpawnActor(Tank("Tank/Tank_2"));
 
-	cameraMainMenu = Camera::M_CAMERA.CreateCamera(CameraActor(Vector2f(), Vector2f(640, 360), "TankCamera"));
-	cameraMainMenu->SetTarget(player1Tank);
-	Camera::M_CAMERA.SetCurrent(cameraMainMenu);
+	vector<Code> _tank1 =
+	{
+		Code::A,
+		Code::D,
+		Code::W,
+		Code::S,
+	};
+	vector<Code> _tank2 =
+	{
+		Code::Left,
+		Code::Right,
+		Code::Up ,
+		Code::Down,
+	};
 
-	player1Tank->SetPosition(Vector2f(150, 150));
+	player1Tank = Level::SpawnActor(Tank(_tank1, "Tank/Tank_1"));
+	player2Tank = Level::SpawnActor(Tank(_tank2, "Tank/Tank_2"));
+
+	cameraPlayer1 = Camera::M_CAMERA.CreateCamera(CameraActor(Vector2f(), Vector2f(1920 / 2, 1080), "TankCamera1"));
+	cameraPlayer1->SetTarget(player1Tank);
+	Camera::M_CAMERA.SetCurrent(cameraPlayer1);
+	Camera::M_CAMERA.GetCurrent()->SetViewport({Vector2f(0,0), Vector2f(0.5f, 1)});
+
+	cameraPlayer2 = Camera::M_CAMERA.CreateCamera(CameraActor(Vector2f(), Vector2f(1920 / 2, 1080), "TankCamera2"));
+	cameraPlayer2->SetTarget(player2Tank);
+	Camera::M_CAMERA.SetCurrent(cameraPlayer2);
+	Camera::M_CAMERA.GetCurrent()->SetViewport({ Vector2f(0.5f,0), Vector2f(0.5f, 1) });
+
+	player1Tank->SetPosition(Vector2f(300, 300));
+
+	//CreateActors(Vector2f(10.0f, 0), _texture, _adjustedPosition, _useMiddleOrigin, _rotation);
+
+
 	Super::Start();
 }
 
 bool TankWarGame::Update()
 {
 	Super::Update();
+
+
 
 	return IsOver();
 }

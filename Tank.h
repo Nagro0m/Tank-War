@@ -1,6 +1,7 @@
 #include "MeshActor.h"
 #include "MovementComponent.h"
 #include "CollisionComponent.h"
+#include "InputManager.h"
 
 class Tank : public MeshActor
 {
@@ -10,11 +11,14 @@ class Tank : public MeshActor
 	//CollisionComponent* collisions;
 	Vector2f move;
 	float speed;
+	float maxSpeed;
+
+	vector<Code> code;
 public:
 
 
 public:
-	Tank(const string& _path);
+	Tank(vector<Code> _code, const string& _path);
 
 	void Construct();
 
@@ -27,4 +31,6 @@ public:
 	void Left();
 	void SpeedUp();
 	void SlowDown();
+
+	void Life();
 };

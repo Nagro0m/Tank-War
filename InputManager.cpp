@@ -12,29 +12,7 @@ void MyInput::InputManager::ConsumeData(RenderWindow& _window)
         {
             _window.close();
         }
-#pragma region TODO REMOVE
 
-
-      /*  else if (const Event::KeyPressed* _key = _event->getIf<Event::KeyPressed>())
-        {
-            if (_key->code == Keyboard::Key::Up)
-            {
-                M_CAMERA.GetCurrent()->Move(Vector2f(0.0f, -50.0f));
-            }
-            else if (_key->code == Keyboard::Key::Down)
-            {
-                M_CAMERA.GetCurrent()->Move(Vector2f(0.0f, 50.0f));
-            }
-            else if (_key->code == Keyboard::Key::Left)
-            {
-                M_CAMERA.GetCurrent()->Move(Vector2f(-50.0f, 0.0f));
-            }
-            else if (_key->code == Keyboard::Key::Right)
-            {
-                M_CAMERA.GetCurrent()->Move(Vector2f(50.0f, 0.0f));
-            }
-        }*/
-#pragma endregion
         else if (const Event::KeyPressed* _key = _event->getIf<Event::KeyPressed>())
         {
             for (InputData& _inputData : inputData)

@@ -15,9 +15,9 @@ Game::Game()
 void Game::Start()
 {
     window.create(VideoMode({ 1920, 1080 }), "Tank War", State::Windowed);
-    CameraActor* _camera = M_CAMERA.CreateCamera("Camera");
-    _camera->SetScale(CAST(Vector2f, window.getSize()));
-    M_CAMERA.SetCurrent(_camera);
+    //CameraActor* _camera = M_CAMERA.CreateCamera("Camera");
+    //_camera->SetScale(CAST(Vector2f, window.getSize()));
+    //M_CAMERA.SetCurrent(_camera);
 };
 
 bool Game::Update()
