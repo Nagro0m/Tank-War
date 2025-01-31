@@ -22,6 +22,11 @@ void TankWarGame::Start()
 	//MainMenu();
 	player1Tank = Level::SpawnActor(Tank("Tank/Tank_1"));
 	player2Tank = Level::SpawnActor(Tank("Tank/Tank_2"));
+
+	cameraMainMenu = Camera::M_CAMERA.CreateCamera(CameraActor(Vector2f(), Vector2f(640, 360), "TankCamera"));
+	cameraMainMenu->SetTarget(player1Tank);
+	Camera::M_CAMERA.SetCurrent(cameraMainMenu);
+
 	player2Tank->SetPosition(Vector2f(150, 150));
 	Super::Start();
 }

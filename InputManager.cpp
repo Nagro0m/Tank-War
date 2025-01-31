@@ -15,7 +15,7 @@ void MyInput::InputManager::ConsumeData(RenderWindow& _window)
 #pragma region TODO REMOVE
 
 
-        else if (const Event::KeyPressed* _key = _event->getIf<Event::KeyPressed>())
+      /*  else if (const Event::KeyPressed* _key = _event->getIf<Event::KeyPressed>())
         {
             if (_key->code == Keyboard::Key::Up)
             {
@@ -33,7 +33,7 @@ void MyInput::InputManager::ConsumeData(RenderWindow& _window)
             {
                 M_CAMERA.GetCurrent()->Move(Vector2f(50.0f, 0.0f));
             }
-        }
+        }*/
 #pragma endregion
         else if (const Event::KeyPressed* _key = _event->getIf<Event::KeyPressed>())
         {
