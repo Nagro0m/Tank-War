@@ -27,7 +27,7 @@ void TankWarGame::Start()
 	cameraMainMenu->SetTarget(player1Tank);
 	Camera::M_CAMERA.SetCurrent(cameraMainMenu);
 
-	player2Tank->SetPosition(Vector2f(150, 150));
+	player1Tank->SetPosition(Vector2f(150, 150));
 	Super::Start();
 }
 

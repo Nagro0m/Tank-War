@@ -9,6 +9,7 @@ class Tank : public MeshActor
 	MovementComponent* movement;
 	//CollisionComponent* collisions;
 	Vector2f move;
+	float speed;
 public:
 
 
@@ -24,4 +25,6 @@ public:
 	void ComputeDirection(const float _rotation);
 	void Right();
 	void Left();
+	void SpeedUp();
+	void SlowDown();
 };
