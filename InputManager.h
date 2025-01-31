@@ -38,6 +38,8 @@ namespace MyInput
     {
 
         vector<InputData> inputData;
+        unordered_map<Code, bool> keyStates;
+
     public:
         void ConsumeData(RenderWindow& _window);
 

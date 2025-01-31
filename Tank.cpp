@@ -10,6 +10,7 @@ Tank::Tank(vector<Code> _code, const string& _path) : MeshActor(RectangleShapeDa
 	speed = 1.0f;
 	pitch = 1.0f;
 	sound = nullptr;
+	rearSound = nullptr;
 	maxSpeed = 10.0f;
 	code = _code;
 }
@@ -67,7 +68,10 @@ void Tank::Left()
 void Tank::SpeedUp()
 {
 	if (speed >= 10) return;
-
+	if (rearSound)
+	{
+		rearSound->Stop();
+	}
 	speed += 1;
 	if (sound)
 	{
@@ -84,10 +88,15 @@ void Tank::SpeedUp()
 
 void Tank::SlowDown()
 {
-	if (speed <= 1)
+	if (speed <= -1)
 	{
-		speed = 0;
+		speed = -1;
 		return;
+	}
+
+	if (speed <= 0)
+	{
+		rearSound = M_AUDIO.PlaySample<SoundSample>("RearSound");
 	}
 		
 		
@@ -100,7 +109,6 @@ void Tank::SlowDown()
 			pitch -= 0.1f;
 		}
 		sound->SetPitch(pitch);
-		cout << pitch << endl;
 	}
 }
 

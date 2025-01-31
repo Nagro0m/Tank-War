@@ -51,6 +51,7 @@ void TankWarGame::Start()
 	Camera::M_CAMERA.SetCurrent(cameraPlayer2);
 	Camera::M_CAMERA.GetCurrent()->SetViewport({ Vector2f(0.5f,0), Vector2f(0.5f, 1) });
 
+
 	player1Tank->SetPosition(Vector2f(300, 300));
 
 	//CreateActors(Vector2f(10.0f, 0), _texture, _adjustedPosition, _useMiddleOrigin, _rotation);

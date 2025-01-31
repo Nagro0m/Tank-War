@@ -3,7 +3,6 @@
 using namespace Camera;
 
 
-
 void MyInput::InputManager::ConsumeData(RenderWindow& _window)
 {
     while (const optional _event = _window.pollEvent())
@@ -15,10 +14,16 @@ void MyInput::InputManager::ConsumeData(RenderWindow& _window)
 
         else if (const Event::KeyPressed* _key = _event->getIf<Event::KeyPressed>())
         {
+            keyStates[_key->scancode] = true;
+
             for (InputData& _inputData : inputData)
             {
-                if (_inputData.TryToExcute(_key)) break;
+                _inputData.TryToExcute(_key);
             }
+        }
+        else if (const Event::KeyReleased* _key = _event->getIf<Event::KeyReleased>())
+        {
+            keyStates[_key->scancode] = false;
         }
     }
 }
