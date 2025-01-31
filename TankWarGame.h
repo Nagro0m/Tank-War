@@ -5,9 +5,10 @@
 #include "Level.h"
 #include "Label.h"
 #include "TankCreation.h"
-#include "TankCreation.h"
+#include "Tank.h"
 
 using namespace UI;
+using namespace Tank;
 
 class TankWarGame : public Game
 {
@@ -16,6 +17,7 @@ class TankWarGame : public Game
 	Level level;
 	Label* label;
 	vector<MeshActor*> uiAssets;
+	TankActor* tank;
 	
 public:
 	TankWarGame();

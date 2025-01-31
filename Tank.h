@@ -33,7 +33,7 @@ namespace Tank
 		template<typename Type, IS_BASE_OF(TankPart, Type)>
 		void AttachPart(const TankPartType& _socketType, shared_ptr<Type> _part)
 		{
-			if (!_part || allTankParts.at(_socketType))
+			if (!_part)
 			{
 				LOG(Error, "Erreur : tentative d'attacher un pointeur nul" + to_string(_socketType));
 				return;

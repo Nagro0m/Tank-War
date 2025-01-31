@@ -48,12 +48,12 @@ void MyInput::InputManager::ConsumeData(RenderWindow& _window)
 void MyInput::InputManager::BindAction(const set<Code>& _codes, const function<void()>& _callback,
     string _inputName, const bool _isEnabled)
 {
-    if (inputsData.contains(_inputName))
-    {
-        //TODO enlever c'est juste au cas ou vous voulez vous en servir (si oui enlever le return)
-        //_inputName = "Input_" + to_string(GetUniqueID());
-        return;
-    }
+    //if (inputsData.contains(_inputName))
+    //{
+    //    //TODO enlever c'est juste au cas ou vous voulez vous en servir (si oui enlever le return)
+    //    //_inputName = "Input_" + to_string(GetUniqueID());
+    //    return;
+    //}
     inputsData[_inputName] = InputData(_callback, _codes, _codes.empty());
     inputsData[_inputName].isActived = _isEnabled;
 }
@@ -61,12 +61,12 @@ void MyInput::InputManager::BindAction(const set<Code>& _codes, const function<v
 void MyInput::InputManager::BindAction(const Code& _codes, const function<void()>& _callback,
     string _inputName, const bool _isEnabled)
 {
-    if (inputsData.contains(_inputName))
-    {
-        //TODO enlever c'est juste au cas ou vous voulez vous en servir (si oui enlever le return)
-        //_inputName = "Input_" + to_string(GetUniqueID());
-        return;
-    }
+    //if (inputsData.contains(_inputName))
+    //{
+    //    //TODO enlever c'est juste au cas ou vous voulez vous en servir (si oui enlever le return)
+    //    //_inputName = "Input_" + to_string(GetUniqueID());
+    //    return;
+    //}
     inputsData[_inputName] = InputData(_callback, { _codes });
     inputsData[_inputName].isActived = _isEnabled;
 }

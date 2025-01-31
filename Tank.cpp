@@ -26,17 +26,17 @@ namespace Tank
 		{
 			[&]()
 			{
-				M_INPUT.BindAction(Code::Z, bind(&TankActor::UpSpeed, this), "Player1_Up", false);
-				M_INPUT.BindAction(Code::Q, bind(&TankActor::TurnLeft, this), "Player1_Left", false);
-				M_INPUT.BindAction(Code::D, bind(&TankActor::TurnRight, this), "Player1_Right", false);
-				M_INPUT.BindAction(Code::S, bind(&TankActor::DownSpeed, this), "Player1_Down", false);
+				M_INPUT.BindAction(Code::Z, bind(&TankActor::UpSpeed, this), "Player1_Up", true);
+				M_INPUT.BindAction(Code::Q, bind(&TankActor::TurnLeft, this), "Player1_Left", true);
+				M_INPUT.BindAction(Code::D, bind(&TankActor::TurnRight, this), "Player1_Right", true);
+				M_INPUT.BindAction(Code::S, bind(&TankActor::DownSpeed, this), "Player1_Down", true);
 			},
 			[&]()
 			{
-				M_INPUT.BindAction(Code::Up, bind(&TankActor::UpSpeed, this), "Player1_Up", false);
-				M_INPUT.BindAction(Code::Left, bind(&TankActor::TurnLeft, this), "Player1_Left", false);
-				M_INPUT.BindAction(Code::Right, bind(&TankActor::TurnRight, this), "Player1_Right", false);
-				M_INPUT.BindAction(Code::Down, bind(&TankActor::DownSpeed, this), "Player1_Down", false);
+				M_INPUT.BindAction(Code::Up, bind(&TankActor::UpSpeed, this), "Player1_Up", true);
+				M_INPUT.BindAction(Code::Left, bind(&TankActor::TurnLeft, this), "Player1_Left", true);
+				M_INPUT.BindAction(Code::Right, bind(&TankActor::TurnRight, this), "Player1_Right", true);
+				M_INPUT.BindAction(Code::Down, bind(&TankActor::DownSpeed, this), "Player1_Down", true);
 			},
 		};
 		_bindTouchs[playerNumber]();

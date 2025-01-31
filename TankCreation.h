@@ -155,9 +155,9 @@ namespace Tank
 
 		void Update();
 
-	private:
-		void LoadTankComponents();
+		Tank::TankActor* LoadTankComponents();
 
+	private:
 		void GenerateTankCreationMenu();
 
 		MeshActor* CreateActors(const Vector2f& _size, const string& _texture, const Vector2f& _position,

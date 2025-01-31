@@ -32,6 +32,13 @@ void Tank::TankCreation::UpdateWeaponSelection()
 {
     const vector<string>& weaponsName = weaponsData.GetWeaponsName();
 
+    M_INPUT.BindAction(Code::Q, [&]()
+        {
+            currentWeaponIndex = (currentWeaponIndex == 0) ? CAST(int, weaponsName.size()) - 1 : currentWeaponIndex - 1;
+            LOG(Display, "Q pressed (bindaction) - Weapon index: " + to_string(currentWeaponIndex));
+            RefreshWeaponDisplay();
+        }, "Menu_Playe1_Left");
+
     if (M_INPUT.IsKeyPressed(Code::Q))
     {
         currentWeaponIndex = (currentWeaponIndex == 0) ? CAST(int, weaponsName.size()) - 1 : currentWeaponIndex - 1;
@@ -70,9 +77,15 @@ void Tank::TankCreation::Update()
     UpdateWeaponSelection();
 }
 
-void Tank::TankCreation::LoadTankComponents()
+Tank::TankActor* Tank::TankCreation::LoadTankComponents()
 {
     // Chargement des composants du tank (à implémenter si nécessaire)
+    Tank::TankActor* _actor = new TankActor();
+    shared_ptr<Hull> _hull = make_shared<Hull>(Vector2f(50.0f, 100.0f), "/Tank/Hulls_1/Hull_2");
+    shared_ptr<Weapon> _weapon = make_shared<Weapon>(Vector2f(50.0f, 100.0f), "/Tank/Weapons_1/Gun_1");
+    _actor->AttachPart(Hull_Part, _hull);
+    _actor->AttachPart(Weapon_Part, _weapon);
+    return _actor;
 }
 
 void Tank::TankCreation::GenerateTankCreationMenu()

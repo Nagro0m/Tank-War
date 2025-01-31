@@ -1,6 +1,7 @@
 #include "TankWarGame.h"
 #include "AudioManager.h"
-using namespace Tank;
+
+
 TankWarGame::TankWarGame()
 {
 }
@@ -13,11 +14,12 @@ void TankWarGame::Start()
 {
 	level = Level();
 	level.GenerateLevel();
-	TankCreation _tank = TankCreation();
-	_tank.CreateTank();
+	Tank::TankCreation _tankCreation = Tank::TankCreation();
+	tank = _tankCreation.LoadTankComponents();
+	tank->Construct();
 	//TODO mettre une boucle pour la création des deux tanks avant de lancer le jeu mais faire en sorte que les imputs marche quand même..
-	Super::Start();
 	//GenerateMainMenu();
+	Super::Start();
 }
 
 bool TankWarGame::Update()
