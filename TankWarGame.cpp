@@ -54,7 +54,7 @@ void TankWarGame::Start()
 
 	player1Tank->SetPosition(Vector2f(300, 300));
 
-	//CreateActors(Vector2f(10.0f, 0), _texture, _adjustedPosition, _useMiddleOrigin, _rotation);
+	MeshActor* _bar = CreateActors(Vector2f(100.0f, 0), "Menu/Separation", Vector2f(1920 / 2  , 1080), false, 0.0f);
 
 
 	Super::Start();

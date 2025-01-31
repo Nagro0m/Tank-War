@@ -14,6 +14,7 @@ Game::Game()
 void Game::Start()
 {
     window.create(VideoMode({ 1920, 1080 }), "Tank War", State::Windowed);
+
 };
 
 bool Game::Update()
