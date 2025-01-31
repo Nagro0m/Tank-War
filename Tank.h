@@ -1,6 +1,7 @@
 #include "MeshActor.h"
 #include "MovementComponent.h"
 #include "CollisionComponent.h"
+#include "AudioManager.h"
 
 class Tank : public MeshActor
 {
@@ -10,6 +11,8 @@ class Tank : public MeshActor
 	//CollisionComponent* collisions;
 	Vector2f move;
 	float speed;
+	float pitch;
+	SoundSample* sound;
 public:
 
 
@@ -27,4 +30,5 @@ public:
 	void Left();
 	void SpeedUp();
 	void SlowDown();
+	void PlaySample();
 };

@@ -27,12 +27,18 @@ public:
 	{
 		sound->setLooping(_isLoop);
 	}
+
+	FORCEINLINE void SetPitch(const float _pitch)
+	{
+		sound->setPitch(_pitch);
+	}
+
 	FORCEINLINE virtual bool AddPitch(const float _pitchOffset) override
 	{
 		float _newPitch = sound->getPitch() + _pitchOffset;
 		if (_newPitch > 100.0f || _newPitch < 0.0f) return false;
 
-		sound->setPitch(_newPitch);
+		SetPitch(_newPitch);
 		return true;
 	}
 
