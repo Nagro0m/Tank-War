@@ -64,10 +64,7 @@ public:
 	}
 
 private:
-	FORCEINLINE bool IsInTargetRect() const 
-	{
-		return targetRect.contains(target->GetPosition());
-	}
+	
 	FORCEINLINE bool IsInTargetRectX() const
 	{
 		return	target->GetPosition().x >= targetRect.position.x &&

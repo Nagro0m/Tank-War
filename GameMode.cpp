@@ -30,9 +30,9 @@ GameMode::GameMode()
 void GameMode::InitializeSolo()
 {
 	player1Tank = Level::SpawnActor(Tank(inputPlayer1, "Tank/Tank_1"));
-	player1Tank->SetPosition(Vector2f(200.0f, 200.0f));
+	player1Tank->SetPosition(Vector2f(500.0f, 500.0f));
 
-	FloatRect _rect = { Vector2f(100.0f , 100.0f), Vector2f(1820.0f, 980.0f) };
+	FloatRect _rect = { Vector2f(500.0f , 200.0f), Vector2f(3840.0f, 2160.0f) };
 	cameraSolo = Camera::M_CAMERA.CreateCamera(CameraActor(Vector2f(), Vector2f(1920, 1080), "cameraSolo"));
 	cameraSolo->SetTargetRect(_rect);
 	cameraSolo->SetTarget(player1Tank);

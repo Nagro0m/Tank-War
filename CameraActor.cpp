@@ -36,10 +36,6 @@ void CameraActor::Tick(const float _deltaTime)
 
 void CameraActor::SetPositionOnTarget()
 {
-	//if (!target || !IsInTargetRect()) return;
-	//SetPosition(target->GetPosition());
-
-
 	if (!target) return;
 	
 	if (!IsInTargetRectX())
