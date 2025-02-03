@@ -31,3 +31,14 @@ Type* Cast(BaseType* _baseType)
     if (!_baseType) return nullptr;
 	return dynamic_cast<Type*>(_baseType);
 }
+
+template <typename Type>
+bool Contains(const set<Type>& _list, const Type& _type)
+{
+	for (Type _currentType : _list)
+	{
+		if (_type == _currentType) return true;
+	}
+
+	return false;
+}

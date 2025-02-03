@@ -156,6 +156,7 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="CustomException.cpp" />
     <ClCompile Include="FontManager.cpp" />
+    <ClCompile Include="FuelGameplay.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="HUD.cpp" />
@@ -168,6 +169,7 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MeshActor.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
+    <ClCompile Include="MeshTest.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="MusicSample.cpp" />
     <ClCompile Include="Object.cpp" />
@@ -203,6 +205,7 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClInclude Include="CoreMinimal.h" />
     <ClInclude Include="CustomException.h" />
     <ClInclude Include="FontManager.h" />
+    <ClInclude Include="FuelGameplay.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="HUD.h" />
@@ -211,6 +214,7 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClInclude Include="Label.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelGenerator.h" />
+    <ClInclude Include="MeshTest.h" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="MusicSample.h" />
     <ClInclude Include="RenderType.h" />

@@ -2,11 +2,14 @@
 #include "CameraManager.h"
 #include "TimerManager.h"
 
-Tank::Tank(vector<Code> _code, const string& _path) : MeshActor(RectangleShapeData(Vector2f(60.0f, 110.0f), _path))
+Tank::Tank(vector<Code> _code, const string& _path, float _fuelTank) : MeshActor(RectangleShapeData(Vector2f(60.0f, 110.0f), _path))
 {
 	life = 100.0f;
-	isMoving = false;
+	fuelTank = _fuelTank;
+	isMoving = true;
 	movement = CreateComponent<MovementComponent>();
+	collisions = CreateComponent<CollisionComponent>(AT_PLAYER, CT_OVERLAP,LT_DYNAMIC
+								,set<ActorType>{ AT_PLAYER }, [&]() {LOG(Display, "Tank_collision");});
 	speed = 1.0f;
 	pitch = 1.0f;
 	sound = nullptr;
@@ -43,7 +46,14 @@ void Tank::Tick(const float _deltaTime)
 {
 	Super::Tick(_deltaTime);
 
-	Move(move * speed * _deltaTime * 10.0f);
+	if (isMoving)
+	{
+		Move(move * speed * _deltaTime * 10.0f);
+	}
+	if (fuelTank != -1.0f)
+	{
+		UpdateFuelTank(_deltaTime);
+	}
 }
 
 void Tank::ComputeDirection(const float _rotation)
@@ -122,5 +132,13 @@ void Tank::PlaySample()
 void Tank::Life()
 {
 
+}
+
+void Tank::UpdateFuelTank(const float _deltaTime)
+{
+	fuelTank = speed > 0 ? fuelTank - (maxSpeed - speed + 1)* _deltaTime : fuelTank - 1 * _deltaTime;
+	fuelTank = fuelTank <= 0 ? 0 : fuelTank;
+	if (fuelTank == 0) isMoving = false;
+	//LOG(Display, to_string(fuelTank));
 }
 

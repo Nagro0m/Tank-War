@@ -148,6 +148,9 @@
     <Filter Include="TankGame\Level">
       <UniqueIdentifier>{17097058-3591-4a5b-acf8-d49ccafc1d7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fuel-Gameplay">
+      <UniqueIdentifier>{97966a44-8027-4de5-b616-42d6ecdd10f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TextObject.cpp">
@@ -281,6 +284,12 @@
     </ClCompile>
     <ClCompile Include="LevelGenerator.cpp">
       <Filter>TankGame\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="FuelGameplay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshTest.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -439,6 +448,12 @@
     </ClInclude>
     <ClInclude Include="LevelGenerator.h">
       <Filter>TankGame\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="FuelGameplay.h">
+      <Filter>Fuel-Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshTest.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

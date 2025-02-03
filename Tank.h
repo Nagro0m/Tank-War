@@ -7,9 +7,10 @@
 class Tank : public MeshActor
 {
 	int life;
+	float fuelTank;
 	bool isMoving;
 	MovementComponent* movement;
-	//CollisionComponent* collisions;
+	CollisionComponent* collisions;
 	Vector2f move;
 	float speed;
 	float pitch;
@@ -21,7 +22,7 @@ public:
 
 
 public:
-	Tank(vector<Code> _code, const string& _path);
+	Tank(vector<Code> _code, const string& _path, float _fuelTank = -1.0f);
 
 	void Construct();
 
@@ -36,4 +37,5 @@ public:
 	void SlowDown();
 	void PlaySample();
 	void Life();
+	void UpdateFuelTank(const float _deltaTime);
 };
