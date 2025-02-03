@@ -282,6 +282,9 @@
     <ClCompile Include="LevelGenerator.cpp">
       <Filter>TankGame\Level</Filter>
     </ClCompile>
+    <ClCompile Include="GameMode.cpp">
+      <Filter>Scripts\GameLoop\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -439,6 +442,9 @@
     </ClInclude>
     <ClInclude Include="LevelGenerator.h">
       <Filter>TankGame\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMode.h">
+      <Filter>Scripts\GameLoop\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

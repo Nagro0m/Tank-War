@@ -6,6 +6,7 @@ class CameraActor : public Actor
 {
 	CameraComponent* camera;
 	Actor* target;
+	FloatRect targetRect;
 
 public:
 	FORCEINLINE void SetViewport(const FloatRect& _rect)
@@ -49,6 +50,10 @@ public:
 	{
 		target = _target;
 	}
+	FORCEINLINE void SetTargetRect(FloatRect _targetRect)
+	{
+		targetRect = _targetRect;
+	}
 	FORCEINLINE bool HasTarget() const
 	{
 		return target;
@@ -57,6 +62,24 @@ public:
 	{
 		return camera->GetView();
 	}
+
+private:
+	FORCEINLINE bool IsInTargetRect() const 
+	{
+		return targetRect.contains(target->GetPosition());
+	}
+	FORCEINLINE bool IsInTargetRectX() const
+	{
+		return	target->GetPosition().x >= targetRect.position.x &&
+				target->GetPosition().x <= targetRect.size.x;
+	}
+	FORCEINLINE bool IsInTargetRectY() const
+	{
+		return	target->GetPosition().y >= targetRect.position.y &&
+				target->GetPosition().y <= targetRect.size.y;
+	}
+
+	void SetPositionOnTarget();
 
 
 public:

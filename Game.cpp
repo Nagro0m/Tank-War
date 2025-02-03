@@ -32,7 +32,7 @@ bool Game::Update()
 
 void Game::UpdateWindow()
 {
-    window.clear();
+    window.clear(Color(115, 133, 37));
     M_CAMERA.RenderAllCameras(window);
     window.display();
 }

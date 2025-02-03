@@ -2,6 +2,7 @@
 #include "GameManager.h"
 #include "Game.h"
 
+
 CameraActor::CameraActor(const string& _name) : Actor(_name)
 {
 	camera = CreateComponent<CameraComponent>();
@@ -30,6 +31,29 @@ void CameraActor::Tick(const float _deltaTime)
 {
 	Super::Tick(_deltaTime);
 
+	SetPositionOnTarget();
+}
+
+void CameraActor::SetPositionOnTarget()
+{
+	//if (!target || !IsInTargetRect()) return;
+	//SetPosition(target->GetPosition());
+
+
 	if (!target) return;
+	
+	if (!IsInTargetRectX())
+	{
+		SetPosition(Vector2f( GetPosition().x, target->GetPosition().y));
+		return;
+	}
+
+	if (!IsInTargetRectY())
+	{
+		SetPosition(Vector2f(target->GetPosition().x, GetPosition().y));
+		return;
+	}
+
 	SetPosition(target->GetPosition());
+
 }

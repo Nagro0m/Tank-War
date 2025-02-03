@@ -72,6 +72,8 @@ map<Vector2f, MeshActor*> LevelGenerator::GenerateMap()
 {
 	map<Vector2f, MeshActor*> _map;
 
+	const float _offset = 40.0f;
+
 	GenerateGround();
 
 	for (u_int _y = 0; _y < sizeY; _y+=spaceBetweenElements)
@@ -82,13 +84,14 @@ map<Vector2f, MeshActor*> LevelGenerator::GenerateMap()
 		{
 			if (_x + spaceBetweenElements >= sizeX) continue;
 
-			const float _offsetX = GetRandomNumberInRange<float>(-15.0f, 15.0f);
-			const float _offsetY = GetRandomNumberInRange<float>(-15.0f, 15.0f);
+			const float _offsetX = GetRandomNumberInRange<float>(-_offset, _offset);
+			const float _offsetY = GetRandomNumberInRange<float>(-_offset, _offset);
 			const Vector2f& _position = Vector2f((float)_x + _offsetX, (float)_y + _offsetY);
 			GenerateRandomElement(_position);
 		}
 	}
 
+	
 	return _map;
 
 }
@@ -158,23 +161,23 @@ void LevelGenerator::PlaceBarbedWire()
 
 	float _barbedWireSize = groundTileSize.x;
 	// Placer les barbelés sur les bords
-	for (float _x = (-_barbedWireSize); _x < sizeX /*+ _barbedWireSize*/; _x += _barbedWireSize)
+	for (float _x = (-_barbedWireSize /2); _x < sizeX /*+ _barbedWireSize*/; _x += _barbedWireSize)
 	{
 		MeshActor* _barbed1 = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(_barbedWireSize, _barbedWireSize), "Object/Barbed")));
-		_barbed1->SetPosition(Vector2f(_x + 30, -120));// Haut
+		_barbed1->SetPosition(Vector2f(_x , -100));// Haut
 		_barbed1->SetOriginAtMiddle();
 		MeshActor* _barbed2 = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(_barbedWireSize, _barbedWireSize), "Object/Barbed")));
 		_barbed2->SetOriginAtMiddle();
-		_barbed2->SetPosition(Vector2f(_x + 90, sizeY));// Bas
+		_barbed2->SetPosition(Vector2f(_x , sizeY - 30));// Bas
 	}
 
 	for (float _y = (-_barbedWireSize); _y < sizeY; _y += _barbedWireSize)
 	{
 		MeshActor* _barbed1 = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(_barbedWireSize, _barbedWireSize), "Object/Barbed")));
-		_barbed1->SetPosition(Vector2f(-_barbedWireSize / 2, _y + 30));// Gauche
+		_barbed1->SetPosition(Vector2f(-_barbedWireSize / 4, _y ));// Gauche
 		_barbed1->Rotate(degrees(90));
 		MeshActor* _barbed2 = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(_barbedWireSize, _barbedWireSize), "Object/Barbed")));
-		_barbed2->SetPosition(Vector2f(sizeX + _barbedWireSize / 2, _y - 30));// Droite
+		_barbed2->SetPosition(Vector2f(sizeX + _barbedWireSize/4, _y));// Droite
 		_barbed2->Rotate(degrees(90));
 	}
 }
