@@ -1,43 +1,44 @@
-#include "Hull.h"
-#include "Weapon.h"
-#include "Actor.h"
+#include "MeshActor.h"
 #include "MovementComponent.h"
 #include "CollisionComponent.h"
+#include "AudioManager.h"
+#include "InputManager.h"
 
-namespace Tank
+class Tank : public MeshActor
 {
-	
-	class Tank : public Actor
+	int life;
+	bool isMoving;
+	MovementComponent* movement;
+	//CollisionComponent* collisions;
+	Vector2f move;
+	float speed;
+	float pitch;
+	SoundSample* sound;
+	SoundSample* rearSound;
+	float maxSpeed;
+	vector<Code> code;
+
+public:
+	FORCEINLINE int GetLife() const 
 	{
-		////Corps du tank
-		//Hull* hull;
-		////Canon
-		//Weapon* weapon;
-		////Chenilles
-		//Track* track;
-		map<TankPartType, shared_ptr<TankPart>> allTankParts;
-		int life;
-		bool isMoving;
-		MovementComponent* movement;
-		CollisionComponent* collisions;
-	public:
+		return life;
+	}
 
 
-	public:
-		Tank();
+public:
+	Tank(vector<Code> _code, const string& _path);
 
-	public:
-		template<typename Type, IS_BASE_OF(TankPart, Type)>
-		void AttachPart(const TankPartType& _socketType, shared_ptr<Type> _part)
-		{
-			if (!_part || allTankParts.at(_socketType))
-			{
-				LOG(Error, "Erreur : tentative d'attacher un pointeur nul" + to_string(_socketType));
-				return;
-			}
-			AddChild(_part, AT_SNAP_TO_TARGET);
-			allTankParts[_socketType] = _part;
-		}
-		void Detachpart(const TankPartType& _socketType);
-	};
-}
+	void Construct();
+
+public:
+	virtual void BeginPlay() override;
+	virtual void Tick(const float _deltaTime) override;
+
+	void ComputeDirection(const float _rotation);
+	void Right();
+	void Left();
+	void SpeedUp();
+	void SlowDown();
+	void PlaySample();
+	void Life();
+};

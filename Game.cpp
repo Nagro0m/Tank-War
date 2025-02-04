@@ -11,13 +11,10 @@ Game::Game()
 	window = RenderWindow();
 }
 
-
 void Game::Start()
 {
     window.create(VideoMode({ 1920, 1080 }), "Tank War", State::Windowed);
-    CameraActor* _camera = M_CAMERA.CreateCamera("Camera");
-    _camera->SetScale(CAST(Vector2f, window.getSize()));
-    M_CAMERA.SetCurrent(_camera);
+
 };
 
 bool Game::Update()
@@ -35,7 +32,7 @@ bool Game::Update()
 
 void Game::UpdateWindow()
 {
-    window.clear();
+    window.clear(Color(115, 133, 37));
     M_CAMERA.RenderAllCameras(window);
     window.display();
 }

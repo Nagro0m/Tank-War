@@ -2,8 +2,8 @@
 
 void Level::GenerateLevel()
 {
-	//LevelGenerator _generator = LevelGenerator(this, 5760, 3240, 106);
-	LevelGenerator _generator = LevelGenerator(this, 1920, 1080, 106);
+	LevelGenerator _generator = LevelGenerator(this, 3840, 2160, 106);
+	//LevelGenerator _generator = LevelGenerator(this, 1920, 1080, 106);
 
 	vector<LevelElement*> _groundVariants;
 	LevelElement* _ground = new LevelElement(new MeshActor(RectangleShapeData({ 180.0f, 180.0f }, "Object/Grounds_3")), _groundVariants);

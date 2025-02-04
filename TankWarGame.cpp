@@ -1,27 +1,51 @@
 #include "TankWarGame.h"
 #include "AudioManager.h"
-using namespace Tank;
+#include "Widget.h"
+#include "Image.h"
+#include "HUD.h"
+
+
+using namespace UI;
+
 TankWarGame::TankWarGame()
 {
+	background = nullptr;
+	music = nullptr;
+	label = nullptr;
+	cameraMainMenu = nullptr;
+	playersCount = 2;
+	gameMode = new GameMode(playersCount);
+	gameHUD = new GameHUD(playersCount);
+
 }
 
 TankWarGame::~TankWarGame()
 {
+	delete gameMode;
+	delete gameHUD;
 }
+
 
 void TankWarGame::Start()
 {
 	level = Level();
 	level.GenerateLevel();
-	MainMenu();
-	//TankCreation _tank = TankCreation();
-	//_tank.CreateTank();
+	//MainMenu();
+
+	gameMode->Initialize();
+	gameHUD->Initialize();
+
+	
+
+
 	Super::Start();
 }
 
 bool TankWarGame::Update()
 {
 	Super::Update();
+
+
 
 	return IsOver();
 }
