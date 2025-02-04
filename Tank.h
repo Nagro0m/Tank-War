@@ -31,6 +31,8 @@ public:
 public:
 	virtual void BeginPlay() override;
 	virtual void Tick(const float _deltaTime) override;
+	virtual void OnCollision(const CollisionData& _data) override;
+
 
 	void ComputeDirection(const float _rotation);
 	void Right();

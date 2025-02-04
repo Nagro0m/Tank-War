@@ -8,8 +8,8 @@ Tank::Tank(vector<Code> _code, const string& _path, float _fuelTank) : MeshActor
 	fuelTank = _fuelTank;
 	isMoving = true;
 	movement = CreateComponent<MovementComponent>();
-	collisions = CreateComponent<CollisionComponent>(AT_PLAYER, CT_OVERLAP,LT_DYNAMIC
-		, set<ActorType>{ AT_PLAYER }, [&]() {LOG(Display, "TankCollision"); });
+	//collisions = CreateComponent<CollisionComponent>(AT_PLAYER, CT_OVERLAP,LT_DYNAMIC
+	//	, set<ActorType>{ AT_PLAYER }, [&]() {LOG(Display, "TankCollision"); });
 	speed = 1.0f;
 	pitch = 1.0f;
 	sound = nullptr;
@@ -68,6 +68,18 @@ void Tank::Tick(const float _deltaTime)
 	if (fuelTank != -1.0f)
 	{
 		UpdateFuelTank(_deltaTime);
+	}
+}
+
+void Tank::OnCollision(const CollisionData& _data)
+{
+	if (_data.response == CT_BLOCK)
+	{
+		if (_data.other->GetLayer() == Layer::LayerType::BREAKABLE)
+		{
+
+		}
+
 	}
 }
 

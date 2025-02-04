@@ -45,7 +45,7 @@ void Actor::BeginPlay()
 {
 	if (lifeSpan > 0.0f)
 	{
-		new Timer(bind(&Actor::Destroy, this), seconds(lifeSpan), true);
+		new Timer(bind(&Actor::SetToDelete, this), seconds(lifeSpan), true);
 	}
 
 	for (Component* _component : components)

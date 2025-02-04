@@ -286,10 +286,10 @@
       <Filter>TankGame\Level</Filter>
     </ClCompile>
     <ClCompile Include="FuelGameplay.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Fuel-Gameplay</Filter>
     </ClCompile>
     <ClCompile Include="MeshTest.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Fuel-Gameplay</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -453,7 +453,10 @@
       <Filter>Fuel-Gameplay</Filter>
     </ClInclude>
     <ClInclude Include="MeshTest.h">
-      <Filter>Header Files</Filter>
+      <Filter>Fuel-Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Layer.h">
+      <Filter>Scripts\Resource Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
