@@ -30,6 +30,6 @@ void CameraActor::Tick(const float _deltaTime)
 {
 	Super::Tick(_deltaTime);
 
-	if (!target) return;
+	if (!target || target->IsToDelete()) return;
 	SetPosition(target->GetPosition());
 }

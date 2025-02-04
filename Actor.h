@@ -153,6 +153,14 @@ public:
 		advance(_it, _index);
 		return *_it;
 	}
+	FORCEINLINE void RemoveParentForAllChildren()
+	{
+		set<Actor*>::iterator _it;
+		for (_it = children.begin(); _it != children.end(); _it++)
+		{
+			(*_it)->SetParent(nullptr);
+		}
+	}
 
 #pragma endregion
 
