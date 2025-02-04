@@ -10,7 +10,7 @@ UI::HUD::~HUD()
 {
 	for (Widget* _widget : allWidgets)
 	{
-		delete _widget;
+		if (_widget) delete _widget; 
 	}
 }
 void UI::HUD::AddToViewport(Widget* _widget)

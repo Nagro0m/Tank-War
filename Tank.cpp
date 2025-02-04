@@ -30,7 +30,7 @@ void Tank::Construct()
 	M_INPUT.BindAction({ code[2] }, bind(&Tank::SpeedUp, this));
 	M_INPUT.BindAction({ code[3] }, bind(&Tank::SlowDown, this));
 
-
+	ComputeDirection(0.0f);
 }
 
 void Tank::BeginPlay()
@@ -49,7 +49,7 @@ void Tank::Tick(const float _deltaTime)
 void Tank::ComputeDirection(const float _rotation)
 {
 	Rotate(degrees(_rotation));
-	float _radians = (GetRotation().asDegrees() - 90.0f) * 3.14159265f / 180.0f; // Convertir en radians
+	float _radians = (GetRotation().asDegrees() - 90.0f) * pi / 180.0f; // Convertir en radians
 	Vector2f _direction = Vector2f(cos(_radians), sin(_radians));
 
 	move = _direction;

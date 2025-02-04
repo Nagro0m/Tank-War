@@ -6,6 +6,7 @@
 #include "Label.h"
 #include "CameraManager.h"
 #include "GameMode.h"
+#include "GameHUD.h"
 
 using namespace UI;
 
@@ -18,6 +19,8 @@ class TankWarGame : public Game
 	map<string, MeshActor*> uiAssets;
 	CameraActor* cameraMainMenu;
 	GameMode* gameMode;
+	GameHUD* gameHUD;
+	float playersCount;
 
 
 	

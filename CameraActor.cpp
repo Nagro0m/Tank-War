@@ -37,19 +37,18 @@ void CameraActor::Tick(const float _deltaTime)
 void CameraActor::SetPositionOnTarget()
 {
 	if (!target) return;
-	
-	if (!IsInTargetRectX())
+
+	Vector2f _newPosition = GetPosition();
+
+	if (IsInTargetRectX())
 	{
-		SetPosition(Vector2f( GetPosition().x, target->GetPosition().y));
-		return;
+		_newPosition.x = target->GetPosition().x;
 	}
 
-	if (!IsInTargetRectY())
+	if (IsInTargetRectY())
 	{
-		SetPosition(Vector2f(target->GetPosition().x, GetPosition().y));
-		return;
+		_newPosition.y = target->GetPosition().y;
 	}
 
-	SetPosition(target->GetPosition());
-
+	SetPosition(_newPosition);
 }

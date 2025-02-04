@@ -1,5 +1,11 @@
 #include "TankWarGame.h"
 #include "AudioManager.h"
+#include "Widget.h"
+#include "Image.h"
+#include "HUD.h"
+
+
+using namespace UI;
 
 TankWarGame::TankWarGame()
 {
@@ -7,13 +13,18 @@ TankWarGame::TankWarGame()
 	music = nullptr;
 	label = nullptr;
 	cameraMainMenu = nullptr;
-	gameMode = new GameMode();
+	playersCount = 2;
+	gameMode = new GameMode(playersCount);
+	gameHUD = new GameHUD(playersCount);
 
 }
 
 TankWarGame::~TankWarGame()
 {
+	delete gameMode;
+	delete gameHUD;
 }
+
 
 void TankWarGame::Start()
 {
@@ -21,11 +32,10 @@ void TankWarGame::Start()
 	level.GenerateLevel();
 	//MainMenu();
 
-	//gameMode->InitializeDuo();
-	gameMode->InitializeSolo();
+	gameMode->Initialize();
+	gameHUD->Initialize();
 
-
-	MeshActor* _bar = CreateActors(Vector2f(100.0f, 0), "Menu/Separation", Vector2f(1920 / 2  , 1080), false, 0.0f);
+	
 
 
 	Super::Start();

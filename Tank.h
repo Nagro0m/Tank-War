@@ -17,7 +17,12 @@ class Tank : public MeshActor
 	SoundSample* rearSound;
 	float maxSpeed;
 	vector<Code> code;
+
 public:
+	FORCEINLINE int GetLife() const 
+	{
+		return life;
+	}
 
 
 public:
