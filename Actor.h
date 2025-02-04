@@ -263,25 +263,30 @@ public:
 	virtual void Tick(const float _deltaTime) override;
 	virtual void BeginDestroy() override;
 
-	void Destroy();
-
-#pragma region Components
+	#pragma region Components
 
 	void AddComponent(Component* _component);
 	void RemoveComponent(Component* _component);
 	template <typename T>
 	T* GetComponent()
-	{
-		for (Component* _component : components)
 		{
-			if (is_same_v<decltype(_component), T*>)
+			for (Component* _component : components)
 			{
-				return dynamic_cast<T*>(_component);
+				T* _componentCast = dynamic_cast<T*>(_component);
+				if (_componentCast)
+				{
+					return _componentCast;
+				}
 			}
+
+			return nullptr;
 		}
 
-		return nullptr;
-	}
+	#pragma endregion
 
-#pragma endregion
+	#pragma region Collision
+
+	virtual void OnCollision(const CollisionData& _data) {}
+
+	#pragma endregion
 };

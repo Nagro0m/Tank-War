@@ -24,6 +24,8 @@ public:
 public:
 	Tank(vector<Code> _code, const string& _path, float _fuelTank = -1.0f);
 
+	Tank(const Tank& _other);
+
 	void Construct();
 
 public:
@@ -38,4 +40,5 @@ public:
 	void PlaySample();
 	void Life();
 	void UpdateFuelTank(const float _deltaTime);
+	void Refuel();
 };

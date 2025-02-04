@@ -70,11 +70,6 @@ void Actor::BeginDestroy()
 	}
 }
 
-void Actor::Destroy()
-{
-	SetToDelete();
-}
-
 
 void Actor::AddComponent(Component* _component)
 {

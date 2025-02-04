@@ -26,13 +26,13 @@ void FuelGameplay::Start()
 		Code::S,
 	};
 
-	player1Tank = Level::SpawnActor(Tank(_tank1, "Tank/Tank_1"));
+	player1Tank = Level::SpawnActor(Tank(_tank1, "Tank/Tank_1", 100.0f));
 	player1Tank->SetPosition({ 600.0f, 600.0f });
 
-	MeshTest* _meshActor = Level::SpawnActor<MeshTest>(MeshTest(RectangleShapeData({100.0f,100.0f}, "Object/Rock_4")));
+	MeshTest* _meshTest = Level::SpawnActor<MeshTest>(MeshTest(RectangleShapeData({100.0f,100.0f}, "Object/Rock_4")));
+	_meshTest->SetPosition(Vector2f(400.0f, 400.0f));
 	Vector2f _windowSize = Vector2f(window.getSize());
 	//_meshActor->SetPosition(Vector2f( window.getSize().x / 2, window.getSize().y / 2 ));
-	_meshActor->SetPosition(Vector2f(400.0f, 400.0f));
 
 	CameraActor* cameraPlayer1 = Camera::M_CAMERA.CreateCamera(CameraActor(_windowSize / 2.0f, Vector2f(1920, 1080), "MeshActorCamera1"));
 	cameraPlayer1->SetViewport(window.getDefaultView().getViewport());

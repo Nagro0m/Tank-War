@@ -9,13 +9,28 @@ Tank::Tank(vector<Code> _code, const string& _path, float _fuelTank) : MeshActor
 	isMoving = true;
 	movement = CreateComponent<MovementComponent>();
 	collisions = CreateComponent<CollisionComponent>(AT_PLAYER, CT_OVERLAP,LT_DYNAMIC
-								,set<ActorType>{ AT_PLAYER }, [&]() {LOG(Display, "Tank_collision");});
+		, set<ActorType>{ AT_PLAYER }, [&]() {LOG(Display, "TankCollision"); });
 	speed = 1.0f;
 	pitch = 1.0f;
 	sound = nullptr;
 	rearSound = nullptr;
 	maxSpeed = 10.0f;
 	code = _code;
+}
+
+Tank::Tank(const Tank& _other) : MeshActor(_other)
+{
+	life = _other.life;
+	fuelTank = _other.fuelTank;
+	isMoving = _other.isMoving;
+	movement = CreateComponent<MovementComponent>(_other.movement);
+	collisions = CreateComponent<CollisionComponent>(*_other.collisions);
+	speed = _other.speed;
+	pitch = _other.pitch;
+	sound = _other.sound;
+	rearSound = _other.rearSound;
+	maxSpeed = _other.maxSpeed;
+	code = _other.code;
 }
 
 void Tank::Construct()
@@ -139,6 +154,12 @@ void Tank::UpdateFuelTank(const float _deltaTime)
 	fuelTank = speed > 0 ? fuelTank - (maxSpeed - speed + 1)* _deltaTime : fuelTank - 1 * _deltaTime;
 	fuelTank = fuelTank <= 0 ? 0 : fuelTank;
 	if (fuelTank == 0) isMoving = false;
-	//LOG(Display, to_string(fuelTank));
+	LOG(Display, to_string(fuelTank));
+}
+
+void Tank::Refuel()
+{
+	fuelTank = fuelTank + 50 > 100 ? 100 : fuelTank + 50;
+	LOG(Display, to_string(fuelTank));
 }
 

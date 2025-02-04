@@ -2,6 +2,14 @@
 #include "Component.h"
 #include "MeshActor.h"
 
+enum InteractStatus
+{
+	IS_NONE,
+	IS_QUERY,
+	IS_PHYSIC,
+	IS_ALL
+};
+
 enum CollisionType
 {
 	CT_NONE,
@@ -9,50 +17,33 @@ enum CollisionType
 	CT_BLOCK
 };
 
-enum LayerType
+struct CollisionData
 {
-	LT_STATIC,
-	LT_DYNAMIC,
-
-	// =========== \\
-
-
-};
-
-enum ActorType
-{
-	AT_PLAYER,
-	AT_PROJECTILE,
-	AT_BREAKABLE,
-	AT_COUNT,
+	Actor* other;
+	CollisionType response;
+	FloatRect impactRect;
 };
 
 class CollisionComponent : public Component
 {
-	MeshActor* meshOwner;
-	LayerType layer;
-	CollisionType type;
-	ActorType ownerType;
-
-	set<ActorType> blackList; // représente les actors avec qui il y aura une collision
-	function<void()> callback;
-public:
-	FORCEINLINE ActorType GetActorType() const
-	{
-		return ownerType;
-	}
-	FORCEINLINE CollisionType GetCollisionType() const
-	{
-		return type;
-	}
-public:
-	CollisionComponent(Actor* _owner, const ActorType& _ownerType, const CollisionType& _type = CT_NONE, const LayerType& _layer = LT_DYNAMIC,
-		const set<ActorType>& _blackList = {}, const function<void()> _callback = {});
-	CollisionComponent(Actor* _owner, const CollisionComponent* _other);
+	string channelName;
+	InteractStatus status;
+	CollisionType type; // Réponse par défaut
+	map<string, CollisionType> responses;
 
 public:
+	FORCEINLINE string GetChannelName() const
+	{
+		return channelName;
+	}
+ 
+public:
+	CollisionComponent(Actor* _owner);
+	CollisionComponent(Actor* _owner, const CollisionComponent& _other);
+
+protected:
 	virtual void Tick(const float _deltaTime) override;
+
+private:
 	void CheckCollision();
 };
-
-void NewFunction(CollisionComponent* _actorCollisionComponent);
