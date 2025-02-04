@@ -159,6 +159,8 @@
     </Filter>
     <Filter Include="TankGame\TankCreation\Weapon">
       <UniqueIdentifier>{06686ab6-ad14-4da3-b3a6-ab73eb9317df}</UniqueIdentifier>
+    <Filter Include="Fuel-Gameplay">
+      <UniqueIdentifier>{97966a44-8027-4de5-b616-42d6ecdd10f9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -316,6 +318,11 @@
     </ClCompile>
     <ClCompile Include="Track.cpp">
       <Filter>TankGame\TankCreation\Track</Filter>
+    <ClCompile Include="FuelGameplay.cpp">
+      <Filter>Fuel-Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshTest.cpp">
+      <Filter>Fuel-Gameplay</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -497,6 +504,14 @@
     </ClInclude>
     <ClInclude Include="Track.h">
       <Filter>TankGame\TankCreation\Track</Filter>
+    <ClInclude Include="FuelGameplay.h">
+      <Filter>Fuel-Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshTest.h">
+      <Filter>Fuel-Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Layer.h">
+      <Filter>Scripts\Resource Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

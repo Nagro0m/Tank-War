@@ -43,6 +43,10 @@ public:
 	{
 		return mesh;
 	}
+	FORCEINLINE Shape* GetDrawable() const
+	{
+		return mesh->GetShape()->GetDrawable();
+	}
 	FORCEINLINE FloatRect GetHitbox() const
 	{
 		return mesh->GetShape()->GetDrawable()->getGlobalBounds();
@@ -105,6 +109,7 @@ public:
 	MeshActor(const float _radius, const size_t& _pointCount = 30, const string& _path = "", const IntRect& _rect = {}, const string& _name = "MeshActor");
 	MeshActor(const RectangleShapeData& _data, const string& _name = "MeshActor");
 	MeshActor(const MeshActor& _other);
+
 
 protected:
 	virtual void RenderMesh(RenderWindow& _window);

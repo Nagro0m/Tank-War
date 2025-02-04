@@ -18,6 +18,7 @@ Actor::Actor(const Actor& _actor)
 	isToDelete = _actor.isToDelete;
 	lifeSpan = _actor.lifeSpan;
 	root = CreateComponent<RootComponent>(_actor.root);
+	layer = _actor.layer;
 }
 
 Actor::~Actor()
@@ -45,7 +46,7 @@ void Actor::BeginPlay()
 {
 	if (lifeSpan > 0.0f)
 	{
-		new Timer(bind(&Actor::Destroy, this), seconds(lifeSpan), true);
+		new Timer(bind(&Actor::SetToDelete, this), seconds(lifeSpan), true);
 	}
 
 	for (Component* _component : components)
@@ -75,7 +76,6 @@ void Actor::Destroy()
 	RemoveParentForAllChildren();
 	SetToDelete();
 }
-
 
 void Actor::AddComponent(Component* _component)
 {

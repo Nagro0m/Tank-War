@@ -5,7 +5,10 @@
 #include "Component.h"
 #include "RootComponent.h"
 #include "TimerManager.h"
+#include "Layer.h"
 
+
+struct CollisionData;
 class Actor : public Core, public ITransformableModifier, public ITransformableViewer
 {
 	bool isToDelete;
@@ -19,6 +22,7 @@ class Actor : public Core, public ITransformableModifier, public ITransformableV
 	set<Actor*> children;
 protected:
 	float lifeSpan;
+	Layer::LayerType layer;
 
 protected:
 	template <typename Type, typename ...Args, IS_BASE_OF(Component, Type)>
@@ -40,6 +44,14 @@ public:
 	{
 		isToDelete = true;
 	}
+	FORCEINLINE void SetLifeSpan(const float _lifeSpan)
+	{
+		lifeSpan = _lifeSpan;
+	}
+	FORCEINLINE void SetLayer(Layer::LayerType _layer)
+	{
+		layer = _layer;
+	}
 	FORCEINLINE bool IsToDelete() const
 	{
 		return isToDelete;
@@ -55,6 +67,10 @@ public:
 	FORCEINLINE string GetDisplayName() const
 	{
 		return displayName;
+	}
+	FORCEINLINE Layer::LayerType GetLayer() const
+	{
+		return layer;
 	}
 
 #pragma region Children
@@ -269,25 +285,30 @@ public:
 	virtual void Tick(const float _deltaTime) override;
 	virtual void BeginDestroy() override;
 
-	void Destroy();
-
-#pragma region Components
+	#pragma region Components
 
 	void AddComponent(Component* _component);
 	void RemoveComponent(Component* _component);
 	template <typename T>
 	T* GetComponent()
-	{
-		for (Component* _component : components)
 		{
-			if (is_same_v<decltype(_component), T*>)
+			for (Component* _component : components)
 			{
-				return dynamic_cast<T*>(_component);
+				T* _componentCast = dynamic_cast<T*>(_component);
+				if (_componentCast)
+				{
+					return _componentCast;
+				}
 			}
+
+			return nullptr;
 		}
 
-		return nullptr;
-	}
+	#pragma endregion
 
-#pragma endregion
+	#pragma region Collision
+
+	virtual void OnCollision(const CollisionData& _data) {}
+
+	#pragma endregion
 };

@@ -7,9 +7,10 @@
 class Tank : public MeshActor
 {
 	int life;
+	float fuelTank;
 	bool isMoving;
 	MovementComponent* movement;
-	//CollisionComponent* collisions;
+	CollisionComponent* collisions;
 	Vector2f move;
 	float speed;
 	float pitch;
@@ -24,15 +25,27 @@ public:
 		return life;
 	}
 
+	FORCEINLINE void ResetSpeed()
+	{
+		speed =  0.0f;
+	}
+	FORCEINLINE bool HasMaxSpeed() const
+	{
+		return speed == maxSpeed;
+	}
 
 public:
-	Tank(vector<Code> _code, const string& _path);
+	Tank(vector<Code> _code, const string& _path, float _fuelTank = -1.0f);
+
+	Tank(const Tank& _other);
 
 	void Construct();
 
 public:
 	virtual void BeginPlay() override;
 	virtual void Tick(const float _deltaTime) override;
+	virtual void OnCollision(const CollisionData& _data) override;
+
 
 	void ComputeDirection(const float _rotation);
 	void Right();
@@ -41,4 +54,6 @@ public:
 	void SlowDown();
 	void PlaySample();
 	void Life();
+	void UpdateFuelTank(const float _deltaTime);
+	void Refuel();
 };

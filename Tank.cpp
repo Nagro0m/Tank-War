@@ -2,17 +2,36 @@
 #include "CameraManager.h"
 #include "TimerManager.h"
 
-Tank::Tank(vector<Code> _code, const string& _path) : MeshActor(RectangleShapeData(Vector2f(60.0f, 110.0f), _path))
+Tank::Tank(vector<Code> _code, const string& _path, float _fuelTank) : MeshActor(RectangleShapeData(Vector2f(60.0f, 110.0f), _path))
 {
 	life = 100.0f;
-	isMoving = false;
+	fuelTank = _fuelTank;
+	isMoving = true;
 	movement = CreateComponent<MovementComponent>();
+	collisions = CreateComponent<CollisionComponent>("Tank", IS_ALL, CT_OVERLAP, map<string, CollisionType>{{"Rock", CT_BLOCK}});
 	speed = 1.0f;
 	pitch = 1.0f;
 	sound = nullptr;
 	rearSound = nullptr;
 	maxSpeed = 10.0f;
 	code = _code;
+
+	SetLayer(Layer::LayerType::PLAYER);
+}
+
+Tank::Tank(const Tank& _other) : MeshActor(_other)
+{
+	life = _other.life;
+	fuelTank = _other.fuelTank;
+	isMoving = _other.isMoving;
+	movement = CreateComponent<MovementComponent>(_other.movement);
+	collisions = CreateComponent<CollisionComponent>(*_other.collisions);
+	speed = _other.speed;
+	pitch = _other.pitch;
+	sound = _other.sound;
+	rearSound = _other.rearSound;
+	maxSpeed = _other.maxSpeed;
+	code = _other.code;
 }
 
 void Tank::Construct()
@@ -43,7 +62,31 @@ void Tank::Tick(const float _deltaTime)
 {
 	Super::Tick(_deltaTime);
 
-	Move(move * speed * _deltaTime * 10.0f);
+	if (isMoving)
+	{
+		Move(move * speed * _deltaTime * 10.0f);
+	}
+	if (fuelTank != -1.0f)
+	{
+		UpdateFuelTank(_deltaTime);
+	}
+}
+
+void Tank::OnCollision(const CollisionData& _data)
+{
+	if (_data.response == CT_BLOCK)
+	{
+		if (_data.other->GetLayer() == Layer::LayerType::BREAKABLE)
+		{
+			if (HasMaxSpeed())
+			{
+				_data.other->SetToDelete();
+				//LOG(Display, "crossed");
+			}
+		}
+		
+	}
+	//if(_data.response == CT_OVERLAP)
 }
 
 void Tank::ComputeDirection(const float _rotation)
@@ -122,5 +165,19 @@ void Tank::PlaySample()
 void Tank::Life()
 {
 
+}
+
+void Tank::UpdateFuelTank(const float _deltaTime)
+{
+	fuelTank = speed > 0 ? fuelTank - (maxSpeed - speed + 1)* _deltaTime : fuelTank - 1 * _deltaTime;
+	fuelTank = fuelTank <= 0 ? 0 : fuelTank;
+	if (fuelTank == 0) isMoving = false;
+	LOG(Display, to_string(fuelTank));
+}
+
+void Tank::Refuel()
+{
+	fuelTank = fuelTank + 50 > 100 ? 100 : fuelTank + 50;
+	LOG(Display, to_string(fuelTank));
 }
 

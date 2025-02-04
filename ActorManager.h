@@ -40,7 +40,7 @@ public:
 
 		_actor->BeginDestroy();
 	}
-	// duck_1
+
 	FORCEINLINE string GetAvailableName(const string& _name, const int _index = 1)
 	{
 		// Je rajoute "_index" au nom actuel
