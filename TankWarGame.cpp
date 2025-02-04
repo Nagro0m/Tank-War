@@ -1,8 +1,16 @@
 #include "TankWarGame.h"
 #include "AudioManager.h"
-using namespace Tank;
+
 TankWarGame::TankWarGame()
 {
+	background = nullptr;
+	music = nullptr;
+	label = nullptr;
+	player1Tank = nullptr;
+	player2Tank = nullptr;
+	cameraMainMenu = nullptr;
+	cameraPlayer1 = nullptr;
+	cameraPlayer2 = nullptr;
 }
 
 TankWarGame::~TankWarGame()
@@ -13,15 +21,50 @@ void TankWarGame::Start()
 {
 	level = Level();
 	level.GenerateLevel();
-	MainMenu();
-	//TankCreation _tank = TankCreation();
-	//_tank.CreateTank();
+	//MainMenu();
+
+	vector<Code> _tank1 =
+	{
+		Code::A,
+		Code::D,
+		Code::W,
+		Code::S,
+	};
+	vector<Code> _tank2 =
+	{
+		Code::Left,
+		Code::Right,
+		Code::Up ,
+		Code::Down,
+	};
+
+	player1Tank = Level::SpawnActor(Tank(_tank1, "Tank/Tank_1"));
+	player2Tank = Level::SpawnActor(Tank(_tank2, "Tank/Tank_2"));
+
+	cameraPlayer1 = Camera::M_CAMERA.CreateCamera(CameraActor(Vector2f(), Vector2f(1920 / 2, 1080), "TankCamera1"));
+	cameraPlayer1->SetTarget(player1Tank);
+	Camera::M_CAMERA.SetCurrent(cameraPlayer1);
+	Camera::M_CAMERA.GetCurrent()->SetViewport({Vector2f(0,0), Vector2f(0.5f, 1)});
+
+	cameraPlayer2 = Camera::M_CAMERA.CreateCamera(CameraActor(Vector2f(), Vector2f(1920 / 2, 1080), "TankCamera2"));
+	cameraPlayer2->SetTarget(player2Tank);
+	Camera::M_CAMERA.SetCurrent(cameraPlayer2);
+	Camera::M_CAMERA.GetCurrent()->SetViewport({ Vector2f(0.5f,0), Vector2f(0.5f, 1) });
+
+
+	player1Tank->SetPosition(Vector2f(300, 300));
+
+	MeshActor* _bar = CreateActors(Vector2f(100.0f, 0), "Menu/Separation", Vector2f(1920 / 2  , 1080), false, 0.0f);
+
+
 	Super::Start();
 }
 
 bool TankWarGame::Update()
 {
 	Super::Update();
+
+
 
 	return IsOver();
 }

@@ -33,16 +33,20 @@ namespace MyInput
         }
     };
 
-
     class InputManager : public Singleton<InputManager>
     {
-
         vector<InputData> inputData;
+        unordered_map<Code, bool> keyStates;
+
     public:
         void ConsumeData(RenderWindow& _window);
 
         void BindAction(const set<Code>& _codes, const function<void()>& _callback);
         void BindAction(const Code& _codes, const function<void()>& _callback);
+        void BindActionWithState(const Code& _codes, const function<void(bool)>& _callback, bool _state);
+
     };
+
 }
+
 using namespace MyInput;

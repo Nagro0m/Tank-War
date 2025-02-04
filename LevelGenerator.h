@@ -85,6 +85,7 @@ private:
 	bool GenerateRandomElement(const Vector2f& _pos);
 	void GenerateGround();
 	int GetRandomDirection();
+	void PlaceBarbedWire();
 	friend LevelElement;
 
 	// On fait un set d'IDs pour pouvoir choisir aléatoirement un élément parmis la liste, histoire de ne pas les faire dans l'ordre du vecteur et maximiser le random

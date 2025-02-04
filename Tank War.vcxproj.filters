@@ -145,17 +145,11 @@
     <Filter Include="TankGame\Tank">
       <UniqueIdentifier>{c9eaf99b-6005-422d-b724-bcc5b93ddf7e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="TankGame\Tank\Hull">
-      <UniqueIdentifier>{630a7ba5-3e8a-4245-abef-aabd0306d871}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="TankGame\Tank\Weapon">
-      <UniqueIdentifier>{2bcbbbc2-c239-41e2-bb22-53d486efa427}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="TankGame\Tank\Track">
-      <UniqueIdentifier>{c0c0c69f-d127-4b6f-844b-b4c423b69222}</UniqueIdentifier>
-    </Filter>
     <Filter Include="TankGame\Level">
       <UniqueIdentifier>{17097058-3591-4a5b-acf8-d49ccafc1d7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fuel-Gameplay">
+      <UniqueIdentifier>{97966a44-8027-4de5-b616-42d6ecdd10f9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -288,23 +282,14 @@
     <ClCompile Include="Tank.cpp">
       <Filter>TankGame\Tank</Filter>
     </ClCompile>
-    <ClCompile Include="Track.cpp">
-      <Filter>TankGame\Tank\Track</Filter>
-    </ClCompile>
-    <ClCompile Include="Hull.cpp">
-      <Filter>TankGame\Tank\Hull</Filter>
-    </ClCompile>
-    <ClCompile Include="Weapon.cpp">
-      <Filter>TankGame\Tank\Weapon</Filter>
-    </ClCompile>
     <ClCompile Include="LevelGenerator.cpp">
       <Filter>TankGame\Level</Filter>
     </ClCompile>
-    <ClCompile Include="TankCreation.cpp">
-      <Filter>TankGame\Tank</Filter>
+    <ClCompile Include="FuelGameplay.cpp">
+      <Filter>Fuel-Gameplay</Filter>
     </ClCompile>
-    <ClCompile Include="TankPart.cpp">
-      <Filter>TankGame</Filter>
+    <ClCompile Include="MeshTest.cpp">
+      <Filter>Fuel-Gameplay</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -458,26 +443,20 @@
     <ClInclude Include="RenderType.h">
       <Filter>Scripts\Managers\HUD</Filter>
     </ClInclude>
-    <ClInclude Include="Hull.h">
-      <Filter>TankGame\Tank\Hull</Filter>
-    </ClInclude>
     <ClInclude Include="Tank.h">
       <Filter>TankGame\Tank</Filter>
-    </ClInclude>
-    <ClInclude Include="Weapon.h">
-      <Filter>TankGame\Tank\Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="Track.h">
-      <Filter>TankGame\Tank\Track</Filter>
     </ClInclude>
     <ClInclude Include="LevelGenerator.h">
       <Filter>TankGame\Level</Filter>
     </ClInclude>
-    <ClInclude Include="TankCreation.h">
-      <Filter>TankGame\Tank</Filter>
+    <ClInclude Include="FuelGameplay.h">
+      <Filter>Fuel-Gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="TankPart.h">
-      <Filter>TankGame</Filter>
+    <ClInclude Include="MeshTest.h">
+      <Filter>Fuel-Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Layer.h">
+      <Filter>Scripts\Resource Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,10 +1,13 @@
-#pragma once
+ï»¿#pragma once
 #include "Core.h"
 #include "TransformableModifier.h"
 #include "TransformableViewer.h"
 #include "Component.h"
 #include "RootComponent.h"
+#include "Layer.h"
 
+
+struct CollisionData;
 class Actor : public Core, public ITransformableModifier, public ITransformableViewer
 {
 	bool isToDelete;
@@ -17,6 +20,7 @@ class Actor : public Core, public ITransformableModifier, public ITransformableV
 	shared_ptr<Actor> parent;
 	AttachmentType attachment;
 	set<shared_ptr<Actor>> children;
+	Layer::LayerType layer;
 
 protected:
 	template <typename Type, typename ...Args, IS_BASE_OF(Component, Type)>
@@ -43,6 +47,10 @@ public:
 	{
 		lifeSpan = _lifeSpan;
 	}
+	FORCEINLINE void SetLayer(Layer::LayerType _layer)
+	{
+		layer = _layer;
+	}
 	FORCEINLINE bool IsToDelete() const
 	{
 		return isToDelete;
@@ -58,6 +66,10 @@ public:
 	FORCEINLINE string GetDisplayName() const
 	{
 		return displayName;
+	}
+	FORCEINLINE Layer::LayerType GetLayer() const
+	{
+		return layer;
 	}
 
 #pragma region Children
@@ -77,9 +89,9 @@ private:
 	{
 		const vector<function<Vector2f()>>& _computePosition =
 		{
-			// Keep the child’s relative position to the parent.
+			// Keep the childï¿½s relative position to the parent.
 			[&]() { return _child->GetPosition() - GetPosition(); },
-			// Keep the child’s world position.
+			// Keep the childï¿½s world position.
 			[&]() { return _child->GetPosition(); },
 			// Snap the child to the parent's position.
 			[&]() { return GetPosition(); },
@@ -92,9 +104,9 @@ private:
 	{
 		const vector<function<Angle()>>& _computeRotation =
 		{
-			// Keep the child’s relative rotation to the parent.
+			// Keep the childï¿½s relative rotation to the parent.
 			[&]() { return _child->GetRotation() - GetRotation(); },
-			// Keep the child’s world rotation.
+			// Keep the childï¿½s world rotation.
 			[&]() { return _child->GetRotation(); },
 			// Snap the child to the parent's rotation.
 			[&]() { return GetRotation(); },
@@ -107,9 +119,9 @@ private:
 	{
 		const vector<function<Vector2f()>>& _computeScale =
 		{
-			// Keep the child’s relative scale to the parent.
+			// Keep the childï¿½s relative scale to the parent.
 			[&]() { return _child->GetScale() - GetScale(); },
-			// Keep the child’s world scale.
+			// Keep the childï¿½s world scale.
 			[&]() { return _child->GetScale(); },
 			// Snap the child to the parent's scale.
 			[&]() { return GetScale(); },
@@ -263,8 +275,6 @@ public:
 	virtual void Tick(const float _deltaTime) override;
 	virtual void BeginDestroy() override;
 
-	void Destroy();
-
 #pragma region Components
 
 	void AddComponent(Component* _component);
@@ -274,14 +284,23 @@ public:
 	{
 		for (Component* _component : components)
 		{
-			if (is_same_v<decltype(_component), T*>)
+			T* _componentCast = dynamic_cast<T*>(_component);
+			if (_componentCast)
 			{
-				return dynamic_cast<T*>(_component);
+				return _componentCast;
 			}
 		}
 
 		return nullptr;
 	}
+
+#pragma endregion
+
+#pragma region Collision
+
+	virtual void OnCollisionEnter(const CollisionData& _data) {}
+	virtual void OnCollisionUpdate(const CollisionData& _data) {}
+	virtual void OnCollisionExit(const Actor* _other) {}
 
 #pragma endregion
 };
