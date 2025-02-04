@@ -4,8 +4,14 @@
 
 class MeshTest : public MeshActor
 {
-	CollisionComponent* collisions;
+	CollisionComponent* collision;
 public:
+	FORCEINLINE CollisionComponent* GetCollision() const
+	{
+		return collision;
+	}
+
+
 	MeshTest(const RectangleShapeData& _data, const string& _name = "MeshTest");
 	MeshTest(const MeshTest& _other);
 

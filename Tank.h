@@ -10,7 +10,7 @@ class Tank : public MeshActor
 	float fuelTank;
 	bool isMoving;
 	MovementComponent* movement;
-	CollisionComponent* collisions;
+	CollisionComponent* collision;
 	Vector2f move;
 	float speed;
 	float pitch;
@@ -19,6 +19,12 @@ class Tank : public MeshActor
 	float maxSpeed;
 	vector<Code> code;
 public:
+	FORCEINLINE CollisionComponent* GetCollision() const
+	{
+		return collision;
+	}
+
+
 	FORCEINLINE void ResetSpeed()
 	{
 		speed =  0.0f;

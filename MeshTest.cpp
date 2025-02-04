@@ -4,13 +4,13 @@
 
 MeshTest::MeshTest(const RectangleShapeData& _data, const string& _name) : MeshActor(_data, _name)
 {
-	collisions = CreateComponent<CollisionComponent>("Rock", IS_ALL, CT_BLOCK, map<string, CollisionType>{{"Tank", CT_OVERLAP}});
+	collision = CreateComponent<CollisionComponent>("Rock", IS_ALL, CT_BLOCK);
 	SetLayer(Layer::LayerType::BREAKABLE);
 }
 
 MeshTest::MeshTest(const MeshTest& _other) : MeshActor(_other)
 {
-	collisions = CreateComponent<CollisionComponent>(*_other.collisions);
+	collision = CreateComponent<CollisionComponent>(*_other.collision);
 }
 
 void MeshTest::OnCollision(const CollisionData& _data)

@@ -1,12 +1,11 @@
 #include "CollisionComponent.h"
 #include "ActorManager.h"
 
-CollisionComponent::CollisionComponent(Actor* _owner, string _channelName, int _status, CollisionType _type, map<string, CollisionType> _responses) : Component (_owner)
+CollisionComponent::CollisionComponent(Actor* _owner, string _channelName, int _status, CollisionType _type) : Component (_owner)
 {
 	channelName = _channelName;
 	type = _type;
 	status = _status;
-	responses = _responses;
 }
 
 CollisionComponent::CollisionComponent(Actor* _owner, const CollisionComponent& _other) : Component(_owner)
@@ -45,8 +44,15 @@ void CollisionComponent::CheckCollision()
 			if (const optional<FloatRect> _intersection = _ownerRect.findIntersection(_otherRect))
 			{
 				const CollisionData& _data = { _other, _response, *_intersection };
-				owner->OnCollision(_data);
+				owner->OnCollision(_data); // si step = ENTER -> enter sinon update;
 				_other->OnCollision(_data);
+				//add set actor owner
+			}
+			else
+			{
+				//si il n'y a pas eu de collision et que l'_other est présent dans setActor -> OnCollision(_data)
+				// Set_other.erase(owner)
+				//une fois executer -> NONE
 			}
 		}
 	}

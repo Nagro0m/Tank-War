@@ -8,7 +8,7 @@ Tank::Tank(vector<Code> _code, const string& _path, float _fuelTank) : MeshActor
 	fuelTank = _fuelTank;
 	isMoving = true;
 	movement = CreateComponent<MovementComponent>();
-	collisions = CreateComponent<CollisionComponent>("Tank", IS_ALL, CT_OVERLAP, map<string, CollisionType>{{"Rock", CT_BLOCK}});
+	collision = CreateComponent<CollisionComponent>("Tank", IS_ALL, CT_OVERLAP);
 	speed = 1.0f;
 	pitch = 1.0f;
 	sound = nullptr;
@@ -25,7 +25,7 @@ Tank::Tank(const Tank& _other) : MeshActor(_other)
 	fuelTank = _other.fuelTank;
 	isMoving = _other.isMoving;
 	movement = CreateComponent<MovementComponent>(_other.movement);
-	collisions = CreateComponent<CollisionComponent>(*_other.collisions);
+	collision = CreateComponent<CollisionComponent>(*_other.collision);
 	speed = _other.speed;
 	pitch = _other.pitch;
 	sound = _other.sound;
@@ -74,6 +74,10 @@ void Tank::Tick(const float _deltaTime)
 
 void Tank::OnCollision(const CollisionData& _data)
 {
+	//si _data.owner dans setActor -> update
+	//sinon enter;
+
+
 	if (_data.response == CT_BLOCK)
 	{
 		if (_data.other->GetLayer() == Layer::LayerType::BREAKABLE)
@@ -84,9 +88,15 @@ void Tank::OnCollision(const CollisionData& _data)
 				//LOG(Display, "crossed");
 			}
 		}
-		
 	}
-	//if(_data.response == CT_OVERLAP)
+
+	if (_data.response == CT_OVERLAP)
+	{
+		if (_data.other->GetLayer() == Layer::LayerType::RETRIEVABLE)
+		{
+
+		}
+	}
 }
 
 void Tank::ComputeDirection(const float _rotation)
