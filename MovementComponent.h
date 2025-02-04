@@ -11,6 +11,14 @@ public:
 	{
 		speed = _speed;
 	}
+	FORCEINLINE float GetSpeed()
+	{
+		return speed;
+	}
+	FORCEINLINE void SetDirection(const Vector2f& _direction)
+	{
+		direction = _direction;
+	}
 	
 public:
 	MovementComponent(Actor* _owner);

@@ -41,4 +41,5 @@ public:
 	void SlowDown();
 	void PlaySample();
 	void Life();
+	void SpawnEffect();
 };

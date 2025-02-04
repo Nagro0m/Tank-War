@@ -76,21 +76,4 @@ void GameMode::InitializeDuo()
 	Camera::M_CAMERA.SetCurrent(cameraPlayer2);
 	Camera::M_CAMERA.GetCurrent()->SetViewport({ Vector2f(0.5,0), Vector2f(0.5, 1) });
 
-
-	//UI::Image* _image = M_HUD.CreateWidget<UI::Image>("TEST", RectangleShapeData(Vector2f(10, 1080), "Menu/Black"), Screen);
-	//_image->SetPosition(Vector2f(955, 0));
-	//M_HUD.AddToViewport(_image);
-
-	//Vector2f _lifeSize = Vector2f(375, 57.5);
-	//UI::Image* _life = M_HUD.CreateWidget<UI::Image>("TEST", RectangleShapeData(_lifeSize, "Menu/Life",
-	//	PNG, false, { Vector2i(), Vector2i(500, 71) }), Screen);
-	//_life->SetPosition(Vector2f(50, 20));
-	//M_HUD.AddToViewport(_life);
-
-	//UI::Image* _life2 = M_HUD.CreateWidget<UI::Image>("TEST", RectangleShapeData(_lifeSize, "Menu/LifeGreen",
-	//	PNG, false, { Vector2i(), Vector2i(500, 71) }), Screen);
-	//_life2->SetPosition(Vector2f(1920 - _lifeSize.x - 50, 20));
-	//M_HUD.AddToViewport(_life2);
-
-
 }
