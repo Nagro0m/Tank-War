@@ -4,10 +4,10 @@
 
 enum InteractStatus
 {
-	IS_NONE,
-	IS_QUERY,
-	IS_PHYSIC,
-	IS_ALL
+	IS_NONE = 0,
+	IS_QUERY = 1 << 0,
+	IS_PHYSIC = 1 << 1,
+	IS_ALL = IS_QUERY | IS_PHYSIC
 };
 
 enum CollisionType
@@ -27,9 +27,9 @@ struct CollisionData
 class CollisionComponent : public Component
 {
 	string channelName;
-	InteractStatus status;
+	int status;
 	CollisionType type; // Réponse par défaut
-	map<string, CollisionType> responses;
+	map<string, CollisionType> responses; //Layer a la place du string
 
 public:
 	FORCEINLINE string GetChannelName() const
@@ -38,7 +38,7 @@ public:
 	}
  
 public:
-	CollisionComponent(Actor* _owner);
+	CollisionComponent(Actor* _owner, string _channelName, int _status, CollisionType _type, map<string, CollisionType> _responses);
 	CollisionComponent(Actor* _owner, const CollisionComponent& _other);
 
 protected:

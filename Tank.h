@@ -19,7 +19,14 @@ class Tank : public MeshActor
 	float maxSpeed;
 	vector<Code> code;
 public:
-
+	FORCEINLINE void ResetSpeed()
+	{
+		speed =  0.0f;
+	}
+	FORCEINLINE bool HasMaxSpeed() const
+	{
+		return speed == maxSpeed;
+	}
 
 public:
 	Tank(vector<Code> _code, const string& _path, float _fuelTank = -1.0f);

@@ -8,14 +8,15 @@ Tank::Tank(vector<Code> _code, const string& _path, float _fuelTank) : MeshActor
 	fuelTank = _fuelTank;
 	isMoving = true;
 	movement = CreateComponent<MovementComponent>();
-	//collisions = CreateComponent<CollisionComponent>(AT_PLAYER, CT_OVERLAP,LT_DYNAMIC
-	//	, set<ActorType>{ AT_PLAYER }, [&]() {LOG(Display, "TankCollision"); });
+	collisions = CreateComponent<CollisionComponent>("Tank", IS_ALL, CT_OVERLAP, map<string, CollisionType>{{"Rock", CT_BLOCK}});
 	speed = 1.0f;
 	pitch = 1.0f;
 	sound = nullptr;
 	rearSound = nullptr;
 	maxSpeed = 10.0f;
 	code = _code;
+
+	SetLayer(Layer::LayerType::PLAYER);
 }
 
 Tank::Tank(const Tank& _other) : MeshActor(_other)
@@ -77,10 +78,15 @@ void Tank::OnCollision(const CollisionData& _data)
 	{
 		if (_data.other->GetLayer() == Layer::LayerType::BREAKABLE)
 		{
-
+			if (HasMaxSpeed())
+			{
+				_data.other->SetToDelete();
+				//LOG(Display, "crossed");
+			}
 		}
-
+		
 	}
+	//if(_data.response == CT_OVERLAP)
 }
 
 void Tank::ComputeDirection(const float _rotation)

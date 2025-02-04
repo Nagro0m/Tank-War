@@ -18,6 +18,7 @@ Actor::Actor(const Actor& _actor)
 	isToDelete = _actor.isToDelete;
 	lifeSpan = _actor.lifeSpan;
 	root = CreateComponent<RootComponent>(_actor.root);
+	layer = _actor.layer;
 }
 
 Actor::~Actor()

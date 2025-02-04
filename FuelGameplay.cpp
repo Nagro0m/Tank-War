@@ -26,7 +26,7 @@ void FuelGameplay::Start()
 		Code::S,
 	};
 
-	player1Tank = Level::SpawnActor(Tank(_tank1, "Tank/Tank_1", 100.0f));
+	player1Tank = Level::SpawnActor(Tank(_tank1, "Tank/Tank_1"));
 	player1Tank->SetPosition({ 600.0f, 600.0f });
 
 	MeshTest* _meshTest = Level::SpawnActor<MeshTest>(MeshTest(RectangleShapeData({100.0f,100.0f}, "Object/Rock_4")));
