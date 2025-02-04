@@ -299,6 +299,9 @@ public:
 	#pragma region Collision
 
 	virtual void OnCollision(const CollisionData& _data) {}
+	//enter
+	//update
+	//exit
 
 	#pragma endregion
 };

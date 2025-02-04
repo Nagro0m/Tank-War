@@ -17,6 +17,14 @@ enum CollisionType
 	CT_BLOCK
 };
 
+enum CollisionStep
+{
+	ENTER,
+	UPDATE, 
+	EXIT, 
+	NONE
+};
+
 struct CollisionData
 {
 	Actor* other;
