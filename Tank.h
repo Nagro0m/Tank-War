@@ -17,6 +17,7 @@ class Tank : public MeshActor
 	SoundSample* rearSound;
 	float maxSpeed;
 	vector<Code> code;
+
 public:
 
 

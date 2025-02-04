@@ -1,10 +1,10 @@
 #pragma once
 #include "Game.h"
-#include "MeshActor.h"
 #include "MusicSample.h"
 #include "Level.h"
 #include "Label.h"
 #include "Tank.h"
+#include "TankCreation.h"
 #include "CameraManager.h"
 
 using namespace UI;
@@ -21,7 +21,7 @@ class TankWarGame : public Game
 	CameraActor* cameraMainMenu;
 	CameraActor* cameraPlayer1;
 	CameraActor* cameraPlayer2;
-
+	TankCreation* tankCreation;
 	
 public:
 	TankWarGame();

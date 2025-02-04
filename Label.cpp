@@ -10,7 +10,7 @@ UI::Label::Label(const string& _text, const RenderType& _type, const string& _pa
 
 UI::Label::~Label()
 {
-	delete text;
+	//delete text;
 }
 
 

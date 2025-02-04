@@ -148,6 +148,18 @@
     <Filter Include="TankGame\Level">
       <UniqueIdentifier>{17097058-3591-4a5b-acf8-d49ccafc1d7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TankGame\TankCreation">
+      <UniqueIdentifier>{64f45774-48a5-4724-b16b-351ef5a2d598}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TankGame\TankCreation\Track">
+      <UniqueIdentifier>{072bacca-44da-462e-833f-f64d04c0ab2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TankGame\TankCreation\Hull">
+      <UniqueIdentifier>{aac3a4f9-ef7e-4cfc-97d6-da9a280402eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TankGame\TankCreation\Weapon">
+      <UniqueIdentifier>{06686ab6-ad14-4da3-b3a6-ab73eb9317df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TextObject.cpp">
@@ -281,6 +293,18 @@
     </ClCompile>
     <ClCompile Include="LevelGenerator.cpp">
       <Filter>TankGame\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="TankCreation.cpp">
+      <Filter>TankGame\TankCreation</Filter>
+    </ClCompile>
+    <ClCompile Include="Hull.cpp">
+      <Filter>TankGame\TankCreation\Hull</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>TankGame\TankCreation\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Track.cpp">
+      <Filter>TankGame\TankCreation\Track</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -439,6 +463,18 @@
     </ClInclude>
     <ClInclude Include="LevelGenerator.h">
       <Filter>TankGame\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="TankCreation.h">
+      <Filter>TankGame\TankCreation</Filter>
+    </ClInclude>
+    <ClInclude Include="Hull.h">
+      <Filter>TankGame\TankCreation\Hull</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>TankGame\TankCreation\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Track.h">
+      <Filter>TankGame\TankCreation\Track</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

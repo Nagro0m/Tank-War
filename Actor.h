@@ -155,6 +155,7 @@ public:
 	}
 	FORCEINLINE void RemoveParentForAllChildren()
 	{
+		if (children.empty()) return;
 		set<Actor*>::iterator _it;
 		for (_it = children.begin(); _it != children.end(); _it++)
 		{

@@ -15,6 +15,7 @@ TankWarGame::TankWarGame()
 
 TankWarGame::~TankWarGame()
 {
+	delete tankCreation;
 }
 
 void TankWarGame::Start()
@@ -52,22 +53,15 @@ void TankWarGame::Start()
 	//Camera::M_CAMERA.GetCurrent()->SetViewport({ Vector2f(0.5f,0), Vector2f(0.5f, 1) });
 	//player1Tank->SetPosition(Vector2f(300, 300));
 	//MeshActor* _bar = CreateActors(Vector2f(100.0f, 0), "Menu/Separation", Vector2f(1920 / 2  , 1080), false, 0.0f);
+	
+	tankCreation = new TankCreation();
+	tankCreation->Start();
+	//player1Tank = Level::SpawnActor(tankCreation->GetTank());
+	//cameraPlayer1 = Camera::M_CAMERA.CreateCamera(CameraActor(Vector2f(), Vector2f(1920 / 2, 1080), "TankCamera1"));
+	//cameraPlayer1->SetTarget(player1Tank);
+	//Camera::M_CAMERA.SetCurrent(cameraPlayer1);
+	//Camera::M_CAMERA.GetCurrent()->SetViewport({Vector2f(0,0), Vector2f(0.5f, 1)});
 
-
-
-	MeshActor* _actor = Level::SpawnActor(MeshActor(50.0f, 30, "Object/Root_1"));
-	MeshActor* _actor2 = Level::SpawnActor(MeshActor(20.0f, 30, "Object/Root_2"));
-	_actor->SetPosition(Vector2f(10.0f, 10.0f));
-
-	_actor->AddChild(_actor2, AT_SNAP_TO_TARGET);
-
-
-	cameraPlayer2 = Camera::M_CAMERA.CreateCamera(CameraActor(Vector2f(), Vector2f(1920 / 2, 1080), "TankCamera2"));
-	cameraPlayer2->SetTarget(_actor);
-	Camera::M_CAMERA.SetCurrent(cameraPlayer2);
-
-	_actor->Destroy();
-	_actor2->Rotate(degrees(50.0f));
 
 	Super::Start();
 }
@@ -75,8 +69,6 @@ void TankWarGame::Start()
 bool TankWarGame::Update()
 {
 	Super::Update();
-
-
 
 	return IsOver();
 }
