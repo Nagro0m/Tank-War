@@ -72,6 +72,7 @@ void Actor::BeginDestroy()
 
 void Actor::Destroy()
 {
+	RemoveParentForAllChildren();
 	SetToDelete();
 }
 

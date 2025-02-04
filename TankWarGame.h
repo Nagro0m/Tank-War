@@ -1,9 +1,10 @@
 #pragma once
 #include "Game.h"
-#include "MeshActor.h"
 #include "MusicSample.h"
 #include "Level.h"
 #include "Label.h"
+#include "Tank.h"
+#include "TankCreation.h"
 #include "CameraManager.h"
 #include "GameMode.h"
 #include "GameHUD.h"
@@ -21,7 +22,7 @@ class TankWarGame : public Game
 	GameMode* gameMode;
 	GameHUD* gameHUD;
 	float playersCount;
-
+	TankCreation* tankCreation;
 
 	
 public:

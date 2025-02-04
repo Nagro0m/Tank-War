@@ -10,7 +10,24 @@ namespace UI
 
 	public:
 #pragma region Modifier
+		FORCEINLINE void SetString(const string& _text)
+		{
+			text->GetDrawable()->setString(_text);
+		}
+		FORCEINLINE void SetColor(const Color& _color)
+		{
+			text->GetDrawable()->setFillColor(_color);
+		}
+		FORCEINLINE void SetCharacterSize(const u_int& _size)
+		{
+			text->GetDrawable()->setCharacterSize(_size);
+		}
 
+		FORCEINLINE void SetOriginAtMiddle()
+		{
+			FloatRect _bounds = text->GetDrawable()->getGlobalBounds();
+			SetOrigin(_bounds.size/ 2.0f);
+		}
 		FORCEINLINE virtual void SetPosition(const Vector2f& _position) override
 		{
 			Super::SetPosition(_position);

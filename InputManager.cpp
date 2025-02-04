@@ -1,4 +1,5 @@
 #include "InputManager.h"
+#include "CameraManager.h"
 
 void  MyInput::InputManager::ConsumeData(RenderWindow& _window)
 {
@@ -9,7 +10,27 @@ void  MyInput::InputManager::ConsumeData(RenderWindow& _window)
             _window.close();
         }
 
-        else if (const Event::KeyPressed* _key = _event->getIf<Event::KeyPressed>())
+        if (const Event::KeyPressed* _key = _event->getIf<Event::KeyPressed>())
+        {
+            if (_key->code == Keyboard::Key::Up)
+            {
+                Camera::M_CAMERA.GetCurrent()->Move(Vector2f(0.0f, -50.0f));
+            }
+            else if (_key->code == Keyboard::Key::Down)
+            {
+                Camera::M_CAMERA.GetCurrent()->Move(Vector2f(0.0f, 50.0f));
+            }
+            else if (_key->code == Keyboard::Key::Left)
+            {
+                Camera::M_CAMERA.GetCurrent()->Move(Vector2f(-50.0f, 0.0f));
+            }
+            else if (_key->code == Keyboard::Key::Right)
+            {
+                Camera::M_CAMERA.GetCurrent()->Move(Vector2f(50.0f, 0.0f));
+            }
+        }
+
+        if (const Event::KeyPressed* _key = _event->getIf<Event::KeyPressed>())
         {
             keyStates[_key->scancode] = true;
 

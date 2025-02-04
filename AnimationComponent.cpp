@@ -23,7 +23,6 @@ AnimationComponent::~AnimationComponent()
 	}
 }
 
-
 void AnimationComponent::AddAnimation(Animation* _animation)
 {
 	const string& _animationName = _animation->GetName();
