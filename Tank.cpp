@@ -114,7 +114,6 @@ void Tank::SpeedUp()
 
 	if (_speed >= 100.0f) return;
 
-	// Arrêter le son de recul dès qu'on accélère
 	if (rearSound)
 	{
 		rearSound->Stop();
@@ -123,14 +122,12 @@ void Tank::SpeedUp()
 
 	movement->SetSpeed(_speed + 10.0f);
 
-	// Jouer le son de changement de vitesse et ajuster la tonalité
 	if (sound)
 	{
 		M_AUDIO.PlaySample<SoundSample>("Gear_Shift");
 		if (pitch <= 1.9f)
 		{
 			pitch += 0.1f;
-			cout << pitch << endl;
 		}
 		sound->SetPitch(pitch);
 	}
@@ -140,7 +137,6 @@ void Tank::SlowDown()
 {
 	float _speed = movement->GetSpeed();
 
-	// Vérifier si on atteint la limite arrière
 	if (_speed <= -10.0f)
 	{
 		_speed = -10.0f;
@@ -153,7 +149,6 @@ void Tank::SlowDown()
 	movement->SetSpeed(_speed);
 	isMoving = (_speed != 0);
 
-	// Jouer le son de recul immédiatement en marche arrière
 	if (_speed < 0)
 	{
 		if (!rearSound)
@@ -167,7 +162,6 @@ void Tank::SlowDown()
 		rearSound = nullptr;
 	}
 
-	// Jouer le son de changement de vitesse et ajuster la tonalité
 	if (sound)
 	{
 		M_AUDIO.PlaySample<SoundSample>("Gear_Shift");

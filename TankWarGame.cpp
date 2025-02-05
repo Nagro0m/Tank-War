@@ -30,10 +30,10 @@ void TankWarGame::Start()
 {
 	level = Level();
 	level.GenerateLevel();
-	////MainMenu();
+	MainMenu();
 
-	gameMode->Initialize();
-	gameHUD->Initialize();
+	//gameMode->Initialize();
+	//gameHUD->Initialize();
 
 	tankCreation = new TankCreation();
 	//tankCreation->Start();
@@ -60,6 +60,8 @@ void TankWarGame::MainMenu()
 
 	cameraMainMenu = Camera::M_CAMERA.CreateCamera(CameraActor(Vector2f(), Vector2f(2304, 1296), "TankCamera"));
 	cameraMainMenu->SetTarget(uiAssets["Menu/Middle"]);
+	//M_INPUT.BindActionWithState(Code::Enter, bind(&TankCreation::PreviousOption, this), true);
+
 }
 
 void TankWarGame::GenerateMainMenu()
