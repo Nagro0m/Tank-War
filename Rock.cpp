@@ -5,6 +5,7 @@
 Rock::Rock(const RectangleShapeData& _data) : MeshActor(_data, "Rock")
 {
 	SetLayer(Layer::LayerType::BREAKABLE);
+
 }
 
 void Rock::BeginPlay()

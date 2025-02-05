@@ -203,4 +203,3 @@ void LevelGenerator::PlaceBarbedWire()
 		_barbed2->GetComponent<CollisionComponent>()->AddResponses(_responsesMesh);
 	}
 }
-
