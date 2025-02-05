@@ -8,46 +8,53 @@
 
 void Level::GenerateLevel()
 {
-	LevelGenerator _generator = LevelGenerator(this, 3840, 2160, 106);
-	//LevelGenerator _generator = LevelGenerator(this, 1920, 1080, 106);
+    LevelGenerator _generator(this, 3840, 2160, 106);
 
-	vector<LevelElement<MeshActor>*> _groundVariants;
-	LevelElement<MeshActor>* _ground = new LevelElement(new MeshActor(RectangleShapeData({ 180.0f, 180.0f }, "Object/Grounds_3")), _groundVariants);
-	_generator.SetGround(_ground, { 120, 120 });
+    // Ground element (idem dans les deux codes)
+    vector<LevelElement<MeshActor>*> _groundVariants;
+    LevelElement<MeshActor>* _ground = new LevelElement<MeshActor>(new MeshActor(RectangleShapeData({ 180.0f, 180.0f }, "Object/Grounds_3")), _groundVariants);
+    _generator.SetGround(_ground, { 120, 120 });
 
-	vector<LevelElement<Tree>*> _treeVariants;
-	const Vector2f& _size = Vector2f(80.0f, 80.0f);
-	_treeVariants.push_back(new LevelElement(new Tree(RectangleShapeData(_size, "Object/Tree_4")), 2));
-	_treeVariants.push_back(new LevelElement(new Tree(RectangleShapeData(_size, "Object/Tree_3")), 2));
-	_treeVariants.push_back(new LevelElement(new Tree(RectangleShapeData(_size, "Object/Tree_2")), 2));
-	LevelElement<Tree>* _tree = new LevelElement(new Tree(RectangleShapeData(_size, "Object/Tree_1")), 10, _treeVariants);
+    // Tree elements with variants (adapté à partir de l'ancien code)
+    vector<LevelElement<MeshActor>*> _treeVariants;
+    const Vector2f _size(80.0f, 80.0f);  // Taille pour les arbres
+    _treeVariants.push_back(new LevelElement<MeshActor>(new Tree(RectangleShapeData(_size, "Object/Tree_4")), 2));
+    _treeVariants.push_back(new LevelElement<MeshActor>(new Tree(RectangleShapeData(_size, "Object/Tree_3")), 2));
+    _treeVariants.push_back(new LevelElement<MeshActor>(new Tree(RectangleShapeData(_size, "Object/Tree_2")), 2));
+    LevelElement<MeshActor>* _tree = new LevelElement<MeshActor>(new Tree(RectangleShapeData(_size, "Object/Tree_1")), 10, _treeVariants);
 
-	vector<LevelElement<Grass>*> _grassVariants;
-	const Vector2f& _grassSize = Vector2f(30.0f, 30.0f);
-	_grassVariants.push_back(new LevelElement(new Grass(RectangleShapeData(_grassSize, "Object/Grass_2")), 2));
-	LevelElement<Grass>* _grass = new LevelElement(new Grass(RectangleShapeData(_grassSize, "Object/Grass_1")), 5, _grassVariants);
-			
+    // Grass elements with variants (adapté à partir de l'ancien code)
+    vector<LevelElement<MeshActor>*> _grassVariants;
+    const Vector2f _grassSize(30.0f, 30.0f);  // Taille pour l'herbe
+    _grassVariants.push_back(new LevelElement<MeshActor>(new Grass(RectangleShapeData(_grassSize, "Object/Grass_2")), 2));
+    LevelElement<MeshActor>* _grass = new LevelElement<MeshActor>(new Grass(RectangleShapeData(_grassSize, "Object/Grass_1")), 5, _grassVariants);
 
-	vector<LevelElement<Root>*> _rootVariants;
-	const Vector2f& _rootSize = Vector2f(50.0f, 30.0f);
-	_rootVariants.push_back(new LevelElement(new Root(RectangleShapeData(_rootSize, "Object/Root_2")), 2));
-	LevelElement<Root>* _root = new LevelElement(new Root(RectangleShapeData(_rootSize, "Object/Root_1")), 1, _rootVariants);
+    // Root elements with variants (adapté à partir de l'ancien code)
+    vector<LevelElement<MeshActor>*> _rootVariants;
+    const Vector2f _rootSize(50.0f, 30.0f);  // Taille pour les racines
+    _rootVariants.push_back(new LevelElement<MeshActor>(new Root(RectangleShapeData(_rootSize, "Object/Root_2")), 2));
+    LevelElement<MeshActor>* _root = new LevelElement<MeshActor>(new Root(RectangleShapeData(_rootSize, "Object/Root_1")), 1, _rootVariants);
 
-	vector<LevelElement<Rock>*> _rockVariants;
-	const Vector2f& _rockSize = Vector2f(50.0f, 40.0f);
-	_rockVariants.push_back(new LevelElement(new Rock(RectangleShapeData(_rockSize, "Object/Rock_1")), 1));
-	_rockVariants.push_back(new LevelElement(new Rock(RectangleShapeData(_rockSize, "Object/Rock_2")), 1));
-	_rockVariants.push_back(new LevelElement(new Rock(RectangleShapeData(_rockSize, "Object/Rock_3")), 1));
-	LevelElement<Rock>* _rock = new LevelElement(new Rock(RectangleShapeData(_rockSize, "Object/Rock_4")), 3, _rockVariants);
+    // Rock elements with variants (adapté à partir de l'ancien code)
+    vector<LevelElement<MeshActor>*> _rockVariants;
+    const Vector2f _rockSize(50.0f, 40.0f);  // Taille pour les rochers
+    _rockVariants.push_back(new LevelElement<MeshActor>(new Rock(RectangleShapeData(_rockSize, "Object/Rock_1")), 1));
+    _rockVariants.push_back(new LevelElement<MeshActor>(new Rock(RectangleShapeData(_rockSize, "Object/Rock_2")), 1));
+    _rockVariants.push_back(new LevelElement<MeshActor>(new Rock(RectangleShapeData(_rockSize, "Object/Rock_3")), 1));
+    LevelElement<MeshActor>* _rock = new LevelElement<MeshActor>(new Rock(RectangleShapeData(_rockSize, "Object/Rock_4")), 3, _rockVariants);
 
-	_generator.AddGenerableElement(_tree);
-	_generator.AddGenerableElement(_rock);
-	_generator.AddGenerableElement(_grass);
-	_generator.AddGenerableElement(_root);
+    // Ajouter tous les éléments générables
+    _generator.AddGenerableElement(_tree);
+    _generator.AddGenerableElement(_rock);
+    _generator.AddGenerableElement(_grass);
+    _generator.AddGenerableElement(_root);
 
-	_generator.GenerateMap();
+    // Générer la carte
+    _generator.GenerateMap();
 }
+
 
 Level::~Level()
 {
+
 }
