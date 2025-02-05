@@ -20,7 +20,6 @@ class TankWarGame : public Game
 	map<string, MeshActor*> uiAssets;
 	CameraActor* cameraMainMenu;
 	GameMode* gameMode;
-	GameHUD* gameHUD;
 	float playersCount;
 	TankCreation* tankCreation;
 

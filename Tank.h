@@ -19,6 +19,7 @@ class Tank : public MeshActor
 	float maxSpeed;
 	vector<Code> code;
 	float distance;
+	string name;
 
 public:
 	FORCEINLINE int GetLife() const 
@@ -51,7 +52,7 @@ public:
 	}
 
 public:
-	Tank(vector<Code> _code, const string& _path, float _fuelTank = -1.0f);
+	Tank(vector<Code> _code, const string& _path, const string& _name, float _fuelTank = -1.0f);
 
 	Tank(const Tank& _other);
 
@@ -72,8 +73,8 @@ public:
 	void SlowDown();
 	void Shoot();
 	void PlaySample();
-	void Life();
+	void ChangeLife(const float _offset);
 	void UpdateFuelTank(const float _deltaTime);
 	void Refuel();
-	void SpawnEffect();
+	void SpawnTireTrack();
 };

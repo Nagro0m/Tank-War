@@ -283,9 +283,6 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <Text Include="TODOList.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Tank War.rc" />
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="Assets\Logo\AppLogo.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

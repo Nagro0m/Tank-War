@@ -192,7 +192,7 @@ void TankCreation::FinalizeTank()
     	Code::S,
     };
 
-    Tank _tank = Tank(_tank1, "tank");
+    Tank _tank = Tank(_tank1, "tank", "Player1");
     _tank.AddChild(Level::SpawnActor(tracks[trackIndex]), AT_SNAP_TO_TARGET);
     _tank.AddChild(Level::SpawnActor(hulls[hullIndex]), AT_SNAP_TO_TARGET);
     _tank.AddChild(Level::SpawnActor(weapons[weaponIndex]), AT_SNAP_TO_TARGET);

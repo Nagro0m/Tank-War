@@ -27,7 +27,7 @@ void FuelGameplay::Start()
 		Code::S,
 	};
 
-	player1Tank = Level::SpawnActor(Tank(_tank1, "Tank/Tank_1"));
+	player1Tank = Level::SpawnActor(Tank(_tank1, "Tank/Tank_1", "Player1"));
 	player1Tank->SetPosition({ 600.0f, 600.0f });
 
 	vector<pair<string, CollisionType>> _responsesTank ={{"Rock", CT_BLOCK}};

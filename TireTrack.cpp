@@ -17,7 +17,7 @@ void TireTrack::Tick(const float _deltaTime)
 {
 	Super::Tick(_deltaTime);
 
-	opacity -= 2.5;
+	opacity <= 0 ? opacity = 0 : opacity -= 2.5;
 	GetMesh()->GetShape()->GetDrawable()->setFillColor(Color(123, 63, 0, opacity));
 
 }

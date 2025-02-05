@@ -48,7 +48,7 @@ void GameMode::Initialize()
 
 void GameMode::InitializeSolo()
 {
-	player1Tank = Level::SpawnActor(Tank(inputPlayer1, "Tank/Tank_1"));
+	player1Tank = Level::SpawnActor(Tank(inputPlayer1, "Tank/Tank_1", "Player1"));
 	player1Tank->SetPosition(Vector2f(500.0f, 500.0f));
 
 	cameraSolo = Camera::M_CAMERA.CreateCamera(CameraActor(Vector2f(), Vector2f(1920, 1080), "cameraSolo"));
@@ -59,9 +59,9 @@ void GameMode::InitializeSolo()
 
 void GameMode::InitializeDuo()
 {
-	player1Tank = Level::SpawnActor(Tank(inputPlayer1, "Tank/Tank_1"));
+	player1Tank = Level::SpawnActor(Tank(inputPlayer1, "Tank/Tank_1", "Player1"));
 	player1Tank->SetPosition(Vector2f(300.0f, 300.0f));
-	player2Tank = Level::SpawnActor(Tank(inputPlayer2, "Tank/Tank_2"));
+	player2Tank = Level::SpawnActor(Tank(inputPlayer2, "Tank/Tank_2", "Player2"));
 	player2Tank->SetPosition(Vector2f(3440.0f, 1760.0f));
 
 	

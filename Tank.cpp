@@ -4,20 +4,22 @@
 #include "MeshActor.h"
 #include "Logger.h"
 #include "TireTrack.h"
+#include "GameHUD.h"
 
 
-Tank::Tank(vector<Code> _code, const string& _path, float _fuelTank) : MeshActor(RectangleShapeData(Vector2f(60.0f, 110.0f), _path))
+Tank::Tank(vector<Code> _code, const string& _path, const string& _name, float _fuelTank) : MeshActor(RectangleShapeData(Vector2f(60.0f, 110.0f), _path))
 {
 	life = 100.0f;
 	fuelTank = _fuelTank;
 	isMoving = false;
-	movement = CreateComponent<MovementComponent>(1.0f);
+	movement = CreateComponent<MovementComponent>(0.0f);
 	collision = CreateComponent<CollisionComponent>("Tank", IS_ALL, CT_OVERLAP);
 	pitch = 1.0f;
 	sound = nullptr;
 	rearSound = nullptr;
 	maxSpeed = 100.0f;
 	code = _code;
+	name = _name;
 	SetLayer(Layer::LayerType::PLAYER);
 
 	vector<pair<string, CollisionType>> _responsesTank = {{"BardedWire", CT_BLOCK}, {"Root", CT_BLOCK}, {"Grass", CT_BLOCK} , {"Tree", CT_BLOCK} ,{"Rock", CT_BLOCK} };
@@ -36,6 +38,7 @@ Tank::Tank(const Tank& _other) : MeshActor(_other)
 	rearSound = _other.rearSound;
 	maxSpeed = _other.maxSpeed;
 	code = _other.code;
+	name = _other.name;
 	distance = 0.0f;
 }
 
@@ -56,6 +59,7 @@ void Tank::Construct()
 	M_INPUT.BindAction({ code[4] }, bind(&Tank::Shoot, this));
 
 	ComputeDirection(0.0f);
+	M_GAMEHUD.ChangeLifeBarWithLife(name, life);
 }
 
 void Tank::BeginPlay()
@@ -76,7 +80,7 @@ void Tank::Tick(const float _deltaTime)
 	}
 
 	distance += (1) * movement->GetSpeed();
-	SpawnEffect();
+	SpawnTireTrack();
 }
 
 void Tank::CollisionEnter(const CollisionData& _data)
@@ -102,7 +106,7 @@ void Tank::CollisionEnter(const CollisionData& _data)
 	}
 	
 	distance += (1 ) * movement->GetSpeed();
-	SpawnEffect();
+	SpawnTireTrack();
 }
 
 void Tank::CollisionUpdate(const CollisionData& _data)
@@ -121,6 +125,7 @@ void Tank::ComputeDirection(const float _rotation)
 	float _radians = (GetRotation().asDegrees() - 90.0f) * pi / 180.0f;
 	Vector2f _direction = Vector2f(cos(_radians), sin(_radians));
 	movement->SetDirection(_direction);
+
 }
 
 void Tank::Right()
@@ -218,9 +223,10 @@ void Tank::PlaySample()
 	sound->SetLoop(true);
 }
 
-void Tank::Life()
+void Tank::ChangeLife(const float _offset)
 {
-
+	life = clamp(life + _offset, 0.0f, 100.0f);
+	M_GAMEHUD.ChangeLifeBarWithLife(name, life);
 }
 
 void Tank::UpdateFuelTank(const float _deltaTime)
@@ -238,13 +244,13 @@ void Tank::Refuel()
 	LOG(Display, to_string(fuelTank));
 }
 
-void Tank::SpawnEffect()
+void Tank::SpawnTireTrack()
 {
 	distance < 0 ? distance = 0 : distance;
 
 	if (distance >= 50 )
 	{
-		MeshActor* _effect = Level::SpawnActor(TireTrack(RectangleShapeData(Vector2f(55, 11), "Effects/TrackMark"), "shit", 1.8f));
+		MeshActor* _effect = Level::SpawnActor(TireTrack(RectangleShapeData(Vector2f(55, 11), "Effects/TrackMark"), "shit", 5.0f));
 		_effect->GetMesh()->GetShape()->GetDrawable()->setFillColor(Color(123, 63, 0, 100));
 		_effect->SetOriginAtMiddle();
 		_effect->SetPosition(GetPosition() - movement->GetDirection() * 56.0f);
