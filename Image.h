@@ -1,6 +1,6 @@
 #pragma once
 #include "Widget.h"
-#include "ShapeObject.h"
+#include "MeshActor.h"
 
 namespace UI
 {
@@ -23,7 +23,7 @@ namespace UI
 
 	class Image : public Widget
 	{
-		ShapeObject* image;
+		MeshActor* image;
 
 		bool sizeToContent;
 		Vector2f initialSize;
@@ -84,6 +84,11 @@ namespace UI
 		{
 			return image->GetDrawable()->getPosition();
 		}
+		FORCEINLINE Shape* GetShape() const
+		{
+			return image->GetMesh()->GetShape()->GetDrawable();
+		}
+
 
 
 	public:

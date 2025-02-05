@@ -14,14 +14,11 @@ TankWarGame::TankWarGame()
 	cameraMainMenu = nullptr;
 	playersCount = 2;
 	gameMode = new GameMode(playersCount);
-	gameHUD = new GameHUD(playersCount);
-
 }
 
 TankWarGame::~TankWarGame()
 {
 	delete gameMode;
-	delete gameHUD;
 	delete tankCreation;
 }
 
@@ -32,8 +29,9 @@ void TankWarGame::Start()
 	level.GenerateLevel();
 	//MainMenu();
 
+	M_GAMEHUD.Initialize(2);
 	gameMode->Initialize();
-	gameHUD->Initialize();
+	
 
 	tankCreation = new TankCreation();
 	//tankCreation->Start();

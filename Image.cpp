@@ -2,7 +2,7 @@
 
 UI::Image::Image(const string& _name, const RectangleShapeData& _data, const RenderType& _type) : Widget(_name, _type)
 {
-	image = new ShapeObject(_data);
+	image = new MeshActor(_data);
 	sizeToContent = false;
 	initialSize = _data.size;
 	gradient = VertexArray(PrimitiveType::TriangleStrip, 4);
@@ -17,7 +17,7 @@ void UI::Image::UpdateSize()
 {
 	if (sizeToContent)
 	{
-		SetScale(CAST(Vector2f, image->GetTexture().getSize()));
+		SetScale(CAST(Vector2f, image->GetMesh()->GetShape()->GetTexture().getSize()));
 	}
 	else
 	{
