@@ -18,6 +18,8 @@ class Tank : public MeshActor
 	float maxSpeed;
 	vector<Code> code;
 
+	float distance;
+
 public:
 	FORCEINLINE int GetLife() const 
 	{

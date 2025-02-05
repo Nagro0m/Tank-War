@@ -14,6 +14,7 @@ Tank::Tank(vector<Code> _code, const string& _path) : MeshActor(RectangleShapeDa
 	rearSound = nullptr;
 	maxSpeed = 10.0f;
 	code = _code;
+	distance = 0.0f;
 }
 
 void Tank::Construct()
@@ -31,10 +32,6 @@ void Tank::Construct()
 	M_INPUT.BindAction({ code[2] }, bind(&Tank::SpeedUp, this));
 	M_INPUT.BindAction({ code[3] }, bind(&Tank::SlowDown, this));
 
-
-
-	new Timer(bind(&Tank::SpawnEffect, this), seconds(0.5), true, true);
-
 	ComputeDirection(0.0f);
 }
 
@@ -50,6 +47,9 @@ void Tank::Tick(const float _deltaTime)
 
 	Move(move * speed * _deltaTime * 10.0f);
 	LOG(Display, to_string(speed));
+
+	distance += (1 ) * speed;
+	SpawnEffect();
 }
 
 void Tank::ComputeDirection(const float _rotation)
@@ -132,9 +132,13 @@ void Tank::Life()
 
 void Tank::SpawnEffect()
 {
-	MeshActor* _effect = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(20, 20), "Effects/Tire_Track_02")));
-	_effect->SetPosition(GetPosition());
-	_effect->Rotate(GetRotation());
+	if (distance >= 50 )
+	{
+		MeshActor* _effect = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(20, 20), "Effects/Tire_Track_02"), "shit", 3.0f));
+		_effect->SetPosition(GetPosition());
+		_effect->Rotate(GetRotation());
+		distance = 0;
+	}
 	
 }
 
