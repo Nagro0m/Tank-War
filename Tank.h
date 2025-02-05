@@ -1,3 +1,4 @@
+#pragma once
 #include "MeshActor.h"
 #include "MovementComponent.h"
 #include "CollisionComponent.h"
@@ -11,8 +12,6 @@ class Tank : public MeshActor
 	bool isMoving;
 	MovementComponent* movement;
 	CollisionComponent* collisions;
-	Vector2f move;
-	float speed;
 	float pitch;
 	SoundSample* sound;
 	SoundSample* rearSound;
@@ -27,11 +26,11 @@ public:
 
 	FORCEINLINE void ResetSpeed()
 	{
-		speed =  0.0f;
+		movement->SetSpeed(0.0f);
 	}
 	FORCEINLINE bool HasMaxSpeed() const
 	{
-		return speed == maxSpeed;
+		return movement->GetSpeed() == maxSpeed;
 	}
 
 public:

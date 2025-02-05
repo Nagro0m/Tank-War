@@ -7,9 +7,8 @@ Tank::Tank(vector<Code> _code, const string& _path, float _fuelTank) : MeshActor
 	life = 100.0f;
 	fuelTank = _fuelTank;
 	isMoving = true;
-	movement = CreateComponent<MovementComponent>();
+	movement = CreateComponent<MovementComponent>(1.0f);
 	collisions = CreateComponent<CollisionComponent>("Tank", IS_ALL, CT_OVERLAP, map<string, CollisionType>{{"Rock", CT_BLOCK}});
-	speed = 1.0f;
 	pitch = 1.0f;
 	sound = nullptr;
 	rearSound = nullptr;
@@ -26,7 +25,6 @@ Tank::Tank(const Tank& _other) : MeshActor(_other)
 	isMoving = _other.isMoving;
 	movement = CreateComponent<MovementComponent>(_other.movement);
 	collisions = CreateComponent<CollisionComponent>(*_other.collisions);
-	speed = _other.speed;
 	pitch = _other.pitch;
 	sound = _other.sound;
 	rearSound = _other.rearSound;
@@ -62,10 +60,8 @@ void Tank::Tick(const float _deltaTime)
 {
 	Super::Tick(_deltaTime);
 
-	if (isMoving)
-	{
-		Move(move * speed * _deltaTime * 10.0f);
-	}
+	movement->SetIsMoving(isMoving);
+	
 	if (fuelTank != -1.0f)
 	{
 		UpdateFuelTank(_deltaTime);
@@ -92,10 +88,9 @@ void Tank::OnCollision(const CollisionData& _data)
 void Tank::ComputeDirection(const float _rotation)
 {
 	Rotate(degrees(_rotation));
-	float _radians = (GetRotation().asDegrees() - 90.0f) * pi / 180.0f; // Convertir en radians
+	float _radians = (GetRotation().asDegrees() - 90.0f) * pi / 180.0f;
 	Vector2f _direction = Vector2f(cos(_radians), sin(_radians));
-
-	move = _direction;
+	movement->SetDirection(_direction);
 }
 
 void Tank::Right()
@@ -110,12 +105,13 @@ void Tank::Left()
 
 void Tank::SpeedUp()
 {
-	if (speed >= 10) return;
+	const float _speed = movement->GetSpeed();
+	if (_speed >= 10) return;
 	if (rearSound)
 	{
 		rearSound->Stop();
 	}
-	speed += 1;
+	movement->SetSpeed(_speed + 1);
 	if (sound)
 	{
 		M_AUDIO.PlaySample<SoundSample>("Gear_Shift");
@@ -131,19 +127,18 @@ void Tank::SpeedUp()
 
 void Tank::SlowDown()
 {
-	if (speed <= -1)
+	const float _speed = movement->GetSpeed();
+	if (_speed <= -1)
 	{
-		speed = -1;
+		movement->SetSpeed(_speed - 1);
 		return;
 	}
 
-	if (speed <= 0)
+	if (_speed <= 0)
 	{
 		rearSound = M_AUDIO.PlaySample<SoundSample>("RearSound");
-	}
-		
-		
-	speed -= 1;
+	}		
+	movement->SetSpeed(_speed - 1);
 	if (sound)
 	{
 		M_AUDIO.PlaySample<SoundSample>("Gear_Shift");
@@ -169,7 +164,8 @@ void Tank::Life()
 
 void Tank::UpdateFuelTank(const float _deltaTime)
 {
-	fuelTank = speed > 0 ? fuelTank - (maxSpeed - speed + 1)* _deltaTime : fuelTank - 1 * _deltaTime;
+	const float _speed = movement->GetSpeed();
+	fuelTank = _speed > 0 ? fuelTank - (maxSpeed - _speed + 1)* _deltaTime : fuelTank - 1 * _deltaTime;
 	fuelTank = fuelTank <= 0 ? 0 : fuelTank;
 	if (fuelTank == 0) isMoving = false;
 	LOG(Display, to_string(fuelTank));
