@@ -134,7 +134,7 @@ public:
 			framesCount = 0;
 			M_GAME.GetCurrent()->UpdateWindow();
 		}
-		
+
 		using Iterator = set<T*>::iterator;
 		for (Iterator _iterator = allTimers.begin(); _iterator != allTimers.end(); )
 		{

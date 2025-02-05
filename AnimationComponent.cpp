@@ -12,6 +12,7 @@ AnimationComponent::AnimationComponent(Actor* _owner, const AnimationComponent* 
 	{
 		allAnimations[_animation.first] = new Animation(*_animation.second);
 	}
+	if (allAnimations.empty()) return;
 	current = allAnimations[_other->current->GetName()];
 }
 
@@ -28,7 +29,8 @@ void AnimationComponent::AddAnimation(Animation* _animation)
 	const string& _animationName = _animation->GetName();
 	if (allAnimations.contains(_animationName)) return;
 
-	allAnimations[_animationName] = _animation;
+	allAnimations.insert(pair<string, Animation*>(_animationName, _animation));
+	//allAnimations[_animationName] = _animation;
 }
 
 void AnimationComponent::AddAnimations(const vector<Animation*>& _animations)

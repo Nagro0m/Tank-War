@@ -5,6 +5,7 @@
 #include "AudioManager.h"
 #include "InputManager.h"
 #include "Bullet.h"
+#include "AnimationComponent.h"
 
 class Tank : public MeshActor
 {
@@ -13,13 +14,14 @@ class Tank : public MeshActor
 	bool isMoving;
 	MovementComponent* movement;
 	CollisionComponent* collision;
+	AnimationComponent* animation;
 	float pitch;
 	SoundSample* sound;
 	SoundSample* rearSound;
 	float maxSpeed;
 	vector<Code> code;
 	float distance;
-
+	MeshActor* shootAnimation;
 public:
 	FORCEINLINE int GetLife() const 
 	{
@@ -56,6 +58,7 @@ public:
 	Tank(const Tank& _other);
 
 	void Construct();
+	void Deconstruct();
 
 public:
 	virtual void BeginPlay() override;
@@ -63,7 +66,6 @@ public:
 	virtual void CollisionEnter(const CollisionData& _data) override;
 	virtual void CollisionUpdate(const CollisionData& _data) override;
 	virtual void CollisionExit(const CollisionData& _data) override;
-
 
 	void ComputeDirection(const float _rotation);
 	void Right();

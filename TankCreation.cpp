@@ -4,9 +4,10 @@
 #include "HUD.h"
 #include "Tank.h"
 
-TankCreation::TankCreation(const Vector2f& _tankMenuPosition)
+TankCreation::TankCreation(const int _tankNumber)
 {
-    tankMenuPosition = _tankMenuPosition;
+    tankNumber = _tankNumber;
+    tankMenuPosition = Vector2f(-1000.0f * tankNumber, -1000.0f);
     currentStep = 0;
     trackIndex = 0;
     hullIndex = 0;
@@ -44,7 +45,7 @@ vector<Hull> TankCreation::GetHulls()
     const u_int _hullsCount = 8;
     for (u_int _index = 1; _index <= _hullsCount; _index++)
     {
-        _hulls.push_back(Hull(Vector2f(150.0f, 150.0f), "Tank/Hulls_1/Hull_" + to_string(_index)));
+        _hulls.push_back(Hull(Vector2f(150.0f, 150.0f), "Tank/Hulls_" + to_string(tankNumber) + "/Hull_" + to_string(_index)));
     }
     return _hulls;
 }
@@ -55,7 +56,7 @@ vector<Weapon> TankCreation::GetWeapons()
     const u_int _weaponsCount = 8;
     for (u_int _index = 1; _index <= _weaponsCount; _index++)
     {
-        _weapons.push_back(Weapon(Vector2f(50.0f, 120.0f), "Tank/Weapons_1/Gun_" + to_string(_index)));
+        _weapons.push_back(Weapon(Vector2f(50.0f, 120.0f), "Tank/Weapons_" + to_string(tankNumber) + "/Gun_" + to_string(_index)));
     }
     return _weapons;
 }

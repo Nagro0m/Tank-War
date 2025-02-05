@@ -33,7 +33,7 @@ CollisionComponent::CollisionComponent(Actor* _owner, const CollisionComponent& 
 void CollisionComponent::Tick(const float _deltaTime)
 {
 	Super::Tick(_deltaTime);
-	CheckCollision();
+	//CheckCollision();
 }
 
 void CollisionComponent::CheckCollision()

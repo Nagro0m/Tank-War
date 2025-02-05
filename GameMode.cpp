@@ -1,4 +1,5 @@
 #include "GameMode.h"
+#include "TankCreation.h"
 
 GameMode::GameMode(const float _playersCount)
 {
@@ -59,6 +60,13 @@ void GameMode::InitializeSolo()
 
 void GameMode::InitializeDuo()
 {
+	TankCreation _tankPlayer1 = TankCreation(1);
+	TankCreation _tankPlayer2 = TankCreation(2);
+
+
+
+
+	//Autre fonction
 	player1Tank = Level::SpawnActor(Tank(inputPlayer1, "Tank/Tank_1"));
 	player1Tank->SetPosition(Vector2f(300.0f, 300.0f));
 	player2Tank = Level::SpawnActor(Tank(inputPlayer2, "Tank/Tank_2"));

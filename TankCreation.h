@@ -9,6 +9,7 @@ class Tank;
 
 class TankCreation
 {
+	int tankNumber;
 	Vector2f tankMenuPosition;
 	int currentStep;
 	int trackIndex;
@@ -20,8 +21,9 @@ class TankCreation
 	MeshActor* currentActor;
 	vector<MeshActor*> tankMenu;
 	UI::Label* menuLabel;
+
 public:
-	TankCreation(const Vector2f& _tankMenuPosition = Vector2f(-1000.0f, -1000.0f));
+	TankCreation(const int _tankNumber = 1);
 
 public:
 	void Start();

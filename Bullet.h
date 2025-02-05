@@ -5,7 +5,7 @@
 
 class Bullet : public MeshActor
 {
-	MovementComponent* movement;
+	Vector2f direction;
 
 public:
 	Bullet(const Vector2f& _direction);

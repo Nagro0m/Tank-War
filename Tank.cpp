@@ -13,6 +13,7 @@ Tank::Tank(vector<Code> _code, const string& _path, float _fuelTank) : MeshActor
 	isMoving = false;
 	movement = CreateComponent<MovementComponent>(1.0f);
 	collision = CreateComponent<CollisionComponent>("Tank", IS_ALL, CT_OVERLAP);
+	animation = CreateComponent<AnimationComponent>();
 	pitch = 1.0f;
 	sound = nullptr;
 	rearSound = nullptr;
@@ -21,7 +22,7 @@ Tank::Tank(vector<Code> _code, const string& _path, float _fuelTank) : MeshActor
 	SetLayer(Layer::LayerType::PLAYER);
 
 	vector<pair<string, CollisionType>> _responsesTank = {{"BardedWire", CT_BLOCK}, {"Root", CT_BLOCK}, {"Grass", CT_BLOCK} , {"Tree", CT_BLOCK} ,{"Rock", CT_BLOCK} };
-	collision->AddResponses(_responsesTank);
+	//collision->AddResponses(_responsesTank);
 }
 
 Tank::Tank(const Tank& _other) : MeshActor(_other)
@@ -29,6 +30,7 @@ Tank::Tank(const Tank& _other) : MeshActor(_other)
 	life = _other.life;
 	fuelTank = _other.fuelTank;
 	isMoving = _other.isMoving;
+	animation = CreateComponent<AnimationComponent>(_other.animation);
 	movement = CreateComponent<MovementComponent>(_other.movement);
 	collision = CreateComponent<CollisionComponent>(*_other.collision);
 	pitch = _other.pitch;
@@ -56,6 +58,12 @@ void Tank::Construct()
 	M_INPUT.BindAction({ code[4] }, bind(&Tank::Shoot, this));
 
 	ComputeDirection(0.0f);
+}
+
+void Tank::Deconstruct()
+{
+	Super::Deconstruct();
+	animation->StopAnimation();
 }
 
 void Tank::BeginPlay()
@@ -208,7 +216,9 @@ void Tank::Shoot()
 {
 	M_AUDIO.PlaySample<SoundSample>("Shoot");
 	Bullet* _bullet = Level::SpawnActor(Bullet(movement->GetDirection()));
-	_bullet->SetPosition(GetPosition());
+	_bullet->SetRotation(GetRotation());
+	_bullet->SetOriginAtMiddle();
+	_bullet->SetPosition(GetPosition() + movement->GetDirection() * 56.0f);
 }
 
 void Tank::PlaySample()
