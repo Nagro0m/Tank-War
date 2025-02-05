@@ -85,7 +85,7 @@ void Tank::OnCollision(const CollisionData& _data)
 	}
 	//if(_data.response == CT_OVERLAP)
 
-	distance += (1 ) * speed;
+	distance += (1 ) * movement->GetSpeed();
 	SpawnEffect();
 }
 
@@ -110,13 +110,20 @@ void Tank::Left()
 void Tank::SpeedUp()
 {
 	isMoving = true;
-	const float _speed = movement->GetSpeed();
+	float _speed = movement->GetSpeed();
+
 	if (_speed >= 100.0f) return;
+
+	// Arrêter le son de recul dès qu'on accélère
 	if (rearSound)
 	{
 		rearSound->Stop();
+		rearSound = nullptr;
 	}
+
 	movement->SetSpeed(_speed + 10.0f);
+
+	// Jouer le son de changement de vitesse et ajuster la tonalité
 	if (sound)
 	{
 		M_AUDIO.PlaySample<SoundSample>("Gear_Shift");
@@ -125,33 +132,42 @@ void Tank::SpeedUp()
 			pitch += 0.1f;
 			cout << pitch << endl;
 		}
-
 		sound->SetPitch(pitch);
 	}
 }
 
 void Tank::SlowDown()
 {
-	const float _speed = movement->GetSpeed();
+	float _speed = movement->GetSpeed();
+
+	// Vérifier si on atteint la limite arrière
 	if (_speed <= -10.0f)
 	{
-		movement->SetSpeed(_speed - 10.0f);
-		return;
-	}
-	if (_speed == 0)
-	{
-		isMoving = false;
+		_speed = -10.0f;
 	}
 	else
 	{
-		isMoving = true;
+		_speed -= 10.0f;
 	}
 
-	if (_speed <= 0)
+	movement->SetSpeed(_speed);
+	isMoving = (_speed != 0);
+
+	// Jouer le son de recul immédiatement en marche arrière
+	if (_speed < 0)
 	{
-		rearSound = M_AUDIO.PlaySample<SoundSample>("RearSound");
-	}		
-	movement->SetSpeed(_speed - 10.0f);
+		if (!rearSound)
+		{
+			rearSound = M_AUDIO.PlaySample<SoundSample>("RearSound");
+		}
+	}
+	else if (rearSound)
+	{
+		rearSound->Stop();
+		rearSound = nullptr;
+	}
+
+	// Jouer le son de changement de vitesse et ajuster la tonalité
 	if (sound)
 	{
 		M_AUDIO.PlaySample<SoundSample>("Gear_Shift");
