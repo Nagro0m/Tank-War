@@ -1,25 +1,24 @@
 #pragma once
-#include "CoreMinimal.h"
+#include "Macro.h"
 
 class CustomException : public exception
 {
-	using Error = char const*;
+    using Error = char const*;
 
 public:
-
-    CustomException(const Error _Message) : exception(_Message)
+    CustomException(const Error _error) : exception(_error)
     {
 
     }
 
-public:
+private:
     NO_DISCARD virtual Error what() const override
     {
-        return (CAST(string, "Exception => ") + CAST(string, Super::what())).c_str();
+        return (CAST(string, DEBUG_INFO)
+              + CAST(string, Super::what())).c_str();
     }
-private:
-
-    NO_DISCARD virtual Error What() const
+public:
+    NO_DISCARD Error What() const
     {
         return what();
     }

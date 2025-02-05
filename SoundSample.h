@@ -1,64 +1,60 @@
 #pragma once
-#include "CoreMinimal.h"
+#include "Sample.h"
 
-class SoundSample
+class SoundSample : public Sample
 {
 	using SoundStatus = SoundSource::Status;
 
-	float volume;
 	Sound* sound;
 	SoundBuffer buffer;
-	string path;
 
+	#pragma region Sample
+
+	FORCEINLINE virtual void UpdateVolume(const float _volume) override
+	{
+		sound->setVolume(_volume);
+	}
+	FORCEINLINE virtual int GetStatus() const override
+	{
+		return CAST(int, sound->getStatus());
+	}
 public:
-	FORCEINLINE void SetMuteStatus(const bool _isMuted)
+	FORCEINLINE virtual bool IsAvailable() const override
 	{
-		UpdateVolume(_isMuted ? 0.0f : volume);
+		return CAST(SoundStatus, GetStatus()) != SoundStatus::Playing;
 	}
-	FORCEINLINE void SetVolume(const float _volume)
-	{
-		UpdateVolume(volume = _volume);
-	}
-	FORCEINLINE void SetLoop(const bool _isLoop)
+	FORCEINLINE virtual void SetLoop(const bool _isLoop) override
 	{
 		sound->setLooping(_isLoop);
 	}
+
 	FORCEINLINE void SetPitch(const float _pitch)
 	{
 		sound->setPitch(_pitch);
 	}
 
-	FORCEINLINE bool IsVailable()const
+	FORCEINLINE virtual bool AddPitch(const float _pitchOffset) override
 	{
-		return sound->getStatus() != SoundStatus::Playing;
+		float _newPitch = sound->getPitch() + _pitchOffset;
+		if (_newPitch > 100.0f || _newPitch < 0.0f) return false;
+
+		SetPitch(_newPitch);
+		return true;
 	}
-	FORCEINLINE float GetVolume()const
+
+	#pragma endregion
+
+public:
+	FORCEINLINE float GetVolume() const
 	{
 		return sound->getVolume();
 	}
-	FORCEINLINE string GetPath()const
-	{
-		return path;
-	}
 
-
-
-private:
-	FORCEINLINE void UpdateVolume(const float _volume)
-	{
-		sound->setVolume(_volume);
-	}
-	FORCEINLINE SoundStatus GetStatus()const
-	{
-		return sound->getStatus();
-	}
 public:
 	SoundSample(const string& _path);
 	~SoundSample();
 
-public:
-	void Play(const Time& _time = Time());
-	void Pause();
-	void Stop();
+	virtual void Play(const Time& _time = Time()) override;
+	virtual void Pause() override;
+	virtual void Stop() override;
 };
-

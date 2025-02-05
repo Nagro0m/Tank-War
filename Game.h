@@ -1,38 +1,38 @@
 #pragma once
-#include "Singleton.h"
-#include "Actor.h"
+#include "CoreMinimal.h"
 
-class Game : public Singleton<Game>
+class Game
 {
-	Vector2u windowSize;
+protected:
 	RenderWindow window;
-	using OnRenderWindow = function<void(RenderWindow&)>;
-	map<u_int, OnRenderWindow> onRenderWindow;
 
 public:
-	FORCEINLINE u_int BindOnRenderWindow(const OnRenderWindow& _callback)
+	FORCEINLINE virtual bool IsOver() const
 	{
-		u_int _id = GetUniqueID();
-		onRenderWindow.insert({ _id, _callback });
-		return _id;
+		return !window.isOpen();
 	}
-
-	FORCEINLINE void UnbindOnRenderWindow(const u_int _uniqueID)
+	FORCEINLINE Vector2f GetWindowSize() const
 	{
-		onRenderWindow.erase(_uniqueID);
+		return CAST(Vector2f, window.getSize());
 	}
 
 public:
 	Game();
-	~Game();
+	virtual ~Game() {};
 
 public:
-	void Launch();
+	virtual void Start();
+	virtual bool Update();
 	void UpdateWindow();
+	virtual void Stop();
 
-private:
-	void Start();
-	void Update();
-	void Stop();
+	FORCEINLINE Vector2f MapPixelToCoords(const Vector2i& _coords)
+	{
+		return window.mapPixelToCoords(_coords);
+	}
+
+	FORCEINLINE Vector2i MapCoordsToPixel(const Vector2f& _coords)
+	{
+		return window.mapCoordsToPixel(_coords);
+	}
 };
-

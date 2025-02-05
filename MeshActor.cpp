@@ -1,27 +1,42 @@
 #include "MeshActor.h"
-#include "Game.h"
+#include "CameraManager.h"
 
-MeshActor::MeshActor(const float _radius, const size_t& _pointCount,
-	const string& _path, const IntRect& _rect)
+using namespace Camera;
+
+MeshActor::MeshActor(const float _radius, const size_t& _pointCount, const string& _path,
+	const IntRect& _rect, const string& _name) : Actor(_name)
 {
-	mesh = new MeshComponent(this, _radius, _path, _pointCount, _rect);
-	AddComponent(mesh);
-	renderMeshToken = M_GAME.BindOnRenderWindow(bind(&MeshActor::RenderMesh, this, placeholders::_1));
-	Register();
+	mesh = CreateComponent<MeshComponent>(_radius, _pointCount, _path, _rect);
+	renderMeshToken = -1;
 }
 
-MeshActor::MeshActor(const Vector2f& _size, const string& _path, const IntRect& _rect)
+MeshActor::MeshActor(const RectangleShapeData& _data, const string& _name, const float _lifespan) : Actor(_name, TransformData(), _lifespan)
 {
-	mesh = new MeshComponent(this, _size, _path, _rect);
-	AddComponent(mesh);
-	renderMeshToken = M_GAME.BindOnRenderWindow(bind(&MeshActor::RenderMesh, this, placeholders::_1));
-	Register();
+	mesh = CreateComponent<MeshComponent>(_data);
+	renderMeshToken = -1;
 }
 
-MeshActor::~MeshActor()
+MeshActor::MeshActor(const MeshActor& _other) : Actor(_other)
 {
-	M_GAME.UnbindOnRenderWindow(renderMeshToken);
+	mesh = CreateComponent<MeshComponent>(_other.mesh);
+	renderMeshToken = _other.renderMeshToken;
 }
+
+
+void MeshActor::Construct()
+{
+	Super::Construct();
+
+	const RenderData& _data = RenderData(bind(&MeshActor::RenderMesh, this, placeholders::_1));
+	renderMeshToken = M_CAMERA.BindOnRenderWindow(_data);
+}
+
+void MeshActor::Deconstruct()
+{
+	Super::Deconstruct();
+	M_CAMERA.UnbindOnRenderWindow(renderMeshToken);
+}
+
 
 void MeshActor::RenderMesh(RenderWindow& _window)
 {

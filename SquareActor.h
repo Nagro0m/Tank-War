@@ -1,15 +1,8 @@
 #pragma once
-#include "MeshActor.h"
+#include "RectangleActor.h"
 
-class SquareActor : public MeshActor
+class SquareActor : public RectangleActor
 {
 public:
-
-	SquareActor(const float& _sideSize, const string& _path = "",
-		const IntRect& _rect = IntRect());
+	SquareActor(const float _size, const string& _path = "", const TextureExtensionType& _textureType = PNG, const IntRect& _rect = {});
 };
-
-
-
-
-
