@@ -2,6 +2,8 @@
 #include "CameraManager.h"
 #include "TimerManager.h"
 #include "MeshActor.h"
+#include "Logger.h"
+
 
 Tank::Tank(vector<Code> _code, const string& _path, float _fuelTank) : MeshActor(RectangleShapeData(Vector2f(60.0f, 110.0f), _path))
 {
@@ -67,6 +69,9 @@ void Tank::Tick(const float _deltaTime)
 	{
 		UpdateFuelTank(_deltaTime);
 	}
+
+	distance += (1) * movement->GetSpeed();
+	SpawnEffect();
 }
 
 void Tank::OnCollision(const CollisionData& _data)
@@ -85,8 +90,7 @@ void Tank::OnCollision(const CollisionData& _data)
 	}
 	//if(_data.response == CT_OVERLAP)
 
-	distance += (1 ) * speed;
-	SpawnEffect();
+	
 }
 
 void Tank::ComputeDirection(const float _rotation)
@@ -191,12 +195,15 @@ void Tank::Refuel()
 }
 void Tank::SpawnEffect()
 {
-	if (distance >= 50 )
+	if (distance >= 100 )
 	{
-		MeshActor* _effect = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(20, 20), "Effects/Tire_Track_02"), "shit", 3.0f));
-		_effect->SetPosition(GetPosition());
+		MeshActor* _effect = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(55, 11), "Effects/TrackMark"), "shit", 1.5f));
+		_effect->SetOriginAtMiddle();
+		_effect->SetPosition(GetPosition() - movement->GetDirection() * 60.0f);
 		_effect->Rotate(GetRotation());
+		_effect->GetMesh()->GetShape()->GetDrawable()->setFillColor(Color(123, 63, 0, GetRandomNumberInRange(10, 80)));
 		distance = 0;
+
 	}
 	
 }
