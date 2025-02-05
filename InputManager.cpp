@@ -9,26 +9,26 @@ void  MyInput::InputManager::ConsumeData(RenderWindow& _window)
         {
             _window.close();
         }
-
-        if (const Event::KeyPressed* _key = _event->getIf<Event::KeyPressed>())
-        {
-            if (_key->code == Keyboard::Key::Up)
-            {
-                Camera::M_CAMERA.GetCurrent()->Move(Vector2f(0.0f, -50.0f));
-            }
-            else if (_key->code == Keyboard::Key::Down)
-            {
-                Camera::M_CAMERA.GetCurrent()->Move(Vector2f(0.0f, 50.0f));
-            }
-            else if (_key->code == Keyboard::Key::Left)
-            {
-                Camera::M_CAMERA.GetCurrent()->Move(Vector2f(-50.0f, 0.0f));
-            }
-            else if (_key->code == Keyboard::Key::Right)
-            {
-                Camera::M_CAMERA.GetCurrent()->Move(Vector2f(50.0f, 0.0f));
-            }
-        }
+//TODO Remove -> Shortcut to move on the map
+        //if (const Event::KeyPressed* _key = _event->getIf<Event::KeyPressed>())
+        //{
+        //    if (_key->code == Keyboard::Key::Up)
+        //    {
+        //        Camera::M_CAMERA.GetCurrent()->Move(Vector2f(0.0f, -50.0f));
+        //    }
+        //    else if (_key->code == Keyboard::Key::Down)
+        //    {
+        //        Camera::M_CAMERA.GetCurrent()->Move(Vector2f(0.0f, 50.0f));
+        //    }
+        //    else if (_key->code == Keyboard::Key::Left)
+        //    {
+        //        Camera::M_CAMERA.GetCurrent()->Move(Vector2f(-50.0f, 0.0f));
+        //    }
+        //    else if (_key->code == Keyboard::Key::Right)
+        //    {
+        //        Camera::M_CAMERA.GetCurrent()->Move(Vector2f(50.0f, 0.0f));
+        //    }
+        //}
 
         if (const Event::KeyPressed* _key = _event->getIf<Event::KeyPressed>())
         {

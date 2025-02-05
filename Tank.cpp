@@ -6,7 +6,7 @@ Tank::Tank(vector<Code> _code, const string& _path, float _fuelTank) : MeshActor
 {
 	life = 100.0f;
 	fuelTank = _fuelTank;
-	isMoving = true;
+	isMoving = false;
 	movement = CreateComponent<MovementComponent>(1.0f);
 	collisions = CreateComponent<CollisionComponent>("Tank", IS_ALL, CT_OVERLAP, map<string, CollisionType>{{"Rock", CT_BLOCK}});
 	pitch = 1.0f;
@@ -105,13 +105,14 @@ void Tank::Left()
 
 void Tank::SpeedUp()
 {
+	isMoving = true;
 	const float _speed = movement->GetSpeed();
-	if (_speed >= 10) return;
+	if (_speed >= 100.0f) return;
 	if (rearSound)
 	{
 		rearSound->Stop();
 	}
-	movement->SetSpeed(_speed + 1);
+	movement->SetSpeed(_speed + 10.0f);
 	if (sound)
 	{
 		M_AUDIO.PlaySample<SoundSample>("Gear_Shift");
@@ -128,17 +129,25 @@ void Tank::SpeedUp()
 void Tank::SlowDown()
 {
 	const float _speed = movement->GetSpeed();
-	if (_speed <= -1)
+	if (_speed <= -10.0f)
 	{
-		movement->SetSpeed(_speed - 1);
+		movement->SetSpeed(_speed - 10.0f);
 		return;
+	}
+	if (_speed == 0)
+	{
+		isMoving = false;
+	}
+	else
+	{
+		isMoving = true;
 	}
 
 	if (_speed <= 0)
 	{
 		rearSound = M_AUDIO.PlaySample<SoundSample>("RearSound");
 	}		
-	movement->SetSpeed(_speed - 1);
+	movement->SetSpeed(_speed - 10.0f);
 	if (sound)
 	{
 		M_AUDIO.PlaySample<SoundSample>("Gear_Shift");
