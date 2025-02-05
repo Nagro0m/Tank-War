@@ -148,6 +148,7 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationComponent.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="BarbedWire.cpp" />
     <ClCompile Include="CameraActor.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CameraManager.cpp" />
@@ -163,6 +164,7 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameMode.cpp" />
+    <ClCompile Include="Grass.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="GameHUD.cpp" />
     <ClCompile Include="Image.cpp" />
@@ -181,6 +183,8 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClCompile Include="MusicSample.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="RectangleActor.cpp" />
+    <ClCompile Include="Rock.cpp" />
+    <ClCompile Include="Root.cpp" />
     <ClCompile Include="RootComponent.cpp" />
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="ShapeObject.cpp" />
@@ -195,6 +199,7 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TireTrack.cpp" />
     <ClCompile Include="Track.cpp" />
+    <ClCompile Include="Tree.cpp" />
     <ClCompile Include="TriangleActor.cpp" />
     <ClCompile Include="Utilities.cpp" />
     <ClCompile Include="Weapon.cpp" />
@@ -206,6 +211,7 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationComponent.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="BarbedWire.h" />
     <ClInclude Include="CameraActor.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="CameraManager.h" />
@@ -222,6 +228,7 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameMode.h" />
+    <ClInclude Include="Grass.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="GameHUD.h" />
     <ClInclude Include="Image.h" />
@@ -238,6 +245,8 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClInclude Include="RenderType.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="resource1.h" />
+    <ClInclude Include="Rock.h" />
+    <ClInclude Include="Root.h" />
     <ClInclude Include="Sample.h" />
     <ClInclude Include="Spawner.h" />
     <ClInclude Include="SubclassOf.h" />
@@ -264,6 +273,7 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="TimerManager.h" />
     <ClInclude Include="TransformData.h" />
+    <ClInclude Include="Tree.h" />
     <ClInclude Include="TriangleActor.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="Weapon.h" />
