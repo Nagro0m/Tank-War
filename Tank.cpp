@@ -16,6 +16,9 @@ Tank::Tank(vector<Code> _code, const string& _path, float _fuelTank) : MeshActor
 	maxSpeed = 10.0f;
 	code = _code;
 	SetLayer(Layer::LayerType::PLAYER);
+
+	vector<pair<string, CollisionType>> _responsesTank = {{"BardedWire", CT_BLOCK}, {"Root", CT_BLOCK}, {"Grass", CT_BLOCK} , {"Tree", CT_BLOCK} ,{"Rock", CT_BLOCK} };
+	collision->AddResponses(_responsesTank);
 }
 
 Tank::Tank(const Tank& _other) : MeshActor(_other)
@@ -76,7 +79,10 @@ void Tank::CollisionEnter(const CollisionData& _data)
 	{
 		if (_data.other->GetLayer() == Layer::LayerType::BREAKABLE)
 		{
-
+			if (HasMaxSpeed())
+			{
+				_data.other->SetToDelete();
+			}
 		}
 	}
 
@@ -125,7 +131,7 @@ void Tank::SpeedUp()
 	isMoving = true;
 	float _speed = movement->GetSpeed();
 
-	if (speed >= maxSpeed) return;
+	//if (speed >= maxSpeed) return;
 	if (rearSound)
 	{
 		rearSound->Stop();

@@ -46,7 +46,7 @@ public:
 	}
 	FORCEINLINE float GetSpeed() const
 	{
-		return speed;
+		//return speed;
 	}
 
 public:

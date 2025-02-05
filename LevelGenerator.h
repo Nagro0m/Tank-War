@@ -4,6 +4,7 @@
 #include "MeshActor.h"
 
 class Level;
+enum CollisionType;
 
 class LevelElement
 {
@@ -19,6 +20,12 @@ public:
 	{
 		return *prefab;
 	}
+	FORCEINLINE MeshActor* GetPrefab() const
+	{
+		return prefab;
+	}
+
+
 
 public:
 #pragma region Constructors
@@ -38,6 +45,9 @@ public:
 		return variants.size() > 0;
 	}
 	LevelElement* GetRandomVariant(); // Pas de const, ça bloque le return this
+
+	void AddCollision(vector<pair<string, CollisionType>> _responsesMesh, string _channelName);
+
 
 };
 
