@@ -5,6 +5,15 @@
 Root::Root(const RectangleShapeData& _data) : MeshActor(_data, "Root")
 {
 	SetLayer(Layer::LayerType::BREAKABLE);
+	vector<pair<string, CollisionType>> _responsesMesh = { { "Tank", CT_OVERLAP } };
+	collision = CreateComponent<CollisionComponent>("Root", IS_ALL, CT_BLOCK);
+	collision->AddResponses(_responsesMesh);
+}
+
+Root::Root(const Root& _other) : MeshActor(_other)
+{
+	SetLayer(_other.GetLayer());
+	collision = CreateComponent<CollisionComponent>(*_other.collision);
 }
 
 void Root::BeginPlay()

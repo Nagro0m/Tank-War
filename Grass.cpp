@@ -5,6 +5,15 @@
 Grass::Grass(const RectangleShapeData& _data) : MeshActor(_data, "Grass")
 {
 	SetLayer(Layer::LayerType::BREAKABLE);
+	vector<pair<string, CollisionType>> _responsesMesh = { { "Tank", CT_OVERLAP } };
+	collision = CreateComponent<CollisionComponent>("Grass", IS_ALL, CT_BLOCK);
+	collision->AddResponses(_responsesMesh);
+}
+
+Grass::Grass(const Grass& _other) : MeshActor(_other)
+{
+	SetLayer(_other.GetLayer());
+	collision = CreateComponent<CollisionComponent>(*_other.collision);
 }
 
 void Grass::BeginPlay()

@@ -1,10 +1,15 @@
 #pragma once
 #include "MeshActor.h"
 
+class CollisionComponent;
+
 class Root : public MeshActor
 {
+	CollisionComponent* collision;
 public:
 	Root(const RectangleShapeData& _data);
+
+	Root(const Root& _other);
 
 public:
 	virtual void BeginPlay() override;

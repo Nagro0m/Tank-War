@@ -2,10 +2,13 @@
 #include "Singleton.h"
 #include "Actor.h"
 
+class CollisionComponent;
+
 class ActorManager : public Singleton<ActorManager>
 {
 	set<Actor*> allActors;
 	multimap<string, Actor*> actorsID;
+	set<CollisionComponent*> AllcollisionComponents;
 
 public:
 	FORCEINLINE set<Actor*> GetAllActors() const
@@ -61,6 +64,21 @@ public:
 
 		// Je reteste avec l'index suivant
 		return GetAvailableName(_name, _index + 1);
+	}
+
+	FORCEINLINE void AddCollisionComponent(CollisionComponent* _component)
+	{
+		AllcollisionComponents.insert(_component);
+	}
+
+	FORCEINLINE void RemoveColiisionComponents(CollisionComponent* _component)
+	{
+		AllcollisionComponents.erase(_component);
+	}
+
+	FORCEINLINE set<CollisionComponent*> GetAllCollisionComponents() const
+	{
+		return AllcollisionComponents;
 	}
 
 public:

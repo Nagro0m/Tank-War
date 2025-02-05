@@ -22,22 +22,16 @@ void Level::GenerateLevel()
 	_treeVariants.push_back(new LevelElement(new Tree(RectangleShapeData(_size, "Object/Tree_2")), 2));
 	LevelElement* _tree = new LevelElement(new Tree(RectangleShapeData(_size, "Object/Tree_1")), 10, _treeVariants);
 
-	vector<pair<string, CollisionType>> _responsesMesh = { { "Tank", CT_OVERLAP } };
-	_tree->AddCollision(_responsesMesh, "Tree");
-
 	vector<LevelElement*> _grassVariants;
 	const Vector2f& _grassSize = Vector2f(30.0f, 30.0f);
 	_grassVariants.push_back(new LevelElement(new Grass(RectangleShapeData(_grassSize, "Object/Grass_2")), 2));
 	LevelElement* _grass = new LevelElement(new Grass(RectangleShapeData(_grassSize, "Object/Grass_1")), 5, _grassVariants);
 			
-	_grass->AddCollision(_responsesMesh, "Grass");
 
 	vector<LevelElement*> _rootVariants;
 	const Vector2f& _rootSize = Vector2f(50.0f, 30.0f);
 	_rootVariants.push_back(new LevelElement(new Root(RectangleShapeData(_rootSize, "Object/Root_2")), 2));
 	LevelElement* _root = new LevelElement(new Root(RectangleShapeData(_rootSize, "Object/Root_1")), 1, _rootVariants);
-
-	_root->AddCollision(_responsesMesh, "Root");
 
 	vector<LevelElement*> _rockVariants;
 	const Vector2f& _rockSize = Vector2f(50.0f, 40.0f);
@@ -45,8 +39,6 @@ void Level::GenerateLevel()
 	_rockVariants.push_back(new LevelElement(new Rock(RectangleShapeData(_rockSize, "Object/Rock_2")), 1));
 	_rockVariants.push_back(new LevelElement(new Rock(RectangleShapeData(_rockSize, "Object/Rock_3")), 1));
 	LevelElement* _rock = new LevelElement(new Rock(RectangleShapeData(_rockSize, "Object/Rock_4")), 3, _rockVariants);
-
-	_rock->AddCollision(_responsesMesh, "Rock");
 
 	_generator.AddGenerableElement(_tree);
 	_generator.AddGenerableElement(_rock);

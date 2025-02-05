@@ -4,7 +4,17 @@
 BarbedWire::BarbedWire(const RectangleShapeData& _data) : MeshActor(_data, "BarbedWire")
 {
 	SetLayer(Layer::LayerType::WORLD_STATIC);
+	vector<pair<string, CollisionType>> _responsesMesh = { { "Tank", CT_OVERLAP } };
+	collision = CreateComponent<CollisionComponent>("BardedWire", IS_ALL, CT_BLOCK);
+	collision->AddResponses(_responsesMesh);
 }
+
+BarbedWire::BarbedWire(const BarbedWire& _other) : MeshActor(_other)
+{
+	SetLayer(_other.GetLayer());
+	collision = CreateComponent<CollisionComponent>(*_other.collision);
+}
+
 
 void BarbedWire::BeginPlay()
 {

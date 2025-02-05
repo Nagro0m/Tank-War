@@ -6,11 +6,12 @@
 class Level;
 enum CollisionType;
 
+template<typename T>
 class LevelElement
 {
 	int chance;
 	vector<LevelElement*> variants;
-	MeshActor* prefab;
+	T* prefab;
 public:
 	FORCEINLINE float GetChance() const
 	{
@@ -29,8 +30,8 @@ public:
 
 public:
 #pragma region Constructors
-	LevelElement(MeshActor* _actor, const int _chance);
-	LevelElement(MeshActor* _actor, const int _chance, const vector<LevelElement*>& _variants);
+	LevelElement(T* _actor, const int _chance);
+	LevelElement(T* _actor, const int _chance, const vector<LevelElement*>& _variants);
 	/// <summary>
 	/// Constructeur pour créer un LevelElement qui servira de sol
 	/// </summary>
@@ -44,10 +45,7 @@ public:
 	{
 		return variants.size() > 0;
 	}
-	LevelElement* GetRandomVariant(); // Pas de const, ça bloque le return this
-
-	void AddCollision(vector<pair<string, CollisionType>> _responsesMesh, string _channelName);
-
+	LevelElement<T>* GetRandomVariant(); // Pas de const, ça bloque le return this
 
 };
 

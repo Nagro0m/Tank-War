@@ -54,7 +54,7 @@ public:
  
 	//bool containsActor 
 
-	FORCEINLINE void AddResponses(vector<pair<string, CollisionType>> _responses)
+	FORCEINLINE void AddResponses(const vector<pair<string, CollisionType>>& _responses)
 	{
 		for (pair<string, CollisionType> _pair : _responses)
 		{
@@ -66,7 +66,7 @@ public:
 
 
 public:
-	CollisionComponent(Actor* _owner, string _channelName, int _status, CollisionType _type);
+	CollisionComponent(Actor* _owner, const string& _channelName, const int _status, const CollisionType& _type);
 	CollisionComponent(Actor* _owner, const CollisionComponent& _other);
 
 protected:

@@ -5,6 +5,7 @@
 
 class Level
 {
+
 public:
 
 	#pragma region Actors
@@ -31,7 +32,7 @@ public:
 			return _actor;
 		}
 	#pragma endregion
-
+	
 	void GenerateLevel();
 
 public:

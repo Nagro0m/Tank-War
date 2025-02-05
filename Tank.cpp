@@ -53,7 +53,7 @@ void Tank::Construct()
 	M_INPUT.BindAction({ code[1] }, bind(&Tank::Right, this));
 	M_INPUT.BindAction({ code[2] }, bind(&Tank::SpeedUp, this));
 	M_INPUT.BindAction({ code[3] }, bind(&Tank::SlowDown, this));
-	M_INPUT.BindAction({ code[4] }, bind(&Tank::Shoot, this));
+	//M_INPUT.BindAction({ code[4] }, bind(&Tank::Shoot, this));
 
 	ComputeDirection(0.0f);
 }

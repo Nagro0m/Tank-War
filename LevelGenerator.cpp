@@ -39,17 +39,6 @@ LevelElement* LevelElement::GetRandomVariant()
 	return _element ? _element : this;
 }
 
-void LevelElement::AddCollision(vector<pair<string, CollisionType>> _responsesMesh, string _channelName)
-{
-	{
-		for (LevelElement* variant : variants)
-		{
-			variant->GetPrefab()->AddComponent(new CollisionComponent(variant->GetPrefab(), _channelName, IS_ALL, CT_BLOCK));
-			variant->GetPrefab()->GetComponent<CollisionComponent>()->AddResponses(_responsesMesh);
-		}
-	}
-}
-
 LevelGenerator::LevelGenerator(Level* _level, const u_int& _sizeX, const u_int& _sizeY, const u_int& _spaceBetweenElements)
 {
 	level = _level;
@@ -178,14 +167,10 @@ void LevelGenerator::PlaceBarbedWire()
 		MeshActor* _barbed1 = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(_barbedWireSize, _barbedWireSize), "Object/Barbed")));
 		_barbed1->SetPosition(Vector2f(_x , -100));// Haut
 		_barbed1->SetOriginAtMiddle();
-		_barbed1->AddComponent(new CollisionComponent(_barbed1, "BardedWire", IS_ALL, CT_BLOCK));
-		_barbed1->GetComponent<CollisionComponent>()->AddResponses(_responsesMesh);
 
 		MeshActor* _barbed2 = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(_barbedWireSize, _barbedWireSize), "Object/Barbed")));
 		_barbed2->SetOriginAtMiddle();
 		_barbed2->SetPosition(Vector2f(_x , sizeY - 30));// Bas
-		_barbed2->AddComponent(new CollisionComponent(_barbed1, "BardedWire", IS_ALL, CT_BLOCK));
-		_barbed2->GetComponent<CollisionComponent>()->AddResponses(_responsesMesh);
 	}
 
 	for (float _y = (-_barbedWireSize); _y < sizeY; _y += _barbedWireSize)
@@ -193,13 +178,9 @@ void LevelGenerator::PlaceBarbedWire()
 		MeshActor* _barbed1 = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(_barbedWireSize, _barbedWireSize), "Object/Barbed")));
 		_barbed1->SetPosition(Vector2f(-_barbedWireSize / 4, _y ));// Gauche
 		_barbed1->Rotate(degrees(90));
-		_barbed1->AddComponent(new CollisionComponent(_barbed1, "BardedWire", IS_ALL, CT_BLOCK));
-		_barbed1->GetComponent<CollisionComponent>()->AddResponses(_responsesMesh);
 
 		MeshActor* _barbed2 = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(_barbedWireSize, _barbedWireSize), "Object/Barbed")));
 		_barbed2->SetPosition(Vector2f(sizeX + _barbedWireSize/4, _y));// Droite
 		_barbed2->Rotate(degrees(90));
-		_barbed2->AddComponent(new CollisionComponent(_barbed1, "BardedWire", IS_ALL, CT_BLOCK));
-		_barbed2->GetComponent<CollisionComponent>()->AddResponses(_responsesMesh);
 	}
 }

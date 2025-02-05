@@ -1,10 +1,15 @@
 #pragma once
 #include "MeshActor.h"
 
+class CollisionComponent;
+
 class BarbedWire : public MeshActor
 {
+	CollisionComponent* collision;
 public:
 	BarbedWire(const RectangleShapeData& _data);
+
+	BarbedWire(const BarbedWire& _other);
 
 public:
 	virtual void BeginPlay() override;
