@@ -13,7 +13,7 @@ Tank::Tank(vector<Code> _code, const string& _path, float _fuelTank) : MeshActor
 	pitch = 1.0f;
 	sound = nullptr;
 	rearSound = nullptr;
-	maxSpeed = 10.0f;
+	maxSpeed = 100.0f;
 	code = _code;
 	SetLayer(Layer::LayerType::PLAYER);
 }
@@ -47,6 +47,7 @@ void Tank::Construct()
 	M_INPUT.BindAction({ code[1] }, bind(&Tank::Right, this));
 	M_INPUT.BindAction({ code[2] }, bind(&Tank::SpeedUp, this));
 	M_INPUT.BindAction({ code[3] }, bind(&Tank::SlowDown, this));
+	M_INPUT.BindAction({ code[4] }, bind(&Tank::Shoot, this));
 
 	ComputeDirection(0.0f);
 }
@@ -122,10 +123,10 @@ void Tank::Left()
 
 void Tank::SpeedUp()
 {
-	isMoving = true;
 	float _speed = movement->GetSpeed();
+	isMoving = (_speed != 1);
 
-	if (speed >= maxSpeed) return;
+	if (GetSpeed() >= maxSpeed) return;
 	if (rearSound)
 	{
 		rearSound->Stop();
@@ -136,7 +137,7 @@ void Tank::SpeedUp()
 
 	if (sound)
 	{
-		M_AUDIO.PlaySample<SoundSample>("Gear_Shift");
+		M_AUDIO.PlaySample<SoundSample>("Gear_Shift", WAV);
 		if (pitch <= 1.9f)
 		{
 			pitch += 0.1f;
@@ -158,8 +159,13 @@ void Tank::SlowDown()
 		_speed -= 10.0f;
 	}
 
+	//if (_speed == 0)
+	//{
+	//	isMoving = false;
+	//}
+
 	movement->SetSpeed(_speed);
-	isMoving = (_speed != 0);
+	isMoving = (_speed != 1);
 
 	if (_speed < 0)
 	{
@@ -176,13 +182,20 @@ void Tank::SlowDown()
 
 	if (sound)
 	{
-		M_AUDIO.PlaySample<SoundSample>("Gear_Shift");
+		M_AUDIO.PlaySample<SoundSample>("Gear_Shift", WAV);
 		if (pitch >= 0.8f)
 		{
 			pitch -= 0.1f;
 		}
 		sound->SetPitch(pitch);
 	}
+}
+
+void Tank::Shoot()
+{
+	M_AUDIO.PlaySample<SoundSample>("Shoot");
+	Bullet* _bullet = Level::SpawnActor(Bullet(movement->GetDirection()));
+	_bullet->SetPosition(GetPosition());
 }
 
 void Tank::PlaySample()

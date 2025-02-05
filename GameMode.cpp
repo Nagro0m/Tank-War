@@ -15,6 +15,7 @@ GameMode::GameMode(const float _playersCount)
 		Code::D,
 		Code::W,
 		Code::S,
+		Code::Q
 	};
 	inputPlayer2 =
 	{
@@ -22,6 +23,7 @@ GameMode::GameMode(const float _playersCount)
 		Code::Right,
 		Code::Up ,
 		Code::Down,
+		Code::Enter
 	};
 
 	cameraZoneSolo = { Vector2f(500.0f , 200.0f), Vector2f(3340.0f, 1960.0f) };

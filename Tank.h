@@ -4,6 +4,7 @@
 #include "CollisionComponent.h"
 #include "AudioManager.h"
 #include "InputManager.h"
+#include "Bullet.h"
 
 class Tank : public MeshActor
 {
@@ -46,7 +47,7 @@ public:
 	}
 	FORCEINLINE float GetSpeed() const
 	{
-		return speed;
+		return movement->GetSpeed();
 	}
 
 public:
@@ -69,6 +70,7 @@ public:
 	void Left();
 	void SpeedUp();
 	void SlowDown();
+	void Shoot();
 	void PlaySample();
 	void Life();
 	void UpdateFuelTank(const float _deltaTime);
