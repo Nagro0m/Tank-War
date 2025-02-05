@@ -10,7 +10,7 @@ MeshActor::MeshActor(const float _radius, const size_t& _pointCount, const strin
 	renderMeshToken = -1;
 }
 
-MeshActor::MeshActor(const RectangleShapeData& _data, const string& _name) : Actor(_name)
+MeshActor::MeshActor(const RectangleShapeData& _data, const string& _name, const float _lifespan) : Actor(_name, TransformData(), _lifespan)
 {
 	mesh = CreateComponent<MeshComponent>(_data);
 	renderMeshToken = -1;

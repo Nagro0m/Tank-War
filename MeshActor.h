@@ -107,7 +107,7 @@ public:
 public:
 	MeshActor() = default;
 	MeshActor(const float _radius, const size_t& _pointCount = 30, const string& _path = "", const IntRect& _rect = {}, const string& _name = "MeshActor");
-	MeshActor(const RectangleShapeData& _data, const string& _name = "MeshActor");
+	MeshActor(const RectangleShapeData& _data, const string& _name = "MeshActor", const float _lifespan = 0.0f);
 	MeshActor(const MeshActor& _other);
 
 

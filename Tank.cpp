@@ -1,6 +1,7 @@
 #include "Tank.h"
 #include "CameraManager.h"
 #include "TimerManager.h"
+#include "MeshActor.h"
 
 Tank::Tank(vector<Code> _code, const string& _path, float _fuelTank) : MeshActor(RectangleShapeData(Vector2f(60.0f, 110.0f), _path))
 {
@@ -14,7 +15,6 @@ Tank::Tank(vector<Code> _code, const string& _path, float _fuelTank) : MeshActor
 	rearSound = nullptr;
 	maxSpeed = 10.0f;
 	code = _code;
-
 	SetLayer(Layer::LayerType::PLAYER);
 }
 
@@ -30,6 +30,7 @@ Tank::Tank(const Tank& _other) : MeshActor(_other)
 	rearSound = _other.rearSound;
 	maxSpeed = _other.maxSpeed;
 	code = _other.code;
+	distance = 0.0f;
 }
 
 void Tank::Construct()
@@ -83,6 +84,9 @@ void Tank::OnCollision(const CollisionData& _data)
 		
 	}
 	//if(_data.response == CT_OVERLAP)
+
+	distance += (1 ) * speed;
+	SpawnEffect();
 }
 
 void Tank::ComputeDirection(const float _rotation)
@@ -185,4 +189,16 @@ void Tank::Refuel()
 	fuelTank = fuelTank + 50 > 100 ? 100 : fuelTank + 50;
 	LOG(Display, to_string(fuelTank));
 }
+void Tank::SpawnEffect()
+{
+	if (distance >= 50 )
+	{
+		MeshActor* _effect = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(20, 20), "Effects/Tire_Track_02"), "shit", 3.0f));
+		_effect->SetPosition(GetPosition());
+		_effect->Rotate(GetRotation());
+		distance = 0;
+	}
+	
+}
+
 

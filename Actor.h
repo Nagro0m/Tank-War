@@ -7,7 +7,6 @@
 #include "TimerManager.h"
 #include "Layer.h"
 
-
 struct CollisionData;
 class Actor : public Core, public ITransformableModifier, public ITransformableViewer
 {
@@ -43,10 +42,6 @@ public:
 	FORCEINLINE void SetToDelete()
 	{
 		isToDelete = true;
-	}
-	FORCEINLINE void SetLifeSpan(const float _lifeSpan)
-	{
-		lifeSpan = _lifeSpan;
 	}
 	FORCEINLINE void SetLayer(Layer::LayerType _layer)
 	{
@@ -274,7 +269,7 @@ public:
 #pragma endregion
 
 public:
-	Actor(const string& _name = "Actor", const TransformData& _transform = TransformData());
+	Actor(const string& _name = "Actor", const TransformData& _transform = TransformData(), const float _lifespan = 0.0f);
 	Actor(const Actor& _actor);
 	virtual ~Actor();
 
