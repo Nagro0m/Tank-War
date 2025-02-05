@@ -236,6 +236,8 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="MusicSample.h" />
     <ClInclude Include="RenderType.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
     <ClInclude Include="Sample.h" />
     <ClInclude Include="Spawner.h" />
     <ClInclude Include="SubclassOf.h" />
@@ -269,6 +271,12 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
   </ItemGroup>
   <ItemGroup>
     <Text Include="TODOList.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tank War.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\Logo\AppLogo.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
