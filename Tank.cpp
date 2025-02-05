@@ -2,6 +2,9 @@
 #include "CameraManager.h"
 #include "TimerManager.h"
 #include "MeshActor.h"
+#include "Logger.h"
+#include "TireTrack.h"
+
 
 Tank::Tank(vector<Code> _code, const string& _path, float _fuelTank) : MeshActor(RectangleShapeData(Vector2f(60.0f, 110.0f), _path))
 {
@@ -68,6 +71,9 @@ void Tank::Tick(const float _deltaTime)
 	{
 		UpdateFuelTank(_deltaTime);
 	}
+
+	distance += (1) * movement->GetSpeed();
+	SpawnEffect();
 }
 
 void Tank::CollisionEnter(const CollisionData& _data)
@@ -224,16 +230,22 @@ void Tank::Refuel()
 	fuelTank = fuelTank + 50 > 100 ? 100 : fuelTank + 50;
 	LOG(Display, to_string(fuelTank));
 }
+
 void Tank::SpawnEffect()
 {
+	distance < 0 ? distance = 0 : distance;
+
 	if (distance >= 50 )
 	{
-		MeshActor* _effect = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(20, 20), "Effects/Tire_Track_02"), "shit", 3.0f));
-		_effect->SetPosition(GetPosition());
+		MeshActor* _effect = Level::SpawnActor(TireTrack(RectangleShapeData(Vector2f(55, 11), "Effects/TrackMark"), "shit", 1.8f));
+		_effect->GetMesh()->GetShape()->GetDrawable()->setFillColor(Color(123, 63, 0, 100));
+		_effect->SetOriginAtMiddle();
+		_effect->SetPosition(GetPosition() - movement->GetDirection() * 56.0f);
 		_effect->Rotate(GetRotation());
 		distance = 0;
 	}
 	
 }
+
 
 

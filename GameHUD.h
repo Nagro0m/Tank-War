@@ -7,7 +7,7 @@ using namespace UI;
 class GameHUD : public HUD
 {
 	UI::Image* separation;
-	vector<UI::Image*> lifeBars;
+	map<string , UI::Image*> lifeBars;
 	int playersCount;
 
 public:
@@ -18,5 +18,7 @@ public:
 	void Initialize();
 
 	UI::Image* CreateLifeBar(const string& _name, const string& _texture, const Vector2f& _position);
+	void ChangeLifeBarWithLife(const string& _name, const float _life);
+
 
 };

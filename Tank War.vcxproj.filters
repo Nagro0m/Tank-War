@@ -328,6 +328,9 @@
       <Filter>Fuel-Gameplay</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
+	      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TireTrack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -522,6 +525,9 @@
       <Filter>Scripts\Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TireTrack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

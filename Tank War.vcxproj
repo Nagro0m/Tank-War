@@ -193,6 +193,7 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClCompile Include="TankWarGame.cpp" />
     <ClCompile Include="TextObject.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="TireTrack.cpp" />
     <ClCompile Include="Track.cpp" />
     <ClCompile Include="TriangleActor.cpp" />
     <ClCompile Include="Utilities.cpp" />
@@ -241,6 +242,7 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClInclude Include="Tank.h" />
     <ClInclude Include="TankCreation.h" />
     <ClInclude Include="TankWarGame.h" />
+    <ClInclude Include="TireTrack.h" />
     <ClInclude Include="Track.h" />
     <ClInclude Include="TransformableViewer.h" />
     <ClInclude Include="TransformableModifier.h" />
