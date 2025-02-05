@@ -1,12 +1,25 @@
 #include "CollisionComponent.h"
 #include "ActorManager.h"
 
-CollisionComponent::CollisionComponent(Actor* _owner, string _channelName, int _status, CollisionType _type, map<string, CollisionType> _responses) : Component (_owner)
+CollisionStep CollisionComponent::ComputeOthersStep(Actor* _other, const CollisionStep& _step)
+{
+	if (othersStep.contains(_other) && othersStep[_other] == CS_ENTER || othersStep[_other] == CS_UPDATE)
+	{
+		othersStep[_other] = CS_UPDATE;
+	}
+	else
+	{
+		othersStep[_other] = _step;
+	}
+	return othersStep[_other];
+
+}
+
+CollisionComponent::CollisionComponent(Actor* _owner, string _channelName, int _status, CollisionType _type) : Component (_owner)
 {
 	channelName = _channelName;
 	type = _type;
 	status = _status;
-	responses = _responses;
 }
 
 CollisionComponent::CollisionComponent(Actor* _owner, const CollisionComponent& _other) : Component(_owner)
@@ -25,7 +38,6 @@ void CollisionComponent::Tick(const float _deltaTime)
 
 void CollisionComponent::CheckCollision()
 {
-	// changer en flag et tester s'il contient le flag 'IS_PHYSIC'
 	if (!(status & IS_PHYSIC)) return;
 
 	const set<Actor*>& _allActors = M_ACTOR.GetAllActors();
@@ -44,9 +56,29 @@ void CollisionComponent::CheckCollision()
 			const FloatRect& _otherRect = Cast<MeshActor>(_other)->GetHitbox();
 			if (const optional<FloatRect> _intersection = _ownerRect.findIntersection(_otherRect))
 			{
-				const CollisionData& _data = { _other, _response, *_intersection };
-				owner->OnCollision(_data);
-				_other->OnCollision(_data);
+				const CollisionData& _data = { _other, _response, *_intersection, ComputeOthersStep(_other, CS_ENTER)};
+				if (_data.step == CS_ENTER)
+				{
+					owner->CollisionEnter(_data);
+					_other->CollisionEnter(_data);
+					continue;
+				}
+				else if (_data.step == CS_UPDATE)
+				{
+					owner->CollisionUpdate(_data);
+					_other->CollisionUpdate(_data);
+					continue;
+				}
+			}
+			else
+			{
+				if (othersStep.contains(_other))
+				{
+					const CollisionData& _data = { _other, _response, {}, ComputeOthersStep(_other, CS_EXIT)};
+					owner->CollisionExit(_data);
+					_other->CollisionExit(_data);
+					othersStep.erase(_other);
+				}
 			}
 		}
 	}

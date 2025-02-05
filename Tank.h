@@ -11,13 +11,12 @@ class Tank : public MeshActor
 	float fuelTank;
 	bool isMoving;
 	MovementComponent* movement;
-	CollisionComponent* collisions;
+	CollisionComponent* collision;
 	float pitch;
 	SoundSample* sound;
 	SoundSample* rearSound;
 	float maxSpeed;
 	vector<Code> code;
-
 	float distance;
 
 public:
@@ -30,9 +29,24 @@ public:
 	{
 		movement->SetSpeed(0.0f);
 	}
+	
+	FORCEINLINE CollisionComponent* GetCollision() const
+	{
+		return collision;
+	}
+
+
 	FORCEINLINE bool HasMaxSpeed() const
 	{
 		return movement->GetSpeed() == maxSpeed;
+	}
+	FORCEINLINE void SetMaxSpeed(float _value) 
+	{
+		maxSpeed = _value;
+	}
+	FORCEINLINE float GetSpeed() const
+	{
+		return speed;
 	}
 
 public:
@@ -45,7 +59,9 @@ public:
 public:
 	virtual void BeginPlay() override;
 	virtual void Tick(const float _deltaTime) override;
-	virtual void OnCollision(const CollisionData& _data) override;
+	virtual void CollisionEnter(const CollisionData& _data) override;
+	virtual void CollisionUpdate(const CollisionData& _data) override;
+	virtual void CollisionExit(const CollisionData& _data) override;
 
 
 	void ComputeDirection(const float _rotation);

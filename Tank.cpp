@@ -9,7 +9,7 @@ Tank::Tank(vector<Code> _code, const string& _path, float _fuelTank) : MeshActor
 	fuelTank = _fuelTank;
 	isMoving = false;
 	movement = CreateComponent<MovementComponent>(1.0f);
-	collisions = CreateComponent<CollisionComponent>("Tank", IS_ALL, CT_OVERLAP, map<string, CollisionType>{{"Rock", CT_BLOCK}});
+	collision = CreateComponent<CollisionComponent>("Tank", IS_ALL, CT_OVERLAP);
 	pitch = 1.0f;
 	sound = nullptr;
 	rearSound = nullptr;
@@ -24,7 +24,7 @@ Tank::Tank(const Tank& _other) : MeshActor(_other)
 	fuelTank = _other.fuelTank;
 	isMoving = _other.isMoving;
 	movement = CreateComponent<MovementComponent>(_other.movement);
-	collisions = CreateComponent<CollisionComponent>(*_other.collisions);
+	collision = CreateComponent<CollisionComponent>(*_other.collision);
 	pitch = _other.pitch;
 	sound = _other.sound;
 	rearSound = _other.rearSound;
@@ -69,24 +69,37 @@ void Tank::Tick(const float _deltaTime)
 	}
 }
 
-void Tank::OnCollision(const CollisionData& _data)
+void Tank::CollisionEnter(const CollisionData& _data)
 {
+	if (IsToDelete()) return;
 	if (_data.response == CT_BLOCK)
 	{
 		if (_data.other->GetLayer() == Layer::LayerType::BREAKABLE)
 		{
-			if (HasMaxSpeed())
-			{
-				_data.other->SetToDelete();
-				//LOG(Display, "crossed");
-			}
-		}
-		
-	}
-	//if(_data.response == CT_OVERLAP)
 
+		}
+	}
+
+	else if (_data.response == CT_OVERLAP)
+	{
+		if (_data.other->GetLayer() == Layer::LayerType::RETRIEVABLE)
+		{
+
+		}
+	}
+	
 	distance += (1 ) * movement->GetSpeed();
 	SpawnEffect();
+}
+
+void Tank::CollisionUpdate(const CollisionData& _data)
+{
+	if (IsToDelete()) return;
+}
+
+void Tank::CollisionExit(const CollisionData& _data)
+{
+	if (IsToDelete()) return;
 }
 
 void Tank::ComputeDirection(const float _rotation)
@@ -112,8 +125,7 @@ void Tank::SpeedUp()
 	isMoving = true;
 	float _speed = movement->GetSpeed();
 
-	if (_speed >= 100.0f) return;
-
+	if (speed >= maxSpeed) return;
 	if (rearSound)
 	{
 		rearSound->Stop();
