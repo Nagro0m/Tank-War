@@ -27,7 +27,7 @@ void GameHUD::Initialize()
 
 	for (int _index = 0; _index < playersCount; ++_index)
 	{
-		lifeBars.push_back(CreateLifeBar("LifeBar" + to_string(_index + 1), _textures[_index], _positions[_index]));
+		lifeBars["Player" + to_string(_index +1)] = CreateLifeBar("LifeBar" + to_string(_index + 1), _textures[_index], _positions[_index]);
 	}
 
 	if (playersCount > 1)
@@ -47,6 +47,11 @@ UI::Image* GameHUD::CreateLifeBar(const string& _name, const string& _texture, c
 	M_HUD.AddToViewport(_lifeBar);
 
 	return _lifeBar;
+}
+
+void GameHUD::ChangeLifeBarWithLife(const string& _name, const float _life)
+{
+	
 }
 
 

@@ -22,10 +22,10 @@ MovementComponent::MovementComponent(Actor* _owner, const MovementComponent* _ot
 	isMoving = false;
 }
 
-
 void MovementComponent::Tick(const float _deltaTime)
 {
 	Super::Tick(_deltaTime);
+	
 	if (isMoving)
 	{
 		Move(_deltaTime);

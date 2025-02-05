@@ -30,10 +30,10 @@ void TankWarGame::Start()
 {
 	level = Level();
 	level.GenerateLevel();
-	MainMenu();
+	//MainMenu();
 
-	//gameMode->Initialize();
-	//gameHUD->Initialize();
+	gameMode->Initialize();
+	gameHUD->Initialize();
 
 	tankCreation = new TankCreation();
 	//tankCreation->Start();

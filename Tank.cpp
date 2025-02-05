@@ -2,6 +2,9 @@
 #include "CameraManager.h"
 #include "TimerManager.h"
 #include "MeshActor.h"
+#include "Logger.h"
+#include "TireTrack.h"
+
 
 Tank::Tank(vector<Code> _code, const string& _path, float _fuelTank) : MeshActor(RectangleShapeData(Vector2f(60.0f, 110.0f), _path))
 {
@@ -13,7 +16,7 @@ Tank::Tank(vector<Code> _code, const string& _path, float _fuelTank) : MeshActor
 	pitch = 1.0f;
 	sound = nullptr;
 	rearSound = nullptr;
-	maxSpeed = 10.0f;
+	maxSpeed = 100.0f;
 	code = _code;
 	SetLayer(Layer::LayerType::PLAYER);
 
@@ -50,6 +53,7 @@ void Tank::Construct()
 	M_INPUT.BindAction({ code[1] }, bind(&Tank::Right, this));
 	M_INPUT.BindAction({ code[2] }, bind(&Tank::SpeedUp, this));
 	M_INPUT.BindAction({ code[3] }, bind(&Tank::SlowDown, this));
+	M_INPUT.BindAction({ code[4] }, bind(&Tank::Shoot, this));
 
 	ComputeDirection(0.0f);
 }
@@ -70,6 +74,9 @@ void Tank::Tick(const float _deltaTime)
 	{
 		UpdateFuelTank(_deltaTime);
 	}
+
+	distance += (1) * movement->GetSpeed();
+	SpawnEffect();
 }
 
 void Tank::CollisionEnter(const CollisionData& _data)
@@ -128,10 +135,11 @@ void Tank::Left()
 
 void Tank::SpeedUp()
 {
-	isMoving = true;
 	float _speed = movement->GetSpeed();
+	isMoving = (_speed != 1);
 
-	//if (speed >= maxSpeed) return;
+	if (GetSpeed() >= maxSpeed) return;
+
 	if (rearSound)
 	{
 		rearSound->Stop();
@@ -142,7 +150,7 @@ void Tank::SpeedUp()
 
 	if (sound)
 	{
-		M_AUDIO.PlaySample<SoundSample>("Gear_Shift");
+		M_AUDIO.PlaySample<SoundSample>("Gear_Shift", WAV);
 		if (pitch <= 1.9f)
 		{
 			pitch += 0.1f;
@@ -164,8 +172,13 @@ void Tank::SlowDown()
 		_speed -= 10.0f;
 	}
 
+	//if (_speed == 0)
+	//{
+	//	isMoving = false;
+	//}
+
 	movement->SetSpeed(_speed);
-	isMoving = (_speed != 0);
+	isMoving = (_speed != 1);
 
 	if (_speed < 0)
 	{
@@ -182,13 +195,20 @@ void Tank::SlowDown()
 
 	if (sound)
 	{
-		M_AUDIO.PlaySample<SoundSample>("Gear_Shift");
+		M_AUDIO.PlaySample<SoundSample>("Gear_Shift", WAV);
 		if (pitch >= 0.8f)
 		{
 			pitch -= 0.1f;
 		}
 		sound->SetPitch(pitch);
 	}
+}
+
+void Tank::Shoot()
+{
+	M_AUDIO.PlaySample<SoundSample>("Shoot");
+	Bullet* _bullet = Level::SpawnActor(Bullet(movement->GetDirection()));
+	_bullet->SetPosition(GetPosition());
 }
 
 void Tank::PlaySample()
@@ -217,16 +237,22 @@ void Tank::Refuel()
 	fuelTank = fuelTank + 50 > 100 ? 100 : fuelTank + 50;
 	LOG(Display, to_string(fuelTank));
 }
+
 void Tank::SpawnEffect()
 {
+	distance < 0 ? distance = 0 : distance;
+
 	if (distance >= 50 )
 	{
-		MeshActor* _effect = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(20, 20), "Effects/Tire_Track_02"), "shit", 3.0f));
-		_effect->SetPosition(GetPosition());
+		MeshActor* _effect = Level::SpawnActor(TireTrack(RectangleShapeData(Vector2f(55, 11), "Effects/TrackMark"), "shit", 1.8f));
+		_effect->GetMesh()->GetShape()->GetDrawable()->setFillColor(Color(123, 63, 0, 100));
+		_effect->SetOriginAtMiddle();
+		_effect->SetPosition(GetPosition() - movement->GetDirection() * 56.0f);
 		_effect->Rotate(GetRotation());
 		distance = 0;
 	}
 	
 }
+
 
 

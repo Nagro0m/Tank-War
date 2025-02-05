@@ -159,7 +159,7 @@
     </Filter>
     <Filter Include="TankGame\TankCreation\Weapon">
       <UniqueIdentifier>{06686ab6-ad14-4da3-b3a6-ab73eb9317df}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="Fuel-Gameplay">
       <UniqueIdentifier>{97966a44-8027-4de5-b616-42d6ecdd10f9}</UniqueIdentifier>
     </Filter>
@@ -308,7 +308,7 @@
     </ClCompile>
     <ClCompile Include="GameHUD.cpp">
       <Filter>Source Files</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="TankCreation.cpp">
       <Filter>TankGame\TankCreation</Filter>
     </ClCompile>
@@ -320,12 +320,18 @@
     </ClCompile>
     <ClCompile Include="Track.cpp">
       <Filter>TankGame\TankCreation\Track</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="FuelGameplay.cpp">
       <Filter>Fuel-Gameplay</Filter>
     </ClCompile>
     <ClCompile Include="MeshTest.cpp">
       <Filter>Fuel-Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+	      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TireTrack.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -496,8 +502,8 @@
     </ClInclude>
     <ClInclude Include="GameHUD.h">
       <Filter>Header Files</Filter>
-	</ClInclude>
-	<ClInclude Include="TankCreation.h">
+    </ClInclude>
+    <ClInclude Include="TankCreation.h">
       <Filter>TankGame\TankCreation</Filter>
     </ClInclude>
     <ClInclude Include="Hull.h">
@@ -508,8 +514,8 @@
     </ClInclude>
     <ClInclude Include="Track.h">
       <Filter>TankGame\TankCreation\Track</Filter>
-	</ClInclude>
-	<ClInclude Include="FuelGameplay.h">
+    </ClInclude>
+    <ClInclude Include="FuelGameplay.h">
       <Filter>Fuel-Gameplay</Filter>
     </ClInclude>
     <ClInclude Include="MeshTest.h">
@@ -517,6 +523,12 @@
     </ClInclude>
     <ClInclude Include="Layer.h">
       <Filter>Scripts\Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TireTrack.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

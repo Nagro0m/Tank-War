@@ -14,6 +14,8 @@ Game::Game()
 void Game::Start()
 {
     window.create(VideoMode({ 1920, 1080 }), "Tank War", State::Windowed);
+    Image _image = Image("Assets/Logo/AppLogo.png");
+    window.setIcon(_image);
 };
 
 bool Game::Update()
