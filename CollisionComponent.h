@@ -19,10 +19,9 @@ enum CollisionType
 
 enum CollisionStep
 {
-	ENTER,
-	UPDATE, 
-	EXIT, 
-	NONE
+	CS_ENTER,
+	CS_UPDATE,
+	CS_EXIT
 };
 
 struct CollisionData
@@ -30,7 +29,9 @@ struct CollisionData
 	Actor* other;
 	CollisionType response;
 	FloatRect impactRect;
+	CollisionStep step;
 };
+
 
 //enum collisionStep -> ENTER, UPDATE, EXIT, NONE;
 
@@ -43,8 +44,7 @@ class CollisionComponent : public Component
 	int status;
 	CollisionType type; // Réponse par défaut
 	map<string, CollisionType> responses; //Layer a la place du string
-	//CollisionStep IsCollide;
-	//set_other
+	map<Actor*, CollisionStep> othersStep;
 
 public:
 	FORCEINLINE string GetChannelName() const
@@ -61,6 +61,9 @@ public:
 			responses.insert(_pair);
 		}
 	}
+
+	CollisionStep ComputeOthersStep(Actor* _other,const CollisionStep& _step);
+
 
 public:
 	CollisionComponent(Actor* _owner, string _channelName, int _status, CollisionType _type);

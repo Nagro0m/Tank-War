@@ -8,6 +8,7 @@
 
 
 struct CollisionData;
+
 class Actor : public Core, public ITransformableModifier, public ITransformableViewer
 {
 	bool isToDelete;
@@ -298,10 +299,10 @@ public:
 
 	#pragma region Collision
 
-	virtual void OnCollision(const CollisionData& _data) {}
-	//enter
-	//update
-	//exit
+	virtual void CollisionEnter(const CollisionData& _data) {}
+	virtual void CollisionUpdate(const CollisionData& _data) {}
+	virtual void CollisionExit(const CollisionData& _data) {}
+
 
 	#pragma endregion
 };

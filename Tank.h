@@ -27,11 +27,19 @@ public:
 
 	FORCEINLINE void ResetSpeed()
 	{
-		speed =  0.0f;
+		speed =  5.0f;
 	}
 	FORCEINLINE bool HasMaxSpeed() const
 	{
 		return speed == maxSpeed;
+	}
+	FORCEINLINE void SetMaxSpeed(float _value) 
+	{
+		maxSpeed = _value;
+	}
+	FORCEINLINE float GetSpeed() const
+	{
+		return speed;
 	}
 
 public:
@@ -44,7 +52,9 @@ public:
 public:
 	virtual void BeginPlay() override;
 	virtual void Tick(const float _deltaTime) override;
-	virtual void OnCollision(const CollisionData& _data) override;
+	virtual void CollisionEnter(const CollisionData& _data) override;
+	virtual void CollisionUpdate(const CollisionData& _data) override;
+	virtual void CollisionExit(const CollisionData& _data) override;
 
 
 	void ComputeDirection(const float _rotation);

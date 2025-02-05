@@ -72,31 +72,34 @@ void Tank::Tick(const float _deltaTime)
 	}
 }
 
-void Tank::OnCollision(const CollisionData& _data)
+void Tank::CollisionEnter(const CollisionData& _data)
 {
-	//si _data.owner dans setActor -> update
-	//sinon enter;
-
-
+	if (IsToDelete()) return;
 	if (_data.response == CT_BLOCK)
 	{
 		if (_data.other->GetLayer() == Layer::LayerType::BREAKABLE)
 		{
-			if (HasMaxSpeed())
-			{
-				_data.other->SetToDelete();
-				//LOG(Display, "crossed");
-			}
+
 		}
 	}
 
-	if (_data.response == CT_OVERLAP)
+	else if (_data.response == CT_OVERLAP)
 	{
 		if (_data.other->GetLayer() == Layer::LayerType::RETRIEVABLE)
 		{
 
 		}
 	}
+}
+
+void Tank::CollisionUpdate(const CollisionData& _data)
+{
+	if (IsToDelete()) return;
+}
+
+void Tank::CollisionExit(const CollisionData& _data)
+{
+	if (IsToDelete()) return;
 }
 
 void Tank::ComputeDirection(const float _rotation)
@@ -120,7 +123,8 @@ void Tank::Left()
 
 void Tank::SpeedUp()
 {
-	if (speed >= 10) return;
+	LOG(Display, to_string(maxSpeed));
+	if (speed >= maxSpeed) return;
 	if (rearSound)
 	{
 		rearSound->Stop();
