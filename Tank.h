@@ -15,14 +15,13 @@ class Tank : public MeshActor
 	bool isMoving;
 	MovementComponent* movement;
 	CollisionComponent* collision;
-	AnimationComponent* animation;
+	//AnimationComponent* animation;
 	float pitch;
 	SoundSample* sound;
 	SoundSample* rearSound;
 	float maxSpeed;
 	vector<Key> code;
 	float distance;
-	MeshActor* shootAnimation;
 	string name;
 
 public:

@@ -64,6 +64,10 @@ public:
 	{
 		return displayName;
 	}
+	FORCEINLINE float GetLifeSpan() const
+	{
+		return lifeSpan;
+	}
 	FORCEINLINE Layer::LayerType GetLayer() const
 	{
 		return layer;
