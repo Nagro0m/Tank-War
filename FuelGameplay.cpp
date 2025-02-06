@@ -30,8 +30,8 @@ void FuelGameplay::Start()
 	player1Tank = Level::SpawnActor(Tank(_tank1, "Tank/Tank_1"));
 	player1Tank->SetPosition({ 600.0f, 600.0f });
 	
-	Rock* _rock = new Rock(RectangleShapeData({ 100.0f,100.0f }, "Object/Rock_4"));
-	MeshActor* _meshactor = Level::SpawnActor<MeshActor>(Rock(RectangleShapeData({ 100.0f,100.0f }, "Object/Rock_4")));
+	//Rock* _rock = new Rock(RectangleShapeData({ 100.0f,100.0f }, "Object/Rock_4"));
+	Rock* _meshactor = Level::SpawnActor<Rock>(Rock(RectangleShapeData({ 100.0f,100.0f }, "Object/Rock_4")));
 	_meshactor->SetPosition(Vector2f(400.0f, 400.0f));
 
 	Tree* _meshactor2 = Level::SpawnActor<Tree>(Tree(RectangleShapeData({ 100.0f,100.0f }, "Object/Tree_2")));

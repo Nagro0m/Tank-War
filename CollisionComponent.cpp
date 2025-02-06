@@ -1,5 +1,5 @@
 #include "CollisionComponent.h"
-#include "ActorManager.h"
+#include "CollisionManager.h"
 
 CollisionStep CollisionComponent::ComputeOthersStep(Actor* _other, const CollisionStep& _step)
 {
@@ -15,7 +15,7 @@ CollisionStep CollisionComponent::ComputeOthersStep(Actor* _other, const Collisi
 
 }
 
-CollisionComponent::CollisionComponent(Actor* _owner,const string& _channelName,const int _status,const CollisionType& _type) : Component (_owner)
+CollisionComponent::CollisionComponent(Actor* _owner, const string& _channelName, const int _status, const CollisionType& _type) : Component(_owner)
 {
 	channelName = _channelName;
 	type = _type;
@@ -48,42 +48,38 @@ void CollisionComponent::CheckCollision()
 
 	if (!(status & IS_PHYSIC)) return;
 
-	const set<CollisionComponent*>& _allComponent = M_ACTOR.GetAllCollisionComponents();
+	const set<CollisionComponent*>& _allComponent = M_COLLISION.GetAllCollisionComponents();
 	const FloatRect& _ownerRect = Cast<MeshActor>(owner)->GetHitbox();
-	
+
 	for (CollisionComponent* _otherComponent : _allComponent)
 	{
+		if (_otherComponent == this) continue;
+		if (M_COLLISION.ContainPair(owner, _otherComponent->owner)) continue;
+
 		const string& _otherName = _otherComponent->GetChannelName();
 		if (!responses.contains(_otherName)) continue;
 
-		const CollisionType& _response = responses.at(_otherName);
-		if (_response == CT_NONE) continue;
+		const CollisionType& _otherResponse = responses.at(_otherName);
+		const CollisionType& _ownerResponse = _otherComponent->responses.at(channelName);
+		if (_otherResponse == CT_NONE) continue;
 
 		MeshActor* _other = Cast<MeshActor>(_otherComponent->owner);
 		const FloatRect& _otherRect = _other->GetHitbox();
 		if (const optional<FloatRect> _intersection = _ownerRect.findIntersection(_otherRect))
 		{
-			const CollisionData& _data = { _other, _response, *_intersection, ComputeOthersStep(_other, CS_ENTER)};
-			if (_data.step == CS_ENTER)
-			{
-				owner->CollisionEnter(_data);
-				_other->CollisionEnter(_data);
-				continue;
-			}
-			else if (_data.step == CS_UPDATE)
-			{
-				owner->CollisionUpdate(_data);
-				_other->CollisionUpdate(_data);
-				continue;
-			}
+			CollisionStep _step = ComputeOthersStep(_other, CS_ENTER);
+			const CollisionData& _ownerData = { owner, _ownerResponse, *_intersection, _step };
+			const CollisionData& _otherData = { _other, _otherResponse, *_intersection, _step };
+			M_COLLISION.Collide(_ownerData, _otherData);
 		}
 		else
 		{
 			if (othersStep.contains(_otherComponent->owner))
 			{
-				const CollisionData& _data = { _other, _response, {}, ComputeOthersStep(_other, CS_EXIT)};
-				owner->CollisionExit(_data);
-				_other->CollisionExit(_data);
+				CollisionStep _step = ComputeOthersStep(_other, CS_EXIT);
+				const CollisionData& _ownerData = { owner, _ownerResponse, {}, _step };
+				const CollisionData& _otherData = { _other, _otherResponse, {}, _step };
+				M_COLLISION.Collide(_ownerData, _otherData);
 				othersStep.erase(_other);
 			}
 		}

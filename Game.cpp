@@ -3,12 +3,13 @@
 #include "TimerManager.h"
 #include "InputManager.h"
 #include "CameraManager.h"
+#include "CollisionManager.h"
 
 using namespace Camera;
 
 Game::Game()
 {
-	window = RenderWindow();
+    window = RenderWindow();
 }
 
 void Game::Start()
@@ -26,6 +27,7 @@ bool Game::Update()
     M_INPUT.ConsumeData(window);
 
     const float _deltaTime = _timer.GetDeltaTime().asSeconds();
+    M_COLLISION.ResetCollisionPair();
     M_ACTOR.Tick(_deltaTime);
 
     return IsOver();

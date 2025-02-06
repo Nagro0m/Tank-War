@@ -12,8 +12,8 @@ void InitConfig()
 int main()
 {
     InitConfig();
-    //M_GAME.Launch(new FuelGameplay());
-    M_GAME.Launch(new TankWarGame());
+    M_GAME.Launch(new FuelGameplay());
+    //M_GAME.Launch(new TankWarGame());
 
     //unique_ptr _uniquePtr = make_unique<int>(5);
     //shared_ptr _sharedPtr;

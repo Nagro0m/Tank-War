@@ -1,7 +1,7 @@
 #include "MeshActor.h"
 #include "CameraManager.h"
 #include "CollisionComponent.h"
-#include "ActorManager.h"
+#include "CollisionManager.h"
 
 using namespace Camera;
 
@@ -36,14 +36,14 @@ void MeshActor::Construct()
 	renderMeshToken = M_CAMERA.BindOnRenderWindow(_data);
 	if (collision->GetChannelName() != "NONE")
 	{
-		M_ACTOR.AddCollisionComponent(collision);
+		M_COLLISION.AddCollisionComponent(collision);
 	}
 }
 
 void MeshActor::Deconstruct()
 {
 	Super::Deconstruct();
-	M_ACTOR.RemoveColiisionComponents(collision);
+	M_COLLISION.RemoveColiisionComponents(collision);
 	M_CAMERA.UnbindOnRenderWindow(renderMeshToken);
 }
 

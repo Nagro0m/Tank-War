@@ -54,7 +54,7 @@ public:
 	{
 		return channelName;
 	}
- 
+
 	//bool containsActor 
 
 	FORCEINLINE void AddResponses(const vector<pair<string, CollisionType>>& _responses)
@@ -73,7 +73,7 @@ public:
 		enable = _enable;
 	}
 
-	CollisionStep ComputeOthersStep(Actor* _other,const CollisionStep& _step);
+	CollisionStep ComputeOthersStep(Actor* _other, const CollisionStep& _step);
 
 
 public:
