@@ -23,7 +23,7 @@ void Input::ActionMap::AddAction(const string& _name, const ActionData& _data, c
 
 	if (actions.contains(_name))
 	{
-		LOG(Error, "This Action's name (" + _name + ") already used in this ActionMap ("+ name + ") !");
+		LOG(Error, "This Action's name (" + _name + ") already used in this ActionMap (" + name + ") !");
 		return;
 	}
 

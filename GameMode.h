@@ -16,8 +16,8 @@ class GameMode
 	CameraActor* cameraPlayer2;
 	FloatRect cameraZoneDuo;
 
-	vector<Key> inputPlayer1;
-	vector<Key> inputPlayer2;
+	vector<KeyType> inputPlayer1;
+	vector<KeyType> inputPlayer2;
 
 	float playersCount;
 

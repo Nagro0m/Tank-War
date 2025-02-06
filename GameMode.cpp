@@ -14,20 +14,20 @@ GameMode::GameMode(const float _playersCount)
 
 	inputPlayer1 =
 	{
-		Key::Q,
-		Key::D,
-		Key::Z,
-		Key::S,
-		Key::A
+		KeyType::Q,
+		KeyType::D,
+		KeyType::Z,
+		KeyType::S,
+		KeyType::A
 	};
 
 	inputPlayer2 =
 	{
-		Key::Left,
-		Key::Right,
-		Key::Up,
-		Key::Down,
-		Key::Enter
+		KeyType::Left_Arrow,
+		KeyType::Left_Arrow,
+		KeyType::Up_Arrow,
+		KeyType::Down_Arrow,
+		KeyType::Enter
 	};
 
 	cameraZoneSolo = { Vector2f(500.0f , 200.0f), Vector2f(3340.0f, 1960.0f) };
