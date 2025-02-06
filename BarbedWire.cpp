@@ -24,7 +24,7 @@ void BarbedWire::CollisionEnter(const CollisionData& _data)
 		if (_data.other->GetLayer() == Layer::LayerType::PLAYER)
 		{
 			Tank* _tank = Cast<Tank>(_data.other);
-			if (_tank);
+			if (_tank)
 			{
 				_tank->ResetSpeed();
 			}
@@ -40,7 +40,7 @@ void BarbedWire::CollisionUpdate(const CollisionData& _data)
 		if (_data.other->GetLayer() == Layer::LayerType::PLAYER)
 		{
 			Tank* _tank = Cast<Tank>(_data.other);
-			if (_tank);
+			if (_tank)
 			{
 				_tank->ResetSpeed();
 			}

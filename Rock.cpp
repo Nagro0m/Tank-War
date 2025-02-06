@@ -25,7 +25,7 @@ void Rock::CollisionEnter(const CollisionData& _data)
 		if (_data.other->GetLayer() == Layer::LayerType::PLAYER)
 		{
 			Tank* _tank = Cast<Tank>(_data.other);
-			if (_tank && !_tank->HasMaxSpeed());
+			if (_tank && !_tank->HasMaxSpeed())
 			{
 				_tank->ResetSpeed();
 			}
@@ -41,7 +41,7 @@ void Rock::CollisionUpdate(const CollisionData& _data)
 		if (_data.other->GetLayer() == Layer::LayerType::PLAYER)
 		{
 			Tank* _tank = Cast<Tank>(_data.other);
-			if (_tank && !_tank->HasMaxSpeed());
+			if (_tank && !_tank->HasMaxSpeed())
 			{
 				_tank->ResetSpeed();
 			}
