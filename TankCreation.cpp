@@ -22,9 +22,9 @@ void TankCreation::Start()
 {
     GenerateTankCreationMenu();
 
-    M_INPUT.BindActionWithState(Code::Q, bind(&TankCreation::PreviousOption, this), true);
-    M_INPUT.BindActionWithState(Code::D, bind(&TankCreation::NextOption, this), true);
-    M_INPUT.BindActionWithState(Code::Enter, bind(&TankCreation::ConfirmSelection, this), true);
+    //M_INPUT.BindActionWithState(Code::Q, bind(&TankCreation::PreviousOption, this), true);
+    //M_INPUT.BindActionWithState(Code::D, bind(&TankCreation::NextOption, this), true);
+    //M_INPUT.BindActionWithState(Code::Enter, bind(&TankCreation::ConfirmSelection, this), true);
     SpawnCurrentSelection();
 }
 
@@ -185,16 +185,16 @@ void TankCreation::ConfirmSelection()
 
 void TankCreation::FinalizeTank()
 {
-    vector<Code> _tank1 =
-    {
-    	Code::Q,
-    	Code::D,
-    	Code::Z,
-    	Code::S,
-    };
+    //vector<Code> _tank1 =
+    //{
+    //	Code::Q,
+    //	Code::D,
+    //	Code::Z,
+    //	Code::S,
+    //};
 
-    Tank _tank = Tank(_tank1, "tank", "Player1");
-    _tank.AddChild(Level::SpawnActor(tracks[trackIndex]), AT_SNAP_TO_TARGET);
-    _tank.AddChild(Level::SpawnActor(hulls[hullIndex]), AT_SNAP_TO_TARGET);
-    _tank.AddChild(Level::SpawnActor(weapons[weaponIndex]), AT_SNAP_TO_TARGET);
+    //Tank _tank = Tank(_tank1, "tank", "Player1");
+    //_tank.AddChild(Level::SpawnActor(tracks[trackIndex]), AT_SNAP_TO_TARGET);
+    //_tank.AddChild(Level::SpawnActor(hulls[hullIndex]), AT_SNAP_TO_TARGET);
+    //_tank.AddChild(Level::SpawnActor(weapons[weaponIndex]), AT_SNAP_TO_TARGET);
 }

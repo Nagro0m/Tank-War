@@ -23,7 +23,7 @@ bool Game::Update()
     TM_Seconds& _timer = M_TIMER;
     _timer.Update();
 
-    M_INPUT.ConsumeData(window);
+    Input::M_INPUT.Update(window);
 
     const float _deltaTime = _timer.GetDeltaTime().asSeconds();
     M_ACTOR.Tick(_deltaTime);

@@ -1,10 +1,11 @@
 #include "FuelGameplay.h"
-#include "CollisionComponent.h";
+#include "CollisionComponent.h"
 #include "Level.h"
 #include "CameraManager.h"
 #include "Tank.h"
 #include "MeshTest.h"
-
+#include "InputManager.h"
+using namespace Input;
 
 FuelGameplay::FuelGameplay()
 {
@@ -19,12 +20,12 @@ void FuelGameplay::Start()
 {
 	Super::Start();
 
-	vector<Code> _tank1 =
+	vector<Key> _tank1 =
 	{
-		Code::A,
-		Code::D,
-		Code::W,
-		Code::S,
+		Key::A,
+		Key::D,
+		Key::W,
+		Key::S,
 	};
 
 	player1Tank = Level::SpawnActor(Tank(_tank1, "Tank/Tank_1", "Player1"));

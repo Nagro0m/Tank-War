@@ -48,6 +48,10 @@
 #define SLEEP(_duration) sleep(_duration)
 #define NO_DISCARD _NODISCARD
 #define IS_BASE_OF(_base, _type) typename = enable_if_t<is_base_of_v<_base, _type>>
+#define TYPE(_type) decay_t<decltype(_type)>
+#define TYPE_ID(_type) typeid(_type)
+#define TYPE_NAME(_type) CAST(string, TYPE_ID(_type).name())
+#define TYPE_INDEX_NAME(_typeIndex) CAST(string, _typeIndex.name())
 
 using namespace std;
 using namespace sf;

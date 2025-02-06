@@ -1,6 +1,7 @@
 #include "GameMode.h"
 #include "TankCreation.h"
 
+
 GameMode::GameMode(const float _playersCount)
 {
 	player1Tank = nullptr;
@@ -10,21 +11,23 @@ GameMode::GameMode(const float _playersCount)
 	cameraPlayer1 = nullptr;
 	cameraPlayer2 = nullptr;
 
+
 	inputPlayer1 =
 	{
-		Code::A,
-		Code::D,
-		Code::W,
-		Code::S,
-		Code::Q
+		Key::Q,
+		Key::D,
+		Key::Z,
+		Key::S,
+		Key::A
 	};
+
 	inputPlayer2 =
 	{
-		Code::Left,
-		Code::Right,
-		Code::Up ,
-		Code::Down,
-		Code::Enter
+		Key::Left,
+		Key::Right,
+		Key::Up,
+		Key::Down,
+		Key::Enter
 	};
 
 	cameraZoneSolo = { Vector2f(500.0f , 200.0f), Vector2f(3340.0f, 1960.0f) };
@@ -63,6 +66,7 @@ void GameMode::InitializeDuo()
 
 	player1Tank = Level::SpawnActor(Tank(inputPlayer1, "Tank/Tank_1", "Player1"));
 	player1Tank->SetPosition(Vector2f(300.0f, 300.0f));
+	//TODO Check why inputPlayer2 is not working
 	player2Tank = Level::SpawnActor(Tank(inputPlayer2, "Tank/Tank_2", "Player2"));
 	player2Tank->SetPosition(Vector2f(3440.0f, 1760.0f));
 

@@ -6,8 +6,7 @@
 #include "TireTrack.h"
 #include "GameHUD.h"
 
-
-Tank::Tank(vector<Code> _code, const string& _path, const string& _name, float _fuelTank) : MeshActor(RectangleShapeData(Vector2f(60.0f, 110.0f), _path))
+Tank::Tank(vector<Key> _code, const string& _path, const string& _name, float _fuelTank) : MeshActor(RectangleShapeData(Vector2f(60.0f, 110.0f), _path))
 {
 	life = 100.0f;
 	fuelTank = _fuelTank;
@@ -54,12 +53,16 @@ void Tank::Construct()
 	_backgroundEngineSound->SetLoop(true);
 	_backgroundEngineSound->SetVolume(5.0f);
 
-	M_INPUT.BindAction({ code[0]}, bind(&Tank::Left, this));
-	M_INPUT.BindAction({ code[1] }, bind(&Tank::Right, this));
-	M_INPUT.BindAction({ code[2] }, bind(&Tank::SpeedUp, this));
-	M_INPUT.BindAction({ code[3] }, bind(&Tank::SlowDown, this));
-	M_INPUT.BindAction({ code[4] }, bind(&Tank::Shoot, this));
+	ActionMap* _actionMap = M_INPUT.CreateActionMap("Tank_" + name);
 
+	_actionMap->AddAction("Left", ActionData(KeyHold, code[0]), [&]() { Left(); });
+	_actionMap->AddAction("Right", ActionData(KeyHold, code[1]), [&]() { Right(); });
+	_actionMap->AddAction("SpeedUp", ActionData(KeyPressed, code[2]), [&]() { SpeedUp(); });
+	_actionMap->AddAction("SlowDown", ActionData(KeyPressed, code[3]), [&]() { SlowDown(); });
+	_actionMap->AddAction("Shoot", ActionData(KeyPressed, code[4]), [&]() { Shoot(); });
+
+	_actionMap->Enable();
+	
 	ComputeDirection(0.0f);
 	M_GAMEHUD.ChangeLifeBarWithLife(name, life);
 }
@@ -269,6 +272,3 @@ void Tank::SpawnTireTrack()
 	}
 	
 }
-
-
-

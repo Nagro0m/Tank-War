@@ -1,7 +1,9 @@
 #pragma once
 #include "Tank.h"
 #include "CameraManager.h"
+#include "InputManager.h"
 
+using namespace Input;
 class GameMode 
 {
 	Tank* player1Tank;
@@ -14,8 +16,8 @@ class GameMode
 	CameraActor* cameraPlayer2;
 	FloatRect cameraZoneDuo;
 
-	vector<Code> inputPlayer1;
-	vector<Code> inputPlayer2;
+	vector<Key> inputPlayer1;
+	vector<Key> inputPlayer2;
 
 	float playersCount;
 

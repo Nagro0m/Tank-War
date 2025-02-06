@@ -3,9 +3,10 @@
 #include "MovementComponent.h"
 #include "CollisionComponent.h"
 #include "AudioManager.h"
-#include "InputManager.h"
 #include "Bullet.h"
 #include "AnimationComponent.h"
+#include "InputManager.h"
+using namespace Input;
 
 class Tank : public MeshActor
 {
@@ -19,7 +20,7 @@ class Tank : public MeshActor
 	SoundSample* sound;
 	SoundSample* rearSound;
 	float maxSpeed;
-	vector<Code> code;
+	vector<Key> code;
 	float distance;
 	MeshActor* shootAnimation;
 	string name;
@@ -55,7 +56,7 @@ public:
 	}
 
 public:
-	Tank(vector<Code> _code, const string& _path, const string& _name, float _fuelTank = -1.0f);
+	Tank(vector<Key> _code, const string& _path, const string& _name, float _fuelTank = -1.0f);
 
 	Tank(const Tank& _other);
 
