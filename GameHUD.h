@@ -21,5 +21,7 @@ public:
 	UI::Image* CreateLifeBar(const string& _name, const string& _texture, const Vector2f& _position);
 	void ChangeLifeBarWithLife(const string& _name, const float _life);
 
+	void SpawnLoadAnimation();
+
 
 };

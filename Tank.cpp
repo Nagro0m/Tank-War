@@ -6,6 +6,7 @@
 #include "TireTrack.h"
 #include "GameHUD.h"
 #include "ShootAnimation.h"
+#include "LoadAnimation.h"
 
 Tank::Tank(vector<KeyType> _code, const string& _path, const string& _name, float _fuelTank) : MeshActor(RectangleShapeData(Vector2f(60.0f, 110.0f), _path))
 {

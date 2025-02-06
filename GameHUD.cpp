@@ -1,4 +1,6 @@
 #include "GameHUD.h"
+#include "Level.h"
+#include "LoadAnimation.h"
 
 GameHUD::GameHUD()
 {
@@ -65,5 +67,14 @@ void GameHUD::ChangeLifeBarWithLife(const string& _name, const float _life)
 	M_TEXTURE.SetTextureRect(lifeBars[_name]->GetShape(), Vector2i(0, (5 - (_life / 20)) * 73), Vector2i(500, 62));
 	
 }
+
+void GameHUD::SpawnLoadAnimation()
+{
+
+	LoadAnimation* _load = Level::SpawnActor(LoadAnimation(RectangleShapeData(Vector2f(100.0f, 100.0f), "Effects/Load4")));
+	_load->SetOriginAtMiddle();
+	_load->SetPosition(Vector2f(200, 200));
+}
+
 
 

@@ -177,6 +177,7 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LevelGenerator.cpp" />
+    <ClCompile Include="LoadAnimation.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MeshActor.cpp" />
@@ -246,6 +247,7 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClInclude Include="Layer.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelGenerator.h" />
+    <ClInclude Include="LoadAnimation.h" />
     <ClInclude Include="MeshTest.h" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="MusicSample.h" />
