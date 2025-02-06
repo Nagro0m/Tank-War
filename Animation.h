@@ -13,16 +13,9 @@ enum ReadDirection
 
 struct SpriteData
 {
+    float timeBetween;
     Vector2i start;
     Vector2i size;
-    float factor;
-
-    SpriteData(const Vector2i& _start, const Vector2i& _size, const float _factor = 1.0f)
-    {
-        start = _start;
-        size = _size;
-        factor = _factor;
-    }
 };
 
 struct LinkedAnimation
@@ -61,9 +54,7 @@ struct AnimationData
         isReversed = _isReversed;
         count = _count;
         duration = _duration;
-        notifies = map<u_int, function<void()>>();
         direction = _direction;
-        linkedAnimations = _linkedAnimations;
 
         const function<Vector2i(const int _index)> _computeStart[] =
         {
@@ -106,11 +97,10 @@ struct AnimationData
 
         for (int _index = 0; _index < _count; _index++)
         {
-            const SpriteData& _data = SpriteData(_computeStart[direction](_index), _spriteData.size, _spriteData.factor);
+            const SpriteData& _data = { _spriteData.timeBetween, _computeStart[direction](_index), _spriteData.size };
             sprites.push_back(_data);
         }
     }
-
     AnimationData(const float _duration, const vector<SpriteData>& _spritesData,
         const bool _hasExitTime = true, const bool _canLoop = true,
         const ReadDirection& _direction = RD_ROW, const bool _isReversed = false,
@@ -122,7 +112,6 @@ struct AnimationData
         count = CAST(int, _spritesData.size());
         duration = _duration;
         sprites = _spritesData;
-        notifies = map<u_int, function<void()>>();
         direction = _direction;
         linkedAnimations = _linkedAnimations;
     }
@@ -154,7 +143,6 @@ public:
 
 private:
     void Update();
-    void UpdateTimer(const float _duration);
     void Reset();
 
 public:

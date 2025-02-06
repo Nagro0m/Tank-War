@@ -159,6 +159,7 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="CustomException.cpp" />
+    <ClCompile Include="ExplosionAnimation.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="FuelGameplay.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -188,6 +189,7 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClCompile Include="RootComponent.cpp" />
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="ShapeObject.cpp" />
+    <ClCompile Include="ShootAnimation.cpp" />
     <ClCompile Include="SoundSample.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Spawner.cpp" />
@@ -223,6 +225,7 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClInclude Include="Core.h" />
     <ClInclude Include="CoreMinimal.h" />
     <ClInclude Include="CustomException.h" />
+    <ClInclude Include="ExplosionAnimation.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="FuelGameplay.h" />
     <ClInclude Include="Game.h" />
@@ -248,6 +251,7 @@ xcopy /y /d "..\..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClInclude Include="Rock.h" />
     <ClInclude Include="Root.h" />
     <ClInclude Include="Sample.h" />
+    <ClInclude Include="ShootAnimation.h" />
     <ClInclude Include="Spawner.h" />
     <ClInclude Include="SubclassOf.h" />
     <ClInclude Include="Tank.h" />

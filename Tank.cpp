@@ -5,6 +5,7 @@
 #include "Logger.h"
 #include "TireTrack.h"
 #include "GameHUD.h"
+#include "ShootAnimation.h"
 
 
 Tank::Tank(vector<Code> _code, const string& _path, const string& _name, float _fuelTank) : MeshActor(RectangleShapeData(Vector2f(60.0f, 110.0f), _path))
@@ -14,17 +15,18 @@ Tank::Tank(vector<Code> _code, const string& _path, const string& _name, float _
 	isMoving = false;
 	movement = CreateComponent<MovementComponent>(0.0f);
 	collision = CreateComponent<CollisionComponent>("Tank", IS_ALL, CT_OVERLAP);
-	animation = CreateComponent<AnimationComponent>();
+	//animation = CreateComponent<AnimationComponent>();
 	pitch = 1.0f;
 	sound = nullptr;
 	rearSound = nullptr;
 	maxSpeed = 100.0f;
 	code = _code;
 	name = _name;
+	distance = 0.0f;
 	SetLayer(Layer::LayerType::PLAYER);
 
 	vector<pair<string, CollisionType>> _responsesTank = {{"BardedWire", CT_BLOCK}, {"Root", CT_BLOCK}, {"Grass", CT_BLOCK} , {"Tree", CT_BLOCK} ,{"Rock", CT_BLOCK} };
-	//collision->AddResponses(_responsesTank);
+	collision->AddResponses(_responsesTank);
 }
 
 Tank::Tank(const Tank& _other) : MeshActor(_other)
@@ -32,16 +34,18 @@ Tank::Tank(const Tank& _other) : MeshActor(_other)
 	life = _other.life;
 	fuelTank = _other.fuelTank;
 	isMoving = _other.isMoving;
-	animation = CreateComponent<AnimationComponent>(_other.animation);
 	movement = CreateComponent<MovementComponent>(_other.movement);
 	collision = CreateComponent<CollisionComponent>(*_other.collision);
+	//animation = CreateComponent<AnimationComponent>(_other.animation);
 	pitch = _other.pitch;
 	sound = _other.sound;
 	rearSound = _other.rearSound;
 	maxSpeed = _other.maxSpeed;
 	code = _other.code;
 	name = _other.name;
-	distance = 0.0f;
+	distance = _other.distance;
+
+	SetLayer(_other.GetLayer());
 }
 
 void Tank::Construct()
@@ -67,7 +71,7 @@ void Tank::Construct()
 void Tank::Deconstruct()
 {
 	Super::Deconstruct();
-	animation->StopAnimation();
+	//animation->StopAnimation();
 }
 
 void Tank::BeginPlay()
@@ -220,10 +224,22 @@ void Tank::SlowDown()
 void Tank::Shoot()
 {
 	M_AUDIO.PlaySample<SoundSample>("Shoot");
+
+	const Vector2f& _canonPosition = GetPosition() + movement->GetDirection() * 56.0f;
+
 	Bullet* _bullet = Level::SpawnActor(Bullet(movement->GetDirection()));
 	_bullet->SetRotation(GetRotation());
 	_bullet->SetOriginAtMiddle();
-	_bullet->SetPosition(GetPosition() + movement->GetDirection() * 56.0f);
+	_bullet->SetPosition(_canonPosition);
+
+	ShootAnimation* _shoot = Level::SpawnActor(ShootAnimation(RectangleShapeData(Vector2f(100.0f, 100.0f), "Effects/Shoot")));
+	_shoot->SetOriginAtMiddle();
+	_shoot->SetPosition(GetPosition() + movement->GetDirection() * 65.0f);
+	_shoot->SetRotation(GetRotation() - degrees(90));
+
+	
+
+	
 }
 
 void Tank::PlaySample()
