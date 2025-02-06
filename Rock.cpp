@@ -9,6 +9,14 @@ Rock::Rock(const RectangleShapeData& _data) : MeshActor(_data, "Rock")
 	collision->AddResponses(_responsesMesh);
 }
 
+Rock::Rock(const float _size, const string& _path) : MeshActor(_size, 30, _path, {}, "Rock")
+{
+	SetLayer(Layer::LayerType::BREAKABLE);
+	vector<pair<string, CollisionType>> _responsesMesh = { { "Tank", CT_OVERLAP } };
+	collision->SetInformation("Rock", IS_ALL, CT_BLOCK, false);
+	collision->AddResponses(_responsesMesh);
+}
+
 Rock::Rock(const Rock& _other) : MeshActor(_other)
 {
 	SetLayer(_other.GetLayer());

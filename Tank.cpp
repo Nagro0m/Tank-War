@@ -4,7 +4,7 @@
 #include "MeshActor.h"
 #include "Logger.h"
 #include "TireTrack.h"
-
+#include "Layer.h"
 
 Tank::Tank(vector<Code> _code, const string& _path, float _fuelTank) : MeshActor(RectangleShapeData(Vector2f(60.0f, 110.0f), _path))
 {
@@ -90,6 +90,11 @@ void Tank::CollisionEnter(const CollisionData& _data)
 				_data.other->SetToDelete();
 			}
 		}
+
+		if (_data.other->GetLayer() == Layer::LayerType::WORLD_STATIC)
+		{
+			ResetSpeed();
+		}
 	}
 
 	else if (_data.response == CT_OVERLAP)
@@ -107,6 +112,22 @@ void Tank::CollisionEnter(const CollisionData& _data)
 void Tank::CollisionUpdate(const CollisionData& _data)
 {
 	if (IsToDelete()) return;
+
+	if (_data.response == CT_BLOCK)
+	{
+		//if (_data.other->GetLayer() == Layer::LayerType::BREAKABLE)
+		//{
+		//	if (HasMaxSpeed())
+		//	{
+		//		_data.other->SetToDelete();
+		//	}
+		//}
+
+		if (_data.other->GetLayer() == Layer::LayerType::WORLD_STATIC)
+		{
+			ResetSpeed();
+		}
+	}
 }
 
 void Tank::CollisionExit(const CollisionData& _data)

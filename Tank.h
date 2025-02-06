@@ -28,6 +28,8 @@ public:
 	FORCEINLINE void ResetSpeed()
 	{
 		movement->SetSpeed(0.0f);
+		pitch = 1.0f;
+		sound->SetPitch(pitch);
 	}
 	
 	FORCEINLINE CollisionComponent* GetCollision() const

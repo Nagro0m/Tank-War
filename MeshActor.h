@@ -122,4 +122,9 @@ protected:
 public:
 	virtual void Construct() override;
 	virtual void Deconstruct() override;
+	virtual MeshActor* Clone() const // Méthode purement virtuelle
+	{
+		return new MeshActor(*this);
+	}
+
 };

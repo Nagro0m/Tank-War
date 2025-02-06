@@ -6,6 +6,8 @@ class Rock : public MeshActor
 public:
 	Rock(const RectangleShapeData& _data);
 
+	Rock(const float _size, const string& _path);
+
 	Rock(const Rock& _other);
 
 public:
@@ -14,5 +16,7 @@ public:
 	virtual void CollisionEnter(const CollisionData& _data) override;
 	virtual void CollisionUpdate(const CollisionData& _data) override;
 	virtual void CollisionExit(const CollisionData& _data) override;
+	virtual Rock* Clone() const override { return new Rock(*this); }
+
 };
 

@@ -9,6 +9,14 @@ Tree::Tree(const RectangleShapeData& _data) : MeshActor(_data, "Tree")
 	collision->AddResponses(_responsesMesh);
 }
 
+Tree::Tree(const float _size, const string& _path) : MeshActor(_size, 30, _path, {}, "Tree")
+{
+	SetLayer(Layer::LayerType::BREAKABLE);
+	vector<pair<string, CollisionType>> _responsesMesh = { { "Tank", CT_OVERLAP } };
+	collision->SetInformation("Tree", IS_ALL, CT_BLOCK, false);
+	collision->AddResponses(_responsesMesh);
+}
+
 Tree::Tree(const Tree& _other) : MeshActor(_other)
 {
 	SetLayer(_other.GetLayer());
