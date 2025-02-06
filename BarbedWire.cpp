@@ -5,14 +5,13 @@ BarbedWire::BarbedWire(const RectangleShapeData& _data) : MeshActor(_data, "Barb
 {
 	SetLayer(Layer::LayerType::WORLD_STATIC);
 	vector<pair<string, CollisionType>> _responsesMesh = { { "Tank", CT_OVERLAP } };
-	collision = CreateComponent<CollisionComponent>("BardedWire", IS_ALL, CT_BLOCK);
+	collision->SetInformation("BardedWire", IS_ALL, CT_BLOCK, false);
 	collision->AddResponses(_responsesMesh);
 }
 
 BarbedWire::BarbedWire(const BarbedWire& _other) : MeshActor(_other)
 {
 	SetLayer(_other.GetLayer());
-	collision = CreateComponent<CollisionComponent>(*_other.collision);
 }
 
 
@@ -34,7 +33,7 @@ void BarbedWire::CollisionEnter(const CollisionData& _data)
 		if (_data.other->GetLayer() == Layer::LayerType::PLAYER)
 		{
 			Tank* _tank = Cast<Tank>(_data.other);
-			if (_tank);
+			if (_tank)
 			{
 				_tank->ResetSpeed();
 			}
@@ -50,7 +49,7 @@ void BarbedWire::CollisionUpdate(const CollisionData& _data)
 		if (_data.other->GetLayer() == Layer::LayerType::PLAYER)
 		{
 			Tank* _tank = Cast<Tank>(_data.other);
-			if (_tank);
+			if (_tank)
 			{
 				_tank->ResetSpeed();
 			}

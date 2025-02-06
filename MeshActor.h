@@ -3,10 +3,15 @@
 #include "MeshComponent.h"
 #include "TextureManager.h"
 
+class CollisionComponent;
+
 class MeshActor : public Actor
 {
 	MeshComponent* mesh;
 	u_int renderMeshToken;
+
+protected:
+	CollisionComponent* collision;
 
 public:
 	FORCEINLINE Vector2f GetForwardVector() const

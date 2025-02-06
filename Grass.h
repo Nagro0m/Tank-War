@@ -1,11 +1,8 @@
 #pragma once
 #include "MeshActor.h"
 
-class CollisionComponent;
-
 class Grass : public MeshActor
 {
-	CollisionComponent* collision;
 public:
 	Grass(const RectangleShapeData& _data);
 

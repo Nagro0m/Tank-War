@@ -1,6 +1,8 @@
 #pragma once
 #include "Component.h"
 #include "MeshActor.h"
+#include "ActorManager.h"
+
 
 enum InteractStatus
 {
@@ -45,6 +47,7 @@ class CollisionComponent : public Component
 	CollisionType type; // Réponse par défaut
 	map<string, CollisionType> responses; //Layer a la place du string
 	map<Actor*, CollisionStep> othersStep;
+	bool enable;
 
 public:
 	FORCEINLINE string GetChannelName() const
@@ -62,11 +65,19 @@ public:
 		}
 	}
 
+	FORCEINLINE void SetInformation(const string& _channelName, const int _status, const CollisionType& _type, const bool _enable = false)
+	{
+		channelName = _channelName;
+		type = _type;
+		status = _status;
+		enable = _enable;
+	}
+
 	CollisionStep ComputeOthersStep(Actor* _other,const CollisionStep& _step);
 
 
 public:
-	CollisionComponent(Actor* _owner, const string& _channelName, const int _status, const CollisionType& _type);
+	CollisionComponent(Actor* _owner, const string& _channelName = "NONE", const int _status = IS_NONE, const CollisionType& _type = CT_NONE);
 	CollisionComponent(Actor* _owner, const CollisionComponent& _other);
 
 protected:

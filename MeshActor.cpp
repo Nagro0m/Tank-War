@@ -10,18 +10,21 @@ MeshActor::MeshActor(const float _radius, const size_t& _pointCount, const strin
 {
 	mesh = CreateComponent<MeshComponent>(_radius, _pointCount, _path, _rect);
 	renderMeshToken = -1;
+	collision = CreateComponent<CollisionComponent>();
 }
 
 MeshActor::MeshActor(const RectangleShapeData& _data, const string& _name, const float _lifespan) : Actor(_name, TransformData(), _lifespan)
 {
 	mesh = CreateComponent<MeshComponent>(_data);
 	renderMeshToken = -1;
+	collision = CreateComponent<CollisionComponent>();
 }
 
 MeshActor::MeshActor(const MeshActor& _other) : Actor(_other)
 {
 	mesh = CreateComponent<MeshComponent>(_other.mesh);
 	renderMeshToken = _other.renderMeshToken;
+	collision = CreateComponent<CollisionComponent>(*_other.collision);
 }
 
 
@@ -31,23 +34,16 @@ void MeshActor::Construct()
 
 	const RenderData& _data = RenderData(bind(&MeshActor::RenderMesh, this, placeholders::_1));
 	renderMeshToken = M_CAMERA.BindOnRenderWindow(_data);
-
-	CollisionComponent* _collision = GetComponent<CollisionComponent>();
-	if(_collision)
+	if (collision->GetChannelName() != "NONE")
 	{
-		M_ACTOR.AddCollisionComponent(_collision);
+		M_ACTOR.AddCollisionComponent(collision);
 	}
-
 }
 
 void MeshActor::Deconstruct()
 {
 	Super::Deconstruct();
-	CollisionComponent* _collision = GetComponent<CollisionComponent>();
-	if (_collision)
-	{
-		M_ACTOR.RemoveColiisionComponents(_collision);
-	}
+	M_ACTOR.RemoveColiisionComponents(collision);
 	M_CAMERA.UnbindOnRenderWindow(renderMeshToken);
 }
 

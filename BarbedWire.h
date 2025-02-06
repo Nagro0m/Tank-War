@@ -5,7 +5,7 @@ class CollisionComponent;
 
 class BarbedWire : public MeshActor
 {
-	CollisionComponent* collision;
+	//CollisionComponent* collision;
 public:
 	BarbedWire(const RectangleShapeData& _data);
 

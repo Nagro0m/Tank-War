@@ -12,7 +12,7 @@ Tank::Tank(vector<Code> _code, const string& _path, float _fuelTank) : MeshActor
 	fuelTank = _fuelTank;
 	isMoving = false;
 	movement = CreateComponent<MovementComponent>(1.0f);
-	collision = CreateComponent<CollisionComponent>("Tank", IS_ALL, CT_OVERLAP);
+	collision->SetInformation("Tank", IS_ALL, CT_OVERLAP, true);
 	pitch = 1.0f;
 	sound = nullptr;
 	rearSound = nullptr;
@@ -30,7 +30,6 @@ Tank::Tank(const Tank& _other) : MeshActor(_other)
 	fuelTank = _other.fuelTank;
 	isMoving = _other.isMoving;
 	movement = CreateComponent<MovementComponent>(_other.movement);
-	collision = CreateComponent<CollisionComponent>(*_other.collision);
 	pitch = _other.pitch;
 	sound = _other.sound;
 	rearSound = _other.rearSound;

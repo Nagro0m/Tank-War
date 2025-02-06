@@ -1,12 +1,8 @@
 #pragma once
 #include "MeshActor.h"
 
-class CollisionComponent;
-
 class Tree : public MeshActor
 {
-	CollisionComponent* collision;
-
 public:
 	Tree(const RectangleShapeData& _data);
 

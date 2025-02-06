@@ -12,7 +12,6 @@ class Tank : public MeshActor
 	float fuelTank;
 	bool isMoving;
 	MovementComponent* movement;
-	CollisionComponent* collision;
 	float pitch;
 	SoundSample* sound;
 	SoundSample* rearSound;

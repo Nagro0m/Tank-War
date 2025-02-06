@@ -20,6 +20,7 @@ CollisionComponent::CollisionComponent(Actor* _owner,const string& _channelName,
 	channelName = _channelName;
 	type = _type;
 	status = _status;
+	enable = false;
 }
 
 CollisionComponent::CollisionComponent(Actor* _owner, const CollisionComponent& _other) : Component(_owner)
@@ -28,16 +29,23 @@ CollisionComponent::CollisionComponent(Actor* _owner, const CollisionComponent& 
 	type = _other.type;
 	status = _other.status;
 	responses = _other.responses;
+	enable = _other.enable;
 }
 
 void CollisionComponent::Tick(const float _deltaTime)
 {
 	Super::Tick(_deltaTime);
-	CheckCollision();
+	if (channelName != "NONE")
+	{
+		CheckCollision();
+
+	}
 }
 
 void CollisionComponent::CheckCollision()
 {
+	if (!enable) return;
+
 	if (!(status & IS_PHYSIC)) return;
 
 	const set<CollisionComponent*>& _allComponent = M_ACTOR.GetAllCollisionComponents();
