@@ -20,10 +20,15 @@ class Tank : public MeshActor
 	SoundSample* sound;
 	SoundSample* rearSound;
 	float maxSpeed;
-	vector<Key> code;
+	bool isReadyToShoot;
+	vector<KeyType> code;
 	float distance;
 	string name;
 
+	FORCEINLINE void SetIsReadyToShoot()
+	{
+		isReadyToShoot = true;
+	}
 public:
 	FORCEINLINE int GetLife() const 
 	{
@@ -55,7 +60,7 @@ public:
 	}
 
 public:
-	Tank(vector<Key> _code, const string& _path, const string& _name, float _fuelTank = -1.0f);
+	Tank(vector<KeyType> _code, const string& _path, const string& _name, float _fuelTank = -1.0f);
 
 	Tank(const Tank& _other);
 

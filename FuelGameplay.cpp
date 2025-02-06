@@ -20,12 +20,12 @@ void FuelGameplay::Start()
 {
 	Super::Start();
 
-	vector<Key> _tank1 =
+	vector<KeyType> _tank1 =
 	{
-		Key::A,
-		Key::D,
-		Key::W,
-		Key::S,
+		KeyType::A,
+		KeyType::D,
+		KeyType::W,
+		KeyType::S,
 	};
 
 	player1Tank = Level::SpawnActor(Tank(_tank1, "Tank/Tank_1", "Player1"));

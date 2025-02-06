@@ -24,7 +24,7 @@ GameMode::GameMode(const float _playersCount)
 	inputPlayer2 =
 	{
 		KeyType::Left_Arrow,
-		KeyType::Left_Arrow,
+		KeyType::Right_Arrow,
 		KeyType::Up_Arrow,
 		KeyType::Down_Arrow,
 		KeyType::Enter

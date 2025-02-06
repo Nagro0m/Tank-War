@@ -7,7 +7,7 @@
 #include "GameHUD.h"
 #include "ShootAnimation.h"
 
-Tank::Tank(vector<Key> _code, const string& _path, const string& _name, float _fuelTank) : MeshActor(RectangleShapeData(Vector2f(60.0f, 110.0f), _path))
+Tank::Tank(vector<KeyType> _code, const string& _path, const string& _name, float _fuelTank) : MeshActor(RectangleShapeData(Vector2f(60.0f, 110.0f), _path))
 {
 	life = 100.0f;
 	fuelTank = _fuelTank;
@@ -19,6 +19,7 @@ Tank::Tank(vector<Key> _code, const string& _path, const string& _name, float _f
 	sound = nullptr;
 	rearSound = nullptr;
 	maxSpeed = 100.0f;
+	isReadyToShoot = true;
 	code = _code;
 	name = _name;
 	distance = 0.0f;
@@ -40,6 +41,7 @@ Tank::Tank(const Tank& _other) : MeshActor(_other)
 	sound = _other.sound;
 	rearSound = _other.rearSound;
 	maxSpeed = _other.maxSpeed;
+	isReadyToShoot = _other.isReadyToShoot;
 	code = _other.code;
 	name = _other.name;
 	distance = _other.distance;
@@ -226,6 +228,12 @@ void Tank::SlowDown()
 
 void Tank::Shoot()
 {
+	if (!isReadyToShoot)
+	{
+		M_AUDIO.PlaySample<SoundSample>("EmptyWeapon");
+		return;
+	}
+	isReadyToShoot = false;
 	M_AUDIO.PlaySample<SoundSample>("Shoot");
 
 	const Vector2f& _canonPosition = GetPosition() + movement->GetDirection() * 56.0f;
@@ -239,10 +247,9 @@ void Tank::Shoot()
 	_shoot->SetOriginAtMiddle();
 	_shoot->SetPosition(GetPosition() + movement->GetDirection() * 65.0f);
 	_shoot->SetRotation(GetRotation() - degrees(90));
-
 	
+	new Timer(bind(&Tank::SetIsReadyToShoot, this), seconds(2), true);
 
-	
 }
 
 void Tank::PlaySample()
