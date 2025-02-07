@@ -2,6 +2,8 @@
 #include "Singleton.h"
 #include "Actor.h"
 
+class CollisionComponent;
+
 class ActorManager : public Singleton<ActorManager>
 {
 	set<Actor*> allActors;

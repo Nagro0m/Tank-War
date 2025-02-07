@@ -1,10 +1,15 @@
 #pragma once
 #include "MeshActor.h"
 
+class CollisionComponent;
+
 class BarbedWire : public MeshActor
 {
+	//CollisionComponent* collision;
 public:
 	BarbedWire(const RectangleShapeData& _data);
+
+	BarbedWire(const BarbedWire& _other);
 
 public:
 	virtual void BeginPlay() override;
@@ -12,5 +17,6 @@ public:
 	virtual void CollisionEnter(const CollisionData& _data) override;
 	virtual void CollisionUpdate(const CollisionData& _data) override;
 	virtual void CollisionExit(const CollisionData& _data) override;
+	virtual BarbedWire* Clone() const override { return new BarbedWire(*this); }
 };
 

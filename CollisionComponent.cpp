@@ -1,5 +1,5 @@
 #include "CollisionComponent.h"
-#include "ActorManager.h"
+#include "CollisionManager.h"
 
 CollisionStep CollisionComponent::ComputeOthersStep(Actor* _other, const CollisionStep& _step)
 {
@@ -15,11 +15,12 @@ CollisionStep CollisionComponent::ComputeOthersStep(Actor* _other, const Collisi
 
 }
 
-CollisionComponent::CollisionComponent(Actor* _owner, string _channelName, int _status, CollisionType _type) : Component (_owner)
+CollisionComponent::CollisionComponent(Actor* _owner, const string& _channelName, const int _status, const CollisionType& _type) : Component(_owner)
 {
 	channelName = _channelName;
 	type = _type;
 	status = _status;
+	enable = false;
 }
 
 CollisionComponent::CollisionComponent(Actor* _owner, const CollisionComponent& _other) : Component(_owner)
@@ -28,6 +29,7 @@ CollisionComponent::CollisionComponent(Actor* _owner, const CollisionComponent& 
 	type = _other.type;
 	status = _other.status;
 	responses = _other.responses;
+	enable = _other.enable;
 }
 
 void CollisionComponent::Tick(const float _deltaTime)
@@ -35,51 +37,73 @@ void CollisionComponent::Tick(const float _deltaTime)
 	Super::Tick(_deltaTime);
 	//CheckCollision();
 }
-
+	if (channelName != "NONE")
+	{
+		CheckCollision();
+	}
+}
 void CollisionComponent::CheckCollision()
 {
-	if (!(status & IS_PHYSIC)) return;
+    if (!enable) return;
 
-	const set<Actor*>& _allActors = M_ACTOR.GetAllActors();
-	const FloatRect& _ownerRect = Cast<MeshActor>(owner)->GetHitbox();
-	
-	for (Actor* _other : _allActors)
-	{
-		if (CollisionComponent* _otherCollision = _other->GetComponent<CollisionComponent>())
-		{
-			const string& _otherName = _otherCollision->GetChannelName();
-			if (!responses.contains(_otherName)) continue;
+    if (!(status & IS_PHYSIC)) return;
 
-			const CollisionType& _response = responses.at(_otherName);
-			if (_response == CT_NONE) continue;
+    const set<CollisionComponent*>& _allComponent = M_COLLISION.GetAllCollisionComponents();
+    const FloatRect& _ownerRect = Cast<MeshActor>(owner)->GetHitbox();
 
-			const FloatRect& _otherRect = Cast<MeshActor>(_other)->GetHitbox();
-			if (const optional<FloatRect> _intersection = _ownerRect.findIntersection(_otherRect))
-			{
-				const CollisionData& _data = { _other, _response, *_intersection, ComputeOthersStep(_other, CS_ENTER)};
-				if (_data.step == CS_ENTER)
-				{
-					owner->CollisionEnter(_data);
-					_other->CollisionEnter(_data);
-					continue;
-				}
-				else if (_data.step == CS_UPDATE)
-				{
-					owner->CollisionUpdate(_data);
-					_other->CollisionUpdate(_data);
-					continue;
-				}
-			}
-			else
-			{
-				if (othersStep.contains(_other))
-				{
-					const CollisionData& _data = { _other, _response, {}, ComputeOthersStep(_other, CS_EXIT)};
-					owner->CollisionExit(_data);
-					_other->CollisionExit(_data);
-					othersStep.erase(_other);
-				}
-			}
-		}
-	}
+    // Définition du seuil minimal pour une collision significative
+    const float seuil_min = 0.1f * _ownerRect.size.x;  // 10% de la largeur de l'objet
+
+    for (CollisionComponent* _otherComponent : _allComponent)
+    {
+        if (_otherComponent == this) continue;
+        if (M_COLLISION.ContainPair(owner, _otherComponent->owner)) continue;
+
+        const string& _otherName = _otherComponent->GetChannelName();
+        if (!responses.contains(_otherName)) continue;
+
+        const CollisionType& _otherResponse = responses.at(_otherName);
+        const CollisionType& _ownerResponse = _otherComponent->responses.at(channelName);
+        if (_otherResponse == CT_NONE) continue;
+
+        MeshActor* _other = Cast<MeshActor>(_otherComponent->owner);
+        const FloatRect& _otherRect = _other->GetHitbox();
+
+        // Calculer la distance entre les centres des objets
+        float distX = std::abs(_ownerRect.getCenter().x - _otherRect.getCenter().x);
+        float distY = std::abs(_ownerRect.getCenter().y - _otherRect.getCenter().y);
+        // Calculer les seuils de distance pour chaque objet
+        float maxDistX = (_ownerRect.size.x + _otherRect.size.x) / 2;
+        float maxDistY = (_ownerRect.size.y + _otherRect.size.y) / 2;
+
+        // Si les objets sont trop éloignés sur l'axe X ou Y, pas de collision
+        if (distX > maxDistX || distY > maxDistY)
+        {
+            continue; // Ignore cette collision si trop éloigné
+        }
+
+        // Si les objets sont proches et potentiellement en collision, vérifier l'intersection
+        if (const optional<FloatRect> _intersection = _ownerRect.findIntersection(_otherRect))
+        {
+            // Vérifie si l'intersection est suffisamment grande
+            if (_intersection->size.x > seuil_min && _intersection->size.y > seuil_min)
+            {
+                CollisionStep _step = ComputeOthersStep(_other, CS_ENTER);
+                const CollisionData& _ownerData = { owner, _ownerResponse, *_intersection, _step };
+                const CollisionData& _otherData = { _other, _otherResponse, *_intersection, _step };
+                M_COLLISION.Collide(_ownerData, _otherData);
+            }
+        }
+        else
+        {
+            if (othersStep.contains(_otherComponent->owner))
+            {
+                CollisionStep _step = ComputeOthersStep(_other, CS_EXIT);
+                const CollisionData& _ownerData = { owner, _ownerResponse, {}, _step };
+                const CollisionData& _otherData = { _other, _otherResponse, {}, _step };
+                M_COLLISION.Collide(_ownerData, _otherData);
+                othersStep.erase(_other);
+            }
+        }
+    }
 }

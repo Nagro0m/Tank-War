@@ -5,6 +5,7 @@
 
 class Level
 {
+
 public:
 
 	#pragma region Actors
@@ -30,8 +31,18 @@ public:
 			_actor->Construct();
 			return _actor;
 		}
-	#pragma endregion
 
+		template <typename T = Actor>
+		static T* SpawnActor(T* _ref)
+		{
+			if (!_ref) return nullptr; // Sécurité
+			T* _actor = dynamic_cast<T*>(_ref->Clone()); // Clonage polymorphique
+			_actor->Construct();
+			return _actor;
+		}
+
+	#pragma endregion
+	
 	void GenerateLevel();
 
 public:

@@ -46,7 +46,7 @@ public:
 	}
 	LevelElement* GetRandomVariant(); // Pas de const, ça bloque le return this
 
-	void AddCollision(vector<pair<string, CollisionType>> _responsesMesh, string _channelName);
+	//void AddCollision(vector<pair<string, CollisionType>> _responsesMesh, string _channelName);
 
 
 };
@@ -147,4 +147,3 @@ private:
 #pragma endregion
 
 };
-

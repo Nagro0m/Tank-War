@@ -45,7 +45,6 @@ void TankWarGame::Start()
 bool TankWarGame::Update()
 {
 	Super::Update();
-
 	return IsOver();
 }
 

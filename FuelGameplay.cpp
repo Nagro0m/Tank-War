@@ -6,6 +6,8 @@
 #include "MeshTest.h"
 #include "InputManager.h"
 using namespace Input;
+#include "Rock.h"
+#include "Tree.h"
 
 FuelGameplay::FuelGameplay()
 {
@@ -30,15 +32,13 @@ void FuelGameplay::Start()
 
 	player1Tank = Level::SpawnActor(Tank(_tank1, "Tank/Tank_1", "Player1"));
 	player1Tank->SetPosition({ 600.0f, 600.0f });
+	
+	//Rock* _rock = new Rock(RectangleShapeData({ 100.0f,100.0f }, "Object/Rock_4"));
+	Rock* _meshactor = Level::SpawnActor<Rock>(Rock(RectangleShapeData({ 100.0f,100.0f }, "Object/Rock_4")));
+	_meshactor->SetPosition(Vector2f(400.0f, 400.0f));
 
-	vector<pair<string, CollisionType>> _responsesTank ={{"Rock", CT_BLOCK}};
-	player1Tank->GetCollision()->AddResponses(_responsesTank);
-
-
-	MeshTest* _meshTest = Level::SpawnActor<MeshTest>(MeshTest(RectangleShapeData({100.0f,100.0f}, "Object/Rock_4")));
-	_meshTest->SetPosition(Vector2f(400.0f, 400.0f));
-	vector<pair<string, CollisionType>> _responsesMesh = { { "Tank", CT_OVERLAP } };
-	_meshTest->GetCollision()->AddResponses(_responsesMesh);
+	Tree* _meshactor2 = Level::SpawnActor<Tree>(Tree(RectangleShapeData({ 100.0f,100.0f }, "Object/Tree_2")));
+	_meshactor2->SetPosition(Vector2f(800.0f, 800.0f));
 	
 
 	Vector2f _windowSize = Vector2f(window.getSize());

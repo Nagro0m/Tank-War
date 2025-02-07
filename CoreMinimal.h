@@ -15,3 +15,4 @@
 #define M_HUD HUD::GetInstance()
 #define M_INPUT InputManager::GetInstance()
 #define M_GAMEHUD GameHUD::GetInstance()
+#define M_COLLISION CollisionManager::GetInstance()

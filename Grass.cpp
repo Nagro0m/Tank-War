@@ -1,10 +1,25 @@
 #include "Grass.h"
-#include "CollisionComponent.h"
 #include "Tank.h"
 
 Grass::Grass(const RectangleShapeData& _data) : MeshActor(_data, "Grass")
 {
-	SetLayer(Layer::LayerType::BREAKABLE);
+	SetLayer(Layer::LayerType::WORLD_DYNAMIC);
+	vector<pair<string, CollisionType>> _responsesMesh = { { "Tank", CT_OVERLAP } };
+	collision->SetInformation("Grass", IS_ALL, CT_NONE, false);
+	collision->AddResponses(_responsesMesh);
+}
+
+Grass::Grass(const float _size, const string& _path) : MeshActor(_size, 30, _path, {}, "Grass")
+{
+	SetLayer(Layer::LayerType::WORLD_DYNAMIC);
+	vector<pair<string, CollisionType>> _responsesMesh = { { "Tank", CT_OVERLAP } };
+	collision->SetInformation("Grass", IS_ALL, CT_NONE, false);
+	collision->AddResponses(_responsesMesh);
+}
+
+Grass::Grass(const Grass& _other) : MeshActor(_other)
+{
+	SetLayer(_other.GetLayer());
 }
 
 void Grass::BeginPlay()
@@ -24,11 +39,7 @@ void Grass::CollisionEnter(const CollisionData& _data)
 	{
 		if (_data.other->GetLayer() == Layer::LayerType::PLAYER)
 		{
-			Tank* _tank = Cast<Tank>(_data.other);
-			if (_tank && !_tank->HasMaxSpeed())
-			{
-				_tank->ResetSpeed();
-			}
+
 		}
 	}
 }
@@ -40,11 +51,7 @@ void Grass::CollisionUpdate(const CollisionData& _data)
 	{
 		if (_data.other->GetLayer() == Layer::LayerType::PLAYER)
 		{
-			Tank* _tank = Cast<Tank>(_data.other);
-			if (_tank && !_tank->HasMaxSpeed())
-			{
-				_tank->ResetSpeed();
-			}
+
 		}
 	}
 }
