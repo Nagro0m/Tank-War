@@ -77,7 +77,7 @@ void Bullet::CollisionUpdate(const CollisionData& _data)
 			{
 				SetToDelete();
 				Explosion();
-				_tank->ChangeLife(-20);
+				_tank->ChangeLife(-1);
 			}
 		}
 	}
@@ -106,7 +106,7 @@ void Bullet::CollisionExit(const CollisionData& _data)
 
 void Bullet::Explosion()
 {
-	ExplosionAnimation* _explosion = Level::SpawnActor(ExplosionAnimation(RectangleShapeData(Vector2f(30, 30), "Effects/Explosion")));
+	ExplosionAnimation* _explosion = Level::SpawnActor(ExplosionAnimation(RectangleShapeData(Vector2f(60, 60), "Effects/Explosion")));
 	_explosion->SetOriginAtMiddle();
 	_explosion->SetPosition(GetPosition());
 }

@@ -88,8 +88,9 @@ public:
 	void SlowDown();
 	void Shoot();
 	void PlaySample();
-	void ChangeLife(const float _offset);
+	void ChangeLife( float _offset);
 	void UpdateFuelTank(const float _deltaTime);
 	void Refuel();
 	void SpawnTireTrack();
+	void Die();
 };
