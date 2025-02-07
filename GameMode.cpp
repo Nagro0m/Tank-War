@@ -66,7 +66,7 @@ void GameMode::InitializeDuo()
 
 	player1Tank = Level::SpawnActor(Tank(inputPlayer1, "Tank/Tank_1", "Player1"));
 	player1Tank->SetPosition(Vector2f(300.0f, 300.0f));
-	//TODO Check why inputPlayer2 is not working
+
 	player2Tank = Level::SpawnActor(Tank(inputPlayer2, "Tank/Tank_2", "Player2"));
 	player2Tank->SetPosition(Vector2f(3440.0f, 1760.0f));
 

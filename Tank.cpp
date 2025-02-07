@@ -15,7 +15,7 @@ Tank::Tank(vector<KeyType> _code, const string& _path, const string& _name, floa
 	fuelTank = _fuelTank;
 	isMoving = false;
 	movement = CreateComponent<MovementComponent>(0.0f);
-	//animation = CreateComponent<AnimationComponent>();
+	collision = CreateComponent<CollisionComponent>("Tank", IS_ALL, CT_OVERLAP);
 	collision->SetInformation("Tank", IS_ALL, CT_OVERLAP, true);
 	pitch = 1.0f;
 	sound = nullptr;

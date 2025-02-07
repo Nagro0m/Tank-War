@@ -36,7 +36,7 @@ void CollisionComponent::Tick(const float _deltaTime)
 {
 	Super::Tick(_deltaTime);
 	//CheckCollision();
-}
+
 	if (channelName != "NONE")
 	{
 		CheckCollision();
