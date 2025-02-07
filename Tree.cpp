@@ -42,6 +42,7 @@ void Tree::CollisionEnter(const CollisionData& _data)
 			Tank* _tank = Cast<Tank>(_data.other);
 			if (_tank && !_tank->HasMaxSpeed())
 			{
+				M_AUDIO.PlaySample<SoundSample>("TreeOnMetal", WAV)->SetVolume(90.0f);
 				_tank->ResetSpeed();
 			}
 		}
@@ -58,6 +59,8 @@ void Tree::CollisionUpdate(const CollisionData& _data)
 			Tank* _tank = Cast<Tank>(_data.other);
 			if (_tank && !_tank->HasMaxSpeed())
 			{
+				M_AUDIO.PlaySample<SoundSample>("TreeOnMetal", WAV
+				)->SetVolume(90.0f);
 				_tank->ResetSpeed();
 			}
 		}

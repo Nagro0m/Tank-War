@@ -15,7 +15,7 @@ Tank::Tank(vector<KeyType> _code, const string& _path, const string& _name, floa
 	fuelTank = _fuelTank;
 	isMoving = false;
 	movement = CreateComponent<MovementComponent>(0.0f);
-	collision = CreateComponent<CollisionComponent>("Tank", IS_ALL, CT_OVERLAP);
+	//collision = CreateComponent<CollisionComponent>("Tank", IS_ALL, CT_OVERLAP);
 	collision->SetInformation("Tank", IS_ALL, CT_OVERLAP, true);
 	pitch = 1.0f;
 	sound = nullptr;
@@ -27,7 +27,7 @@ Tank::Tank(vector<KeyType> _code, const string& _path, const string& _name, floa
 	distance = 0.0f;
 	SetLayer(Layer::LayerType::PLAYER);
 
-	vector<pair<string, CollisionType>> _responsesTank = {{"BardedWire", CT_BLOCK}, {"Root", CT_BLOCK}, {"Grass", CT_BLOCK} , {"Tree", CT_BLOCK} ,{"Rock", CT_BLOCK} };
+	vector<pair<string, CollisionType>> _responsesTank = {{"BardedWire", CT_BLOCK}, {"Root", CT_BLOCK}, {"Grass", CT_BLOCK} , {"Tree", CT_BLOCK} ,{"Rock", CT_BLOCK}, {"Bullet", CT_OVERLAP} };
 	collision->AddResponses(_responsesTank);
 }
 
@@ -117,8 +117,10 @@ void Tank::CollisionEnter(const CollisionData& _data)
 
 		if (_data.other->GetLayer() == Layer::LayerType::WORLD_STATIC)
 		{
+			M_AUDIO.PlaySample<SoundSample>("Collision")->SetVolume(90.0f);
 			ResetSpeed();
 		}
+
 	}
 
 	else if (_data.response == CT_OVERLAP)
@@ -126,6 +128,10 @@ void Tank::CollisionEnter(const CollisionData& _data)
 		if (_data.other->GetLayer() == Layer::LayerType::RETRIEVABLE)
 		{
 
+		}
+
+		if (_data.other->GetLayer() == Layer::LayerType::PROJECTILE)
+		{
 		}
 	}
 	
@@ -139,17 +145,23 @@ void Tank::CollisionUpdate(const CollisionData& _data)
 
 	if (_data.response == CT_BLOCK)
 	{
-		//if (_data.other->GetLayer() == Layer::LayerType::BREAKABLE)
-		//{
-		//	if (HasMaxSpeed())
-		//	{
-		//		_data.other->SetToDelete();
-		//	}
-		//}
 
 		if (_data.other->GetLayer() == Layer::LayerType::WORLD_STATIC)
 		{
+			M_AUDIO.PlaySample<SoundSample>("Collision")->SetVolume(90.0f);
 			ResetSpeed();
+		}
+	}
+
+	else if (_data.response == CT_OVERLAP)
+	{
+		if (_data.other->GetLayer() == Layer::LayerType::RETRIEVABLE)
+		{
+
+		}
+
+		if (_data.other->GetLayer() == Layer::LayerType::PROJECTILE)
+		{
 		}
 	}
 }

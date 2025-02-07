@@ -63,6 +63,7 @@ void CollisionComponent::CheckCollision()
         if (!responses.contains(_otherName)) continue;
 
         const CollisionType& _otherResponse = responses.at(_otherName);
+        if (_otherComponent->responses.empty()) continue;
         const CollisionType& _ownerResponse = _otherComponent->responses.at(channelName);
         if (_otherResponse == CT_NONE) continue;
 

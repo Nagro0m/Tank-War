@@ -14,7 +14,6 @@ class Tank : public MeshActor
 	float fuelTank;
 	bool isMoving;
 	MovementComponent* movement;
-	CollisionComponent* collision;
 	//AnimationComponent* animation;
 	float pitch;
 	SoundSample* sound;
@@ -37,9 +36,15 @@ public:
 
 	FORCEINLINE void ResetSpeed()
 	{
+		SetPosition(GetPosition() - movement->GetDirection() * 1.0f);
 		movement->SetSpeed(0.0f);
 		pitch = 1.0f;
 		sound->SetPitch(pitch);
+	}
+
+	FORCEINLINE void AddDamage(const int _dammage)
+	{
+		life -= _dammage;
 	}
 	
 	FORCEINLINE CollisionComponent* GetCollision() const
