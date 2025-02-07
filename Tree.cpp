@@ -35,26 +35,8 @@ void Tree::Tick(const float _deltaTime)
 
 void Tree::CollisionEnter(const CollisionData& _data)
 {
-	if (IsToDelete())
-	{
-		const Vector2f& _position = GetPosition();
-		MeshActor* _root = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(50.0f, 30.0f), "Object/Root_1"), "RootActor"));
-		_root->SetOriginAtMiddle();
-		_root->SetPosition(_position);
-	}
+	if (IsToDelete()) return;
 
-	if (_data.response == CT_OVERLAP)
-	{
-		if (_data.other->GetLayer() == Layer::LayerType::PLAYER)
-		{
-			Tank* _tank = Cast<Tank>(_data.other);
-			if (_tank && !_tank->HasMaxSpeed())
-			{
-				M_AUDIO.PlaySample<SoundSample>("TreeOnMetal", WAV)->SetVolume(90.0f);
-				_tank->ResetSpeed();
-			}
-		}
-	}
 }
 
 void Tree::CollisionUpdate(const CollisionData& _data)
@@ -67,7 +49,7 @@ void Tree::CollisionUpdate(const CollisionData& _data)
 			Tank* _tank = Cast<Tank>(_data.other);
 			if (_tank && !_tank->HasMaxSpeed())
 			{
-				M_AUDIO.PlaySample<SoundSample>("TreeOnMetal", WAV)->SetVolume(90.0f);
+				//M_AUDIO.PlaySample<SoundSample>("TreeOnMetal", WAV)->SetVolume(90.0f);
 				_tank->ResetSpeed();
 			}
 		}

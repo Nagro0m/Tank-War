@@ -35,19 +35,7 @@ void Rock::Tick(const float _deltaTime)
 void Rock::CollisionEnter(const CollisionData& _data)
 {
 	if (IsToDelete()) return;
-	if (_data.response == CT_OVERLAP)
-	{
-		if (_data.other->GetLayer() == Layer::LayerType::PLAYER)
-		{
-			Tank* _tank = Cast<Tank>(_data.other);
-			if (_tank && !_tank->HasMaxSpeed())
-			{
-				M_AUDIO.PlaySample<SoundSample>("RockOnMetal", WAV)->SetVolume(90.0f);
 
-				_tank->ResetSpeed();
-			}
-		}
-	}
 }
 
 void Rock::CollisionUpdate(const CollisionData& _data)

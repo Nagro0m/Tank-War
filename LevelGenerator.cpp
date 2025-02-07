@@ -3,6 +3,8 @@
 #include "GameManager.h"
 #include "CollisionComponent.h"
 #include "BarbedWire.h"
+#include "Tree.h"
+#include "Root.h"
 
 LevelElement::LevelElement(MeshActor* _actor, const int _chance)
 {
@@ -125,10 +127,15 @@ bool LevelGenerator::GenerateRandomElement(const Vector2f& _pos)
 
 	LevelElement* _element = GetRandomElement(elementsList);
 	if (!_element) return false;
-
+	Tree* isTree = Cast<Tree>(_element->GetPrefab());
+	if (isTree)
+	{
+		MeshActor* _root = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(50.0f, 30.0f), "Object/Root_" + to_string(GetRandomNumberInRange(1, 2))), "RootActor"));
+		_root->SetOriginAtMiddle();
+		_root->SetPosition(_pos);
+	}
 	MeshActor* _actor = Level::SpawnActor(_element->GetPrefab());
-
-	_actor->SetPosition(_pos);
+	_actor->SetPosition(_pos - Vector2f(0.0f, 20.0f));
 	_actor->SetOriginAtMiddle();
 	generatedElements.push_back(_actor);
 
