@@ -33,14 +33,25 @@ public:
 	{
 		return life;
 	}
-
 	FORCEINLINE void ResetSpeed()
 	{
-		SetPosition(GetPosition() - movement->GetDirection() * 1.0f);
-		movement->SetSpeed(0.0f);
+		movement->SetSpeed(0.0f); // D'abord, on arrête le mouvement
+
+		// Normalisation manuelle de la direction
+		Vector2f _direction = movement->GetDirection();
+		float _length = sqrt(_direction.x * _direction.x + _direction.y * _direction.y);
+
+		if (_length > 0.0f) // Éviter la division par zéro
+		{
+			_direction.x /= _length;
+			_direction.y /= _length;
+		}
+
+		SetPosition(GetPosition() - _direction * 1.0f); // Corrige la position
 		pitch = 1.0f;
 		sound->SetPitch(pitch);
 	}
+
 
 	FORCEINLINE void AddDamage(const int _dammage)
 	{

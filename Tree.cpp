@@ -40,6 +40,7 @@ void Tree::CollisionEnter(const CollisionData& _data)
 		const Vector2f& _position = GetPosition();
 		MeshActor* _root = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(50.0f, 30.0f), "Object/Root_1"), "RootActor"));
 		_root->SetOriginAtMiddle();
+		_root->SetPosition(_position);
 	}
 
 	if (_data.response == CT_OVERLAP)

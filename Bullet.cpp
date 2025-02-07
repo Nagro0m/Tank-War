@@ -62,26 +62,8 @@ void Bullet::CollisionEnter(const CollisionData& _data)
 void Bullet::CollisionUpdate(const CollisionData& _data)
 {
 	if (IsToDelete()) return;
-	if (explosionNumber != 3)
-	{
-		++explosionNumber;
-		return;
-	}
 
-	if (_data.response == CT_OVERLAP)
-	{
-		if (_data.other->GetLayer() == Layer::LayerType::PLAYER)
-		{
-			Tank* _tank = Cast<Tank>(_data.other);
-			if (_tank)
-			{
-				SetToDelete();
-				Explosion();
-				_tank->ChangeLife(-1);
-			}
-		}
-	}
-	else if (_data.response == CT_BLOCK)
+	if (_data.response == CT_BLOCK)
 	{
 		if (_data.other->GetLayer() == Layer::LayerType::BREAKABLE)
 		{
@@ -96,6 +78,27 @@ void Bullet::CollisionUpdate(const CollisionData& _data)
 			Explosion();
 		}
 	}
+
+	else if (explosionNumber != 3)
+	{
+		++explosionNumber;
+		return;
+	}
+
+	else if (_data.response == CT_OVERLAP)
+	{
+		if (_data.other->GetLayer() == Layer::LayerType::PLAYER)
+		{
+			Tank* _tank = Cast<Tank>(_data.other);
+			if (_tank)
+			{
+				SetToDelete();
+				Explosion();
+				_tank->ChangeLife(-1);
+			}
+		}
+	}
+	
 
 }
 
