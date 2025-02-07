@@ -9,7 +9,7 @@ Bullet::Bullet(const Vector2f& _direction) : MeshActor(RectangleShapeData(Vector
 	movement = CreateComponent<MovementComponent>(500.0f);
 	collision->SetInformation("Bullet", IS_ALL, CT_OVERLAP, true);
 	SetLayer(Layer::LayerType::PROJECTILE);
-	vector<pair<string, CollisionType>> _responsesMesh = { { "Tank", CT_OVERLAP } };
+	vector<pair<string, CollisionType>> _responsesMesh = { {"BardedWire", CT_BLOCK}, {"Tree", CT_BLOCK} ,{"Rock", CT_BLOCK}, { "Tank", CT_OVERLAP } };
 	collision->AddResponses(_responsesMesh);
 	isExplode = false;
 	explosionNumber = 0;
@@ -62,6 +62,11 @@ void Bullet::CollisionEnter(const CollisionData& _data)
 void Bullet::CollisionUpdate(const CollisionData& _data)
 {
 	if (IsToDelete()) return;
+	if (explosionNumber != 3)
+	{
+		++explosionNumber;
+		return;
+	}
 
 	if (_data.response == CT_OVERLAP)
 	{
@@ -70,17 +75,28 @@ void Bullet::CollisionUpdate(const CollisionData& _data)
 			Tank* _tank = Cast<Tank>(_data.other);
 			if (_tank)
 			{
-				if (explosionNumber == 3)
-				{
-					SetToDelete();
-					Explosion();
-					_tank->ChangeLife(-20);
-				}
+				SetToDelete();
+				Explosion();
+				_tank->ChangeLife(-20);
 			}
 		}
-
-		++explosionNumber;
 	}
+	else if (_data.response == CT_BLOCK)
+	{
+		if (_data.other->GetLayer() == Layer::LayerType::BREAKABLE)
+		{
+			_data.other->SetToDelete();
+			SetToDelete();
+			Explosion();
+		}
+
+		else if (_data.other->GetLayer() == Layer::LayerType::WORLD_STATIC)
+		{
+			SetToDelete();
+			Explosion();
+		}
+	}
+
 }
 
 void Bullet::CollisionExit(const CollisionData& _data)
