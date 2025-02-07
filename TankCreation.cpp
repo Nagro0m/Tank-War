@@ -21,10 +21,19 @@ TankCreation::TankCreation(const int _tankNumber)
 void TankCreation::Start()
 {
     GenerateTankCreationMenu();
+    vector<KeyType> code =
+    {
+        tankNumber == 1 ? KeyType::Q : KeyType::Left_Arrow,
+        tankNumber == 1 ? KeyType::D : KeyType::Right_Arrow,
+        tankNumber == 1 ? KeyType::Space : KeyType::Enter
+    };
 
-    //M_INPUT.BindActionWithState(Code::Q, bind(&TankCreation::PreviousOption, this), true);
-    //M_INPUT.BindActionWithState(Code::D, bind(&TankCreation::NextOption, this), true);
-    //M_INPUT.BindActionWithState(Code::Enter, bind(&TankCreation::ConfirmSelection, this), true);
+    ActionMap* _actionMap = M_INPUT.CreateActionMap("Tank_Creation");
+    _actionMap->AddAction("Left", ActionData(KeyHold, code[0]), [&]() { PreviousOption(); });
+    _actionMap->AddAction("Right", ActionData(KeyHold, code[1]), [&]() { NextOption(); });
+    _actionMap->AddAction("Validate", ActionData(KeyHold, code[2]), [&]() { ConfirmSelection(); });
+
+    _actionMap->Enable();
     SpawnCurrentSelection();
 }
 
@@ -72,7 +81,7 @@ void TankCreation::GenerateTankCreationMenu()
         {Vector2f(80, 80), "Menu/TankCreation/RightArrow", Vector2f(200.0f, 75.0f), true, 0.0f},
         {Vector2f(300, 100), "Menu/TankCreation/Button", Vector2f(8.0f, 75.0f), true, 0.0f},
     };
-    CameraActor* _camera = Camera::M_CAMERA.CreateCamera(CameraActor(Vector2f(0.0f, 0.0f), Vector2f(1920.0f, 1080.0f), "TankCreationMenu"));
+    CameraActor* _camera = Camera::M_CAMERA.CreateCamera(CameraActor(Vector2f(0.0f, 0.0f), Vector2f(1920.0f, 1080.0f), "TankCreationMenu_" + to_string(tankNumber)));
     for (const auto [_size, _texture, _position, _useMiddleOrigin, _rotation] : _assets)
     {
         Vector2f _adjustedPosition = tankMenuPosition + _position;
@@ -88,8 +97,8 @@ void TankCreation::GenerateTankCreationMenu()
     UI::M_HUD.AddToViewport(menuLabel);
 
     _camera->SetTarget(tankMenu[0]);
+    _camera->SetPosition(tankMenu[0]->GetPosition());
     Camera::M_CAMERA.SetCurrent(_camera);
-
 }
 
 void TankCreation::PreviousOption()
@@ -176,6 +185,8 @@ void TankCreation::ConfirmSelection()
     {
         currentStep++;
         SpawnCurrentSelection();
+        M_AUDIO.PlaySample<SoundSample>("ValidateTank", MP3);
+
     }
     else
     {

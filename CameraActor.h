@@ -6,9 +6,14 @@ class CameraActor : public Actor
 {
 	CameraComponent* camera;
 	Actor* target;
+	bool isOnTargetRect;
 	FloatRect targetRect;
 
 public:
+	FORCEINLINE void SetIsOnTargetRect(const bool _isOnTargetRect)
+	{
+		isOnTargetRect = _isOnTargetRect;
+	}
 	FORCEINLINE void SetViewport(const FloatRect& _rect)
 	{
 		camera->SetViewport(_rect);
@@ -52,6 +57,7 @@ public:
 	}
 	FORCEINLINE void SetTargetRect(FloatRect _targetRect)
 	{
+		isOnTargetRect = true;
 		targetRect = _targetRect;
 	}
 	FORCEINLINE bool HasTarget() const

@@ -33,8 +33,11 @@ void TankWarGame::Start()
 	gameMode->Initialize();
 	
 
-	tankCreation = new TankCreation();
+	//tankCreation = new TankCreation();
 	//tankCreation->Start();
+
+	//TankCreation* _secondTank = new TankCreation(2);
+	//_secondTank->Start();
 
 	Super::Start();
 }
