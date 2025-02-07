@@ -1,7 +1,8 @@
 #include "TireTrack.h"
 
-TireTrack::TireTrack(const RectangleShapeData& _data, const string& _name, const float _lifespan) : MeshActor(_data, _name, _lifespan)
+TireTrack::TireTrack(const RectangleShapeData& _data, const string& _name, const float _lifespan) : MeshActor(_data, _name)
 {
+	SetLifeSpan(_lifespan);
 	opacity = 100;
 
 }

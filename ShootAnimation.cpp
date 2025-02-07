@@ -1,12 +1,14 @@
 #include "ShootAnimation.h"
 
-ShootAnimation::ShootAnimation(const RectangleShapeData& _data ) : MeshActor(_data, "Effects/Shoot", 0.2f)
+ShootAnimation::ShootAnimation(const RectangleShapeData& _data ) : MeshActor(_data, "Effects/Shoot")
 {
+	SetLifeSpan(0.2f);
 	animation = CreateComponent<AnimationComponent>();
 }
 
 ShootAnimation::ShootAnimation(const ShootAnimation& _other) : MeshActor(_other)
 {
+	SetLifeSpan(0.2f);
 	animation = CreateComponent<AnimationComponent>();
 
 }
@@ -19,10 +21,10 @@ void ShootAnimation::Construct()
 	const Vector2i& _spriteSize = Vector2i(258, 258);
 	const vector<SpriteData>& _spritesData =
 	{
-		SpriteData(_timeBetween, Vector2i(0, 0),_spriteSize),
-		SpriteData(_timeBetween,Vector2i(0, 258),_spriteSize),
-		SpriteData(_timeBetween,Vector2i(0, 516),_spriteSize),
-		SpriteData(_timeBetween,Vector2i(0, 774),_spriteSize),
+		SpriteData( Vector2i(0, 0),_spriteSize, _timeBetween),
+		SpriteData(Vector2i(0, 258),_spriteSize, _timeBetween),
+		SpriteData(Vector2i(0, 516),_spriteSize, _timeBetween),
+		SpriteData(Vector2i(0, 774),_spriteSize, _timeBetween),
 	};
 
 	const AnimationData& _animationData = AnimationData(2.0f, _spritesData, true, false);

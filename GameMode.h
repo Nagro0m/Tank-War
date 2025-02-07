@@ -1,36 +1,22 @@
 #pragma once
-#include "Tank.h"
-#include "CameraManager.h"
-#include "InputManager.h"
+#include "Actor.h"
+#include "PlayerController.h"
+#include "HUD.h"
 
-using namespace Input;
-class GameMode 
+using namespace UI;
+
+class GameMode : public Actor
 {
-	Tank* player1Tank;
-	Tank* player2Tank;
-
-	CameraActor* cameraSolo;
-	FloatRect cameraZoneSolo;
-
-	CameraActor* cameraPlayer1;
-	CameraActor* cameraPlayer2;
-	FloatRect cameraZoneDuo;
-
-	vector<KeyType> inputPlayer1;
-	vector<KeyType> inputPlayer2;
-
-	float playersCount;
-
+	SubclassOf<PlayerController> controllerRef;
+	PlayerController* controller;
+	SubclassOf<HUD> hudRef;
+	HUD* hud;
 
 public:
-	GameMode(const float _playersCount = 1);
+	GameMode(const string& _name = "GameMode");
+	GameMode(const GameMode& _other);
 
-public:
-
-	void Initialize();
-	void InitializeSolo();
-	void InitializeDuo();
-
+	virtual void Construct() override;
+	PlayerController* GetPlayerController();
+	HUD* GetHUD();
 };
-
-

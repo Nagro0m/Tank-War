@@ -1,21 +1,23 @@
 #include "CollisionManager.h"
+#include "Actor.h"
 
-void CollisionManager::Collide(const CollisionData& _owner, const CollisionData& _other)
+void CollisionManager::Collide(const CollisionData& _ownerData, const CollisionData& _otherData)
 {
-	if (_other.step == CS_ENTER)
+	if (_otherData.step == CS_ENTER)
 	{
-		_owner.other->CollisionEnter(_other);
-		_other.other->CollisionEnter(_owner);
+		_ownerData.other->CollisionEnter(_otherData);
+		_otherData.other->CollisionEnter(_ownerData);
 	}
-	else if (_other.step == CS_UPDATE)
+	else if (_otherData.step == CS_UPDATE)
 	{
-		_owner.other->CollisionUpdate(_other);
-		_other.other->CollisionUpdate(_owner);
+		_ownerData.other->CollisionUpdate(_otherData);
+		_otherData.other->CollisionUpdate(_ownerData);
 	}
-	else if (_other.step == CS_EXIT)
+	else if (_otherData.step == CS_EXIT)
 	{
-		_owner.other->CollisionExit(_other);
-		_other.other->CollisionExit(_owner);
+		_ownerData.other->CollisionExit(_otherData);
+		_otherData.other->CollisionExit(_ownerData);
 	}
-	AddCollisionPair(_owner.other, _other.other);
+
+	AddCollisionPair(_ownerData.other, _otherData.other);
 }

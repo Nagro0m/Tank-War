@@ -17,6 +17,5 @@ public:
 	virtual void CollisionEnter(const CollisionData& _data) override;
 	virtual void CollisionUpdate(const CollisionData& _data) override;
 	virtual void CollisionExit(const CollisionData& _data) override;
-	virtual BarbedWire* Clone() const override { return new BarbedWire(*this); }
 };
 

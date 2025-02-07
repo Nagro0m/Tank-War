@@ -4,11 +4,9 @@
 #include "MeshActor.h"
 #include "Logger.h"
 #include "TireTrack.h"
-#include "GameHUD.h"
+//#include "GameHUD.h"
 #include "ShootAnimation.h"
-#include "LoadAnimation.h"
 #include "Layer.h"
-#include "ExplosionAnimation.h"
 
 Tank::Tank(vector<KeyType> _code, const string& _path, const string& _name, float _fuelTank) : MeshActor(RectangleShapeData(Vector2f(60.0f, 110.0f), _path))
 {
@@ -16,7 +14,7 @@ Tank::Tank(vector<KeyType> _code, const string& _path, const string& _name, floa
 	fuelTank = _fuelTank;
 	isMoving = false;
 	movement = CreateComponent<MovementComponent>(0.0f);
-	//collision = CreateComponent<CollisionComponent>("Tank", IS_ALL, CT_OVERLAP);
+	//animation = CreateComponent<AnimationComponent>();
 	collision->SetInformation("Tank", IS_ALL, CT_OVERLAP, true);
 	pitch = 1.0f;
 	sound = nullptr;
@@ -28,7 +26,7 @@ Tank::Tank(vector<KeyType> _code, const string& _path, const string& _name, floa
 	distance = 0.0f;
 	SetLayer(Layer::LayerType::PLAYER);
 
-	vector<pair<string, CollisionType>> _responsesTank = {{"BardedWire", CT_BLOCK}, {"Root", CT_BLOCK}, {"Grass", CT_BLOCK} , {"Tree", CT_BLOCK} ,{"Rock", CT_BLOCK}, {"Bullet", CT_OVERLAP} };
+	vector<pair<string, CollisionType>> _responsesTank = { {"BardedWire", CT_BLOCK}, {"Root", CT_BLOCK}, {"Grass", CT_BLOCK} , {"Tree", CT_BLOCK} ,{"Rock", CT_BLOCK} };
 	collision->AddResponses(_responsesTank);
 }
 
@@ -71,7 +69,7 @@ void Tank::Construct()
 	_actionMap->AddAction("Shoot", ActionData(KeyPressed, code[4]), [&]() { Shoot(); });
 
 	_actionMap->Enable();
-	
+
 	ComputeDirection(0.0f);
 	M_GAMEHUD.ChangeLifeBarWithLife(name, life);
 }
@@ -93,7 +91,7 @@ void Tank::Tick(const float _deltaTime)
 	Super::Tick(_deltaTime);
 
 	movement->SetIsMoving(isMoving);
-	
+
 	if (fuelTank != -1.0f)
 	{
 		UpdateFuelTank(_deltaTime);
@@ -101,7 +99,6 @@ void Tank::Tick(const float _deltaTime)
 
 	distance += (1) * movement->GetSpeed();
 	SpawnTireTrack();
-	Die();
 }
 
 void Tank::CollisionEnter(const CollisionData& _data)
@@ -119,10 +116,8 @@ void Tank::CollisionEnter(const CollisionData& _data)
 
 		if (_data.other->GetLayer() == Layer::LayerType::WORLD_STATIC)
 		{
-			M_AUDIO.PlaySample<SoundSample>("Collision")->SetVolume(90.0f);
 			ResetSpeed();
 		}
-
 	}
 
 	else if (_data.response == CT_OVERLAP)
@@ -131,12 +126,10 @@ void Tank::CollisionEnter(const CollisionData& _data)
 		{
 
 		}
-
-		if (_data.other->GetLayer() == Layer::LayerType::PROJECTILE)
-		{
-		}
 	}
-	
+
+	distance += (1) * movement->GetSpeed();
+	SpawnTireTrack();
 }
 
 void Tank::CollisionUpdate(const CollisionData& _data)
@@ -145,23 +138,17 @@ void Tank::CollisionUpdate(const CollisionData& _data)
 
 	if (_data.response == CT_BLOCK)
 	{
+		//if (_data.other->GetLayer() == Layer::LayerType::BREAKABLE)
+		//{
+		//	if (HasMaxSpeed())
+		//	{
+		//		_data.other->SetToDelete();
+		//	}
+		//}
 
 		if (_data.other->GetLayer() == Layer::LayerType::WORLD_STATIC)
 		{
-			M_AUDIO.PlaySample<SoundSample>("Collision")->SetVolume(90.0f);
 			ResetSpeed();
-		}
-	}
-
-	else if (_data.response == CT_OVERLAP)
-	{
-		if (_data.other->GetLayer() == Layer::LayerType::RETRIEVABLE)
-		{
-
-		}
-
-		if (_data.other->GetLayer() == Layer::LayerType::PROJECTILE)
-		{
 		}
 	}
 }
@@ -282,7 +269,7 @@ void Tank::Shoot()
 	_shoot->SetOriginAtMiddle();
 	_shoot->SetPosition(GetPosition() + movement->GetDirection() * 65.0f);
 	_shoot->SetRotation(GetRotation() - degrees(90));
-	
+
 	new Timer(bind(&Tank::SetIsReadyToShoot, this), seconds(2), true);
 
 }
@@ -294,9 +281,8 @@ void Tank::PlaySample()
 	sound->SetLoop(true);
 }
 
-void Tank::ChangeLife( float _offset)
+void Tank::ChangeLife(const float _offset)
 {
-	_offset *= 20;
 	life = clamp(life + _offset, 0.0f, 100.0f);
 	M_GAMEHUD.ChangeLifeBarWithLife(name, life);
 }
@@ -304,7 +290,7 @@ void Tank::ChangeLife( float _offset)
 void Tank::UpdateFuelTank(const float _deltaTime)
 {
 	const float _speed = movement->GetSpeed();
-	fuelTank = _speed > 0 ? fuelTank - (maxSpeed - _speed + 1)* _deltaTime : fuelTank - 1 * _deltaTime;
+	fuelTank = _speed > 0 ? fuelTank - (maxSpeed - _speed + 1) * _deltaTime : fuelTank - 1 * _deltaTime;
 	fuelTank = fuelTank <= 0 ? 0 : fuelTank;
 	if (fuelTank == 0) isMoving = false;
 	LOG(Display, to_string(fuelTank));
@@ -320,7 +306,7 @@ void Tank::SpawnTireTrack()
 {
 	distance < 0 ? distance = 0 : distance;
 
-	if (distance >= 50 )
+	if (distance >= 50)
 	{
 		MeshActor* _effect = Level::SpawnActor(TireTrack(RectangleShapeData(Vector2f(55, 11), "Effects/TrackMark"), "shit", 5.0f));
 		_effect->GetMesh()->GetShape()->GetDrawable()->setFillColor(Color(123, 63, 0, 100));
@@ -329,19 +315,5 @@ void Tank::SpawnTireTrack()
 		_effect->Rotate(GetRotation());
 		distance = 0;
 	}
-	
-}
 
-void Tank::Die()
-{
-	if (life == 0)
-	{
-		ExplosionAnimation* _explosion = Level::SpawnActor(ExplosionAnimation(RectangleShapeData(Vector2f(500, 500), "Effects/Explosion")));
-		_explosion->SetOriginAtMiddle();
-		_explosion->SetPosition(GetPosition());
-		/*Camera::M_CAMERA.GetCurrent()->SetTarget(nullptr);
-		movement = nullptr;
-		SetToDelete();*/
-		life = -20;
-	}
 }

@@ -9,7 +9,7 @@ Grass::Grass(const RectangleShapeData& _data) : MeshActor(_data, "Grass")
 	collision->AddResponses(_responsesMesh);
 }
 
-Grass::Grass(const float _size, const string& _path) : MeshActor(_size, 30, _path, {}, "Grass")
+Grass::Grass(const CircleShapeData& _data) : MeshActor(_data, "Grass")
 {
 	SetLayer(Layer::LayerType::WORLD_DYNAMIC);
 	vector<pair<string, CollisionType>> _responsesMesh = { { "Tank", CT_OVERLAP } };

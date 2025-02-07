@@ -1,10 +1,8 @@
 #include "MeshComponent.h"
 
-MeshComponent::MeshComponent(Actor* _owner, const float _radius, const size_t& _pointCount,
-							 const string& _path, const IntRect& _rect)
-						   : Component(_owner)
+MeshComponent::MeshComponent(Actor* _owner, const CircleShapeData& _data) : Component(_owner)
 {
-	shape = new ShapeObject(_radius, _path, _rect, _pointCount);
+	shape = new ShapeObject(_data);
 }
 
 MeshComponent::MeshComponent(Actor* _owner, const RectangleShapeData& _data) : Component(_owner)
@@ -12,9 +10,9 @@ MeshComponent::MeshComponent(Actor* _owner, const RectangleShapeData& _data) : C
 	shape = new ShapeObject(_data);
 }
 
-MeshComponent::MeshComponent(Actor* _owner, const MeshComponent* _other) : Component(_owner) 
+MeshComponent::MeshComponent(Actor* _owner, const MeshComponent& _other) : Component(_owner) 
 {
-	shape = new ShapeObject(*_other->shape);
+	shape = new ShapeObject(*_other.shape);
 }
 
 

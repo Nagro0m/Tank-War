@@ -1,61 +1,25 @@
 #pragma once
 #include "Actor.h"
 #include "MeshComponent.h"
+#include "CollisionComponent.h"
 #include "TextureManager.h"
-
-class CollisionComponent;
 
 class MeshActor : public Actor
 {
-	MeshComponent* mesh;
 	u_int renderMeshToken;
-
+	MeshComponent* mesh;
 protected:
 	CollisionComponent* collision;
 
 public:
-	FORCEINLINE Vector2f GetForwardVector() const
-	{
-		const Angle& _angle = GetRotation();
-		const float _radians = _angle.asRadians();
-		return Vector2f(cos(_radians), sin(_radians));
-	}
-	FORCEINLINE Vector2f GetDownVector() const
-	{
-		const Angle& _angle = GetRotation();
-		const float _radians = _angle.asRadians();
-		return Vector2f(sin(_radians), -cos(_radians));
-	}
-	FORCEINLINE Vector2f GetRightVector() const
-	{
-		const Angle& _angle = GetRotation();
-		const float _radians = _angle.asRadians();
-		return Vector2f(cos(_radians), -sin(_radians));
-	}
-	FORCEINLINE Vector2f GetLeftVector() const
-	{
-		const Angle& _angle = GetRotation();
-		const float _radians = _angle.asRadians();
-		return Vector2f(-cos(_radians), sin(_radians));
-	}
-	FORCEINLINE Vector2f GetBackVector() const
-	{
-		const Angle& _angle = GetRotation();
-		const float _radians = _angle.asRadians();
-		return Vector2f(-cos(_radians), -sin(_radians));
-	}
 	FORCEINLINE MeshComponent* GetMesh() const
 	{
 		return mesh;
 	}
-	FORCEINLINE Shape* GetDrawable() const
-	{
-		return mesh->GetShape()->GetDrawable();
-	}
 	FORCEINLINE FloatRect GetHitbox() const
 	{
 		return mesh->GetShape()->GetDrawable()->getGlobalBounds();
-	}
+	}  
 	FORCEINLINE void SetTextureRect(const Vector2i& _start, const Vector2i& _size)
 	{
 		SetTextureRect(IntRect(_start, _size));
@@ -65,7 +29,7 @@ public:
 		M_TEXTURE.SetTextureRect(mesh->GetShape()->GetDrawable(), _rect);
 	}
 
-#pragma region Modifier
+	#pragma region Modifier
 
 	FORCEINLINE virtual void SetPosition(const Vector2f& _position) override
 	{
@@ -107,14 +71,13 @@ public:
 		mesh->GetShape()->Scale(_factor);
 	}
 
-#pragma endregion
+	#pragma endregion
 
 public:
 	MeshActor() = default;
-	MeshActor(const float _radius, const size_t& _pointCount = 30, const string& _path = "", const IntRect& _rect = {}, const string& _name = "MeshActor");
-	MeshActor(const RectangleShapeData& _data, const string& _name = "MeshActor", const float _lifespan = 0.0f);
+	MeshActor(const CircleShapeData& _data, const string& _name = "MeshActor");
+	MeshActor(const RectangleShapeData& _data, const string& _name = "MeshActor");
 	MeshActor(const MeshActor& _other);
-
 
 protected:
 	virtual void RenderMesh(RenderWindow& _window);
@@ -122,9 +85,4 @@ protected:
 public:
 	virtual void Construct() override;
 	virtual void Deconstruct() override;
-	virtual MeshActor* Clone() const // Méthode purement virtuelle
-	{
-		return new MeshActor(*this);
-	}
-
 };

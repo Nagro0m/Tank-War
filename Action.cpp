@@ -107,7 +107,7 @@ void Input::Action::TryToExecute(const EventInfo& _event)
 					{
 						if (Mouse::isButtonPressed(CAST(Mouse::Button, _it->second.key)))
 						{
-							if (_it->second.type == MouseButtonHold ||
+							if ( _it->second.type == MouseButtonHold ||
 								(!_isButtonHolding && _it->second.type == MouseButtonPressed))
 							{
 								(*callback.get()->digitalCallback.get())();
@@ -200,7 +200,7 @@ void Input::Action::TryToExecute(const EventInfo& _event)
 				}
 				else if (const ControllerJoystickReleased* _key = _event->getIf<ControllerJoystickReleased>())
 				{
-					if (HasJoystickIDInAllData(_elementType, _key->joystickId) &&
+					if (HasJoystickIDInAllData(_elementType, _key->joystickId) && 
 						IsInAllData(_elementType, _key->button))
 					{
 						(*callback.get()->digitalCallback.get())();

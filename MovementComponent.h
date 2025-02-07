@@ -2,7 +2,7 @@
 #include "Component.h"
 
 class MovementComponent : public Component
-{ 
+{
 	float speed;
 	Vector2f direction;
 	bool isMoving;

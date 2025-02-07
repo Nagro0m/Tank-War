@@ -12,6 +12,7 @@
 #include <typeinfo>
 #include <exception>
 #include <random>
+#include <filesystem>
 
 // OLD
 #include <math.h>
@@ -47,6 +48,8 @@
 #define CAST(_type, _expr) static_cast<_type>(_expr)
 #define SLEEP(_duration) sleep(_duration)
 #define NO_DISCARD _NODISCARD
+#define SAME_VALUE(_first, _second) is_same_v<_first, _second>
+#define ENABLE_IF(_element) enable_if_t<_element>
 #define IS_BASE_OF(_base, _type) typename = enable_if_t<is_base_of_v<_base, _type>>
 #define TYPE(_type) decay_t<decltype(_type)>
 #define TYPE_ID(_type) typeid(_type)
@@ -57,6 +60,7 @@ using namespace std;
 using namespace sf;
 using namespace priv;
 using namespace placeholders;
+using namespace filesystem;
 
 typedef unsigned short u_short;
 typedef unsigned int u_int;

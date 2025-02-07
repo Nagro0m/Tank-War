@@ -28,4 +28,3 @@ public:
 	virtual void Construct() override;
 	virtual void Deconstruct() override;
 };
-

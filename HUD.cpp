@@ -1,22 +1,30 @@
 #include "HUD.h"
 #include "CameraManager.h"
+
 using namespace Camera;
+
 UI::HUD::HUD()
 {
 	allWidgets = set<Widget*>();
 	currentWidget = nullptr;
 }
-UI::HUD::~HUD()
+
+UI::HUD::HUD(const HUD& _other)
 {
-	for (Widget* _widget : allWidgets)
+	for (Widget* _widget : _other.allWidgets)
 	{
-		if (_widget) delete _widget; 
+		allWidgets.insert(_widget);
 	}
+
+	currentWidget = _other.currentWidget;
 }
+
+
 void UI::HUD::AddToViewport(Widget* _widget)
 {
 	_widget->Construct();
 }
+
 void UI::HUD::RemoveFromViewport(Widget* _widget)
 {
 	_widget->Deconstruct();

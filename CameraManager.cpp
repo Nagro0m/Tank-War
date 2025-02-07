@@ -34,14 +34,10 @@ void Camera::CameraManager::RenderAllCameras(RenderWindow& _window)
 				const RenderData& _data = allRendersData.at(_it->second);
 
 				// Si il s'agit d'un widget
-				if (_data.type == Screen)
+				if (_isFirst && _data.type == Screen)
 				{
-					if (_isFirst)
-					{
-						// Je l'ajoute comme à afficher plus tard
-						_renderWidgets.push_back(_data);
-					}
-					
+					// Je l'ajoute comme à afficher plus tard
+					_renderWidgets.push_back(_data);
 					continue;
 				}
 
@@ -51,15 +47,15 @@ void Camera::CameraManager::RenderAllCameras(RenderWindow& _window)
 
 			_isFirst = false;
 		}
+	}
 
-		// Je définis la vue
-		_window.setView(_window.getDefaultView());
+	// Je définis la vue
+	_window.setView(_window.getDefaultView());
 
-		for (const RenderData& _data : _renderWidgets)
-		{
-			// Je draw l'élément
-			_data.callback(_window);
-		}
+	for (const RenderData& _data : _renderWidgets)
+	{
+		// Je draw l'élément
+		_data.callback(_window);
 	}
 }
 

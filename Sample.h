@@ -15,6 +15,7 @@ class Sample
 public:
 	FORCEINLINE virtual bool IsAvailable() const = 0;
 	FORCEINLINE virtual void SetLoop(const bool _isLoop) = 0;
+	FORCEINLINE virtual void SetPitch(const float _pitch) = 0;
 	FORCEINLINE virtual bool AddPitch(const float _pitch) = 0;
 
 	FORCEINLINE void SetMuteStatus(const bool _status)
@@ -39,7 +40,7 @@ public:
 	virtual ~Sample() = default;
 
 public:
-	virtual void Play(const Time& _time = Time());
+	virtual void Play(const Time& _time = Time(), const Time& _duration = Time());
 	virtual void Pause() = 0;
 	virtual void Stop() = 0;
 };

@@ -26,7 +26,7 @@ namespace UI
 		FORCEINLINE void SetOriginAtMiddle()
 		{
 			FloatRect _bounds = text->GetDrawable()->getGlobalBounds();
-			SetOrigin(_bounds.size/ 2.0f);
+			SetOrigin(_bounds.size / 2.0f);
 		}
 		FORCEINLINE virtual void SetPosition(const Vector2f& _position) override
 		{

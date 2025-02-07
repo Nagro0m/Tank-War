@@ -8,21 +8,23 @@ class CollisionManager : public Singleton<CollisionManager>
 	set<pair<Actor*, Actor*>> hasCollision;
 
 public:
-	FORCEINLINE void AddCollisionComponent(CollisionComponent* _component)
+	FORCEINLINE void AddCollision(CollisionComponent* _component)
 	{
 		allCollisionComponents.insert(_component);
 	}
-
-	FORCEINLINE void RemoveColiisionComponents(CollisionComponent* _component)
+	FORCEINLINE void RemoveCollision(CollisionComponent* _component)
 	{
 		allCollisionComponents.erase(_component);
 	}
-
-	FORCEINLINE set<CollisionComponent*> GetAllCollisionComponents() const
+	FORCEINLINE void AddCollisionPair(Actor* _owner, Actor* _other)
 	{
-		return allCollisionComponents;
+		if (!ContainPair(_owner, _other)) return;
+		hasCollision.insert({ _owner , _other });
 	}
-
+	FORCEINLINE void ResetCollisionPair()
+	{
+		hasCollision.clear();
+	}
 	FORCEINLINE bool ContainPair(Actor* _owner, Actor* _other)
 	{
 		if (hasCollision.contains({ _owner ,_other }) || hasCollision.contains({ _other ,_owner }))
@@ -31,18 +33,11 @@ public:
 		}
 		return false;
 	}
-
-	FORCEINLINE void AddCollisionPair(Actor* _owner, Actor* _other)
+	FORCEINLINE set<CollisionComponent*> GetAllCollisionComponents() const
 	{
-		if (!ContainPair(_owner, _other)) return;
-		hasCollision.insert({ _owner , _other });
+		return allCollisionComponents;
 	}
 
-	FORCEINLINE void ResetCollisionPair()
-	{
-		hasCollision.clear();
-	}
-
+public:
 	void Collide(const CollisionData& _owner, const CollisionData& _other);
 };
-

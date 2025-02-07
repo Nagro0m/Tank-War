@@ -4,15 +4,18 @@
 #include "TransformableViewer.h"
 #include "Component.h"
 #include "RootComponent.h"
-#include "TimerManager.h"
 #include "Layer.h"
 
+class Level;
 struct CollisionData;
 
 class Actor : public Core, public ITransformableModifier, public ITransformableViewer
 {
 	bool isToDelete;
 	u_int id;
+protected:
+	float lifeSpan;
+private:
 	string name;
 	string displayName;
 	set<Component*> components;
@@ -21,25 +24,30 @@ class Actor : public Core, public ITransformableModifier, public ITransformableV
 	AttachmentType attachment;
 	set<Actor*> children;
 protected:
-	float lifeSpan;
+	Level* level;
 	Layer::LayerType layer;
 
 protected:
 	template <typename Type, typename ...Args, IS_BASE_OF(Component, Type)>
-	FORCEINLINE Type* CreateComponent(Args... _args)
+	FORCEINLINE Type* CreateComponent(Args&&... _args)
 	{
-		Type* _component = new Type(this, _args...);
+		Type* _component = new Type(this, forward<Args>(_args)...);
 		AddComponent(_component);
 		return _component;
 	}
 	FORCEINLINE void CreateSocket(const string& _name, const TransformData& _transform = TransformData(),
-		const AttachmentType& _type = AT_SNAP_TO_TARGET)
+								  const AttachmentType& _type = AT_SNAP_TO_TARGET)
 	{
 		Actor* _socket = new Actor(_name, _transform);
+		_socket->SetLevelReference(level);
 		AddChild(_socket, _type);
 	}
 
 public:
+	FORCEINLINE void SetLifeSpan(const float _lifeSpan)
+	{
+		lifeSpan = _lifeSpan;
+	}
 	FORCEINLINE void SetToDelete()
 	{
 		isToDelete = true;
@@ -64,16 +72,25 @@ public:
 	{
 		return displayName;
 	}
-	FORCEINLINE float GetLifeSpan() const
-	{
-		return lifeSpan;
-	}
 	FORCEINLINE Layer::LayerType GetLayer() const
 	{
 		return layer;
 	}
 
-#pragma region Children
+	#pragma region Level
+	
+	FORCEINLINE void SetLevelReference(Level* _level)
+	{
+		level = _level;
+	}
+	FORCEINLINE Level* GetLevel() const
+	{
+		return level;
+	}
+	
+	#pragma endregion
+
+	#pragma region Children
 
 private:
 	FORCEINLINE void SetParent(Actor* _parent)
@@ -91,7 +108,7 @@ private:
 		const vector<function<Vector2f()>>& _computePosition =
 		{
 			// Keep the child’s relative position to the parent.
-			[&]() { return _child->GetPosition() - GetPosition(); },
+			[&]() { return _child->GetPosition() + GetPosition(); },
 			// Keep the child’s world position.
 			[&]() { return _child->GetPosition(); },
 			// Snap the child to the parent's position.
@@ -106,7 +123,7 @@ private:
 		const vector<function<Angle()>>& _computeRotation =
 		{
 			// Keep the child’s relative rotation to the parent.
-			[&]() { return _child->GetRotation() - GetRotation(); },
+			[&]() { return _child->GetRotation() + GetRotation(); },
 			// Keep the child’s world rotation.
 			[&]() { return _child->GetRotation(); },
 			// Snap the child to the parent's rotation.
@@ -121,7 +138,10 @@ private:
 		const vector<function<Vector2f()>>& _computeScale =
 		{
 			// Keep the child’s relative scale to the parent.
-			[&]() { return _child->GetScale() - GetScale(); },
+			[&]() 
+			{ 
+				return Vector2f(_child->GetScale().x * GetScale().x, _child->GetScale().y * GetScale().y);
+			},
 			// Keep the child’s world scale.
 			[&]() { return _child->GetScale(); },
 			// Snap the child to the parent's scale.
@@ -169,21 +189,12 @@ public:
 		advance(_it, _index);
 		return *_it;
 	}
-	FORCEINLINE void RemoveParentForAllChildren()
-	{
-		if (children.empty()) return;
-		set<Actor*>::iterator _it;
-		for (_it = children.begin(); _it != children.end(); _it++)
-		{
-			(*_it)->SetParent(nullptr);
-		}
-	}
 
-#pragma endregion
+	#pragma endregion
 
-#pragma region Transformable
+	#pragma region Transformable
 
-#pragma region Viewer
+	#pragma region Viewer
 
 	FORCEINLINE virtual Vector2f GetOrigin() const override
 	{
@@ -205,10 +216,40 @@ public:
 	{
 		return root->GetTransform();
 	}
+	FORCEINLINE Vector2f GetForwardVector() const
+	{
+		const Angle& _angle = GetRotation();
+		const float _radians = _angle.asRadians();
+		return Vector2f(cos(_radians), sin(_radians));
+	}
+	FORCEINLINE Vector2f GetDownVector() const
+	{
+		const Angle& _angle = GetRotation();
+		const float _radians = _angle.asRadians();
+		return Vector2f(sin(_radians), -cos(_radians));
+	}
+	FORCEINLINE Vector2f GetRightVector() const
+	{
+		const Angle& _angle = GetRotation();
+		const float _radians = _angle.asRadians();
+		return Vector2f(cos(_radians), -sin(_radians));
+	}
+	FORCEINLINE Vector2f GetLeftVector() const
+	{
+		const Angle& _angle = GetRotation();
+		const float _radians = _angle.asRadians();
+		return Vector2f(-cos(_radians), sin(_radians));
+	}
+	FORCEINLINE Vector2f GetBackVector() const
+	{
+		const Angle& _angle = GetRotation();
+		const float _radians = _angle.asRadians();
+		return Vector2f(-cos(_radians), -sin(_radians));
+	}
 
-#pragma endregion
+	#pragma endregion
 
-#pragma region Modifier
+	#pragma region Modifier
 
 	FORCEINLINE virtual void SetPosition(const Vector2f& _position) override
 	{
@@ -269,13 +310,13 @@ public:
 		}
 	}
 
-#pragma endregion
+	#pragma endregion
 
-#pragma endregion
+	#pragma endregion
 
 public:
-	Actor(const string& _name = "Actor", const TransformData& _transform = TransformData(), const float _lifespan = 0.0f);
-	Actor(const Actor& _actor);
+	Actor(const string& _name = "Actor", const TransformData& _transform = TransformData());
+	Actor(const Actor& _other);
 	virtual ~Actor();
 
 public:
@@ -284,6 +325,8 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(const float _deltaTime) override;
 	virtual void BeginDestroy() override;
+
+	void SetName(const string& _name);
 	void Destroy();
 
 	#pragma region Components
@@ -292,18 +335,17 @@ public:
 	void RemoveComponent(Component* _component);
 	template <typename T>
 	T* GetComponent()
+	{
+		for (Component* _component : components)
 		{
-			for (Component* _component : components)
+			if (is_same_v<decltype(_component), T*>)
 			{
-				T* _componentCast = dynamic_cast<T*>(_component);
-				if (_componentCast)
-				{
-					return _componentCast;
-				}
+				return dynamic_cast<T*>(_component);
 			}
-
-			return nullptr;
 		}
+
+		return nullptr;
+	}
 
 	#pragma endregion
 
@@ -312,7 +354,6 @@ public:
 	virtual void CollisionEnter(const CollisionData& _data) {}
 	virtual void CollisionUpdate(const CollisionData& _data) {}
 	virtual void CollisionExit(const CollisionData& _data) {}
-
 
 	#pragma endregion
 };

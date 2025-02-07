@@ -1,5 +1,4 @@
 #pragma once
-
 #include "CoreMinimal.h"
 #include "MeshActor.h"
 
@@ -34,7 +33,7 @@ public:
 	/// <summary>
 	/// Constructeur pour créer un LevelElement qui servira de sol
 	/// </summary>
-	LevelElement(MeshActor* _actor, const vector<LevelElement*>& _variants=vector<LevelElement*>());
+	LevelElement(MeshActor* _actor, const vector<LevelElement*>& _variants = vector<LevelElement*>());
 	LevelElement() = default;
 	~LevelElement();
 #pragma endregion

@@ -1,10 +1,7 @@
 #include "LevelGenerator.h"
-#include "Level.h"
-#include "GameManager.h"
+#include "LevelManager.h"
 #include "CollisionComponent.h"
 #include "BarbedWire.h"
-#include "Tree.h"
-#include "Root.h"
 
 LevelElement::LevelElement(MeshActor* _actor, const int _chance)
 {
@@ -127,15 +124,10 @@ bool LevelGenerator::GenerateRandomElement(const Vector2f& _pos)
 
 	LevelElement* _element = GetRandomElement(elementsList);
 	if (!_element) return false;
-	Tree* isTree = Cast<Tree>(_element->GetPrefab());
-	if (isTree)
-	{
-		MeshActor* _root = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(50.0f, 30.0f), "Object/Root_" + to_string(GetRandomNumberInRange(1, 2))), "RootActor"));
-		_root->SetOriginAtMiddle();
-		_root->SetPosition(_pos);
-	}
-	MeshActor* _actor = Level::SpawnActor(_element->GetPrefab());
-	_actor->SetPosition(_pos - Vector2f(0.0f, 20.0f));
+
+	MeshActor* _actor = M_LEVEL.GetCurrentLevel()->SpawnActor<MeshActor>(_element->GetPrefab());
+
+	_actor->SetPosition(_pos);
 	_actor->SetOriginAtMiddle();
 	generatedElements.push_back(_actor);
 
@@ -155,7 +147,7 @@ void LevelGenerator::GenerateGround()
 			{
 				_groundElement = ground->GetRandomVariant();
 			}
-			MeshActor* _ground = Level::SpawnActor(_groundElement->GetPrefab());
+			MeshActor* _ground = M_LEVEL.GetCurrentLevel()->SpawnActor<MeshActor>(_groundElement->GetPrefab());
 			_ground->SetPosition(Vector2f((float)_x, (float)_y));
 			_ground->SetOriginAtMiddle();
 		}
@@ -179,33 +171,33 @@ int LevelGenerator::GetRandomDirection()
 void LevelGenerator::PlaceBarbedWire()
 {
 	vector<pair<string, CollisionType>> _responsesMesh = { { "Tank", CT_OVERLAP } };
-	Vector2f _barbedWireSize = Vector2f(150, 80);
+	float _barbedWireSize = groundTileSize.x;
 	// Placer les barbelés sur les bords
-	for (float _x = (-_barbedWireSize.x / 2); _x < sizeX /*+ _barbedWireSize*/; _x += _barbedWireSize.x)
+	for (float _x = (-_barbedWireSize / 2); _x < sizeX /*+ _barbedWireSize*/; _x += _barbedWireSize)
 	{
-		BarbedWire* _barbed1 = Level::SpawnActor(BarbedWire(RectangleShapeData(_barbedWireSize, "Object/Barbed")));
-		_barbed1->SetPosition(Vector2f(_x, -70));// Haut
+		BarbedWire* _barbed1 = M_LEVEL.GetCurrentLevel()->SpawnActor<BarbedWire>(BarbedWire(RectangleShapeData(Vector2f(_barbedWireSize, _barbedWireSize), "Object/Barbed")));
+		_barbed1->SetPosition(Vector2f(_x, -100));// Haut
 		_barbed1->SetOriginAtMiddle();
 		_barbed1->AddComponent(new CollisionComponent(_barbed1, "BardedWire", IS_ALL, CT_BLOCK));
 		_barbed1->GetComponent<CollisionComponent>()->AddResponses(_responsesMesh);
 
-		BarbedWire* _barbed2 = Level::SpawnActor(BarbedWire(RectangleShapeData(_barbedWireSize, "Object/Barbed")));
+		BarbedWire* _barbed2 = M_LEVEL.GetCurrentLevel()->SpawnActor<BarbedWire>(BarbedWire(RectangleShapeData(Vector2f(_barbedWireSize, _barbedWireSize), "Object/Barbed")));
 		_barbed2->SetOriginAtMiddle();
-		_barbed2->SetPosition(Vector2f(_x, sizeY ));// Bas
+		_barbed2->SetPosition(Vector2f(_x, sizeY - 30));// Bas
 		_barbed2->AddComponent(new CollisionComponent(_barbed1, "BardedWire", IS_ALL, CT_BLOCK));
 		_barbed2->GetComponent<CollisionComponent>()->AddResponses(_responsesMesh);
 	}
 
-	for (float _y =(-_barbedWireSize.y /2 ); _y < sizeY - _barbedWireSize.y / 2; _y += _barbedWireSize.y)
+	for (float _y = (-_barbedWireSize); _y < sizeY; _y += _barbedWireSize)
 	{
-		BarbedWire* _barbed1 = Level::SpawnActor(BarbedWire(RectangleShapeData(_barbedWireSize, "Object/Barbed")));
-		_barbed1->SetPosition(Vector2f(-_barbedWireSize.x / 2, _y));// Gauche
+		BarbedWire* _barbed1 = M_LEVEL.GetCurrentLevel()->SpawnActor<BarbedWire>(BarbedWire(RectangleShapeData(Vector2f(_barbedWireSize, _barbedWireSize), "Object/Barbed")));
+		_barbed1->SetPosition(Vector2f(-_barbedWireSize / 4, _y));// Gauche
 		_barbed1->Rotate(degrees(90));
 		_barbed1->AddComponent(new CollisionComponent(_barbed1, "BardedWire", IS_ALL, CT_BLOCK));
 		_barbed1->GetComponent<CollisionComponent>()->AddResponses(_responsesMesh);
 
-		BarbedWire* _barbed2 = Level::SpawnActor(BarbedWire(RectangleShapeData(_barbedWireSize, "Object/Barbed")));
-		_barbed2->SetPosition(Vector2f(sizeX + _barbedWireSize.x / 2, _y));// Droite
+		BarbedWire* _barbed2 = M_LEVEL.GetCurrentLevel()->SpawnActor<BarbedWire>(BarbedWire(RectangleShapeData(Vector2f(_barbedWireSize, _barbedWireSize), "Object/Barbed")));
+		_barbed2->SetPosition(Vector2f(sizeX + _barbedWireSize / 4, _y));// Droite
 		_barbed2->Rotate(degrees(90));
 		_barbed2->AddComponent(new CollisionComponent(_barbed1, "BardedWire", IS_ALL, CT_BLOCK));
 		_barbed2->GetComponent<CollisionComponent>()->AddResponses(_responsesMesh);

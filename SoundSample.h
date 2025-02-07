@@ -27,18 +27,16 @@ public:
 	{
 		sound->setLooping(_isLoop);
 	}
-
-	FORCEINLINE void SetPitch(const float _pitch)
+	FORCEINLINE virtual void SetPitch(const float _pitch) override
 	{
 		sound->setPitch(_pitch);
 	}
-
 	FORCEINLINE virtual bool AddPitch(const float _pitchOffset) override
 	{
 		float _newPitch = sound->getPitch() + _pitchOffset;
 		if (_newPitch > 100.0f || _newPitch < 0.0f) return false;
 
-		SetPitch(_newPitch);
+		sound->setPitch(_newPitch);
 		return true;
 	}
 
@@ -54,7 +52,7 @@ public:
 	SoundSample(const string& _path);
 	~SoundSample();
 
-	virtual void Play(const Time& _time = Time()) override;
+	virtual void Play(const Time& _time = Time(), const Time& _duration = Time()) override;
 	virtual void Pause() override;
 	virtual void Stop() override;
 };

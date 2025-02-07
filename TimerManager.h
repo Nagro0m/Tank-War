@@ -1,6 +1,6 @@
 #pragma once
 #include "Singleton.h"
-#include "GameManager.h" 
+#include "Engine.h"
 
 using Seconds = float;
 using MilliSec = int32_t;
@@ -132,9 +132,9 @@ public:
 		{
 			lastFrameTime = time;
 			framesCount = 0;
-			M_GAME.GetCurrent()->UpdateWindow();
+			Engine::GetInstance().UpdateWindow();
 		}
-
+		
 		using Iterator = set<T*>::iterator;
 		for (Iterator _iterator = allTimers.begin(); _iterator != allTimers.end(); )
 		{

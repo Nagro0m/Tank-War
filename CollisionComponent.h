@@ -1,8 +1,5 @@
 #pragma once
 #include "Component.h"
-#include "MeshActor.h"
-#include "ActorManager.h"
-
 
 enum InteractStatus
 {
@@ -34,18 +31,12 @@ struct CollisionData
 	CollisionStep step;
 };
 
-
-//enum collisionStep -> ENTER, UPDATE, EXIT, NONE;
-
-
-//si collision -> add set actor -> si déjà ajouter update -> si plus collision exit et on le retire 
-
 class CollisionComponent : public Component
 {
 	string channelName;
 	int status;
-	CollisionType type; // Réponse par défaut
-	map<string, CollisionType> responses; //Layer a la place du string
+	CollisionType type;						 
+	map<string, CollisionType> responses;	
 	map<Actor*, CollisionStep> othersStep;
 	bool enable;
 
@@ -54,9 +45,6 @@ public:
 	{
 		return channelName;
 	}
-
-	//bool containsActor 
-
 	FORCEINLINE void AddResponses(const vector<pair<string, CollisionType>>& _responses)
 	{
 		for (pair<string, CollisionType> _pair : _responses)
@@ -64,7 +52,6 @@ public:
 			responses.insert(_pair);
 		}
 	}
-
 	FORCEINLINE void SetInformation(const string& _channelName, const int _status, const CollisionType& _type, const bool _enable = false)
 	{
 		channelName = _channelName;
@@ -72,9 +59,6 @@ public:
 		status = _status;
 		enable = _enable;
 	}
-
-	CollisionStep ComputeOthersStep(Actor* _other, const CollisionStep& _step);
-
 
 public:
 	CollisionComponent(Actor* _owner, const string& _channelName = "NONE", const int _status = IS_NONE, const CollisionType& _type = CT_NONE);
@@ -85,4 +69,5 @@ protected:
 
 private:
 	void CheckCollision();
+	CollisionStep ComputeOthersStep(Actor* _other, const CollisionStep& _step);
 };

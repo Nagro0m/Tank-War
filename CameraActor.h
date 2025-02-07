@@ -5,15 +5,8 @@
 class CameraActor : public Actor
 {
 	CameraComponent* camera;
-	Actor* target;
-	bool isOnTargetRect;
-	FloatRect targetRect;
 
 public:
-	FORCEINLINE void SetIsOnTargetRect(const bool _isOnTargetRect)
-	{
-		isOnTargetRect = _isOnTargetRect;
-	}
 	FORCEINLINE void SetViewport(const FloatRect& _rect)
 	{
 		camera->SetViewport(_rect);
@@ -51,46 +44,16 @@ public:
 	{
 		camera->Zoom(_factor);
 	}
-	FORCEINLINE void SetTarget(Actor* _target)
-	{
-		target = _target;
-	}
-	FORCEINLINE void SetTargetRect(FloatRect _targetRect)
-	{
-		isOnTargetRect = true;
-		targetRect = _targetRect;
-	}
-	FORCEINLINE bool HasTarget() const
-	{
-		return target;
-	}
 	FORCEINLINE View* GetView() const
 	{
 		return camera->GetView();
 	}
 
-private:
-	
-	FORCEINLINE bool IsInTargetRectX() const
-	{
-		return	target->GetPosition().x >= targetRect.position.x &&
-				target->GetPosition().x <= targetRect.size.x;
-	}
-	FORCEINLINE bool IsInTargetRectY() const
-	{
-		return	target->GetPosition().y >= targetRect.position.y &&
-				target->GetPosition().y <= targetRect.size.y;
-	}
-
-	void SetPositionOnTarget();
-
 
 public:
-	CameraActor(const string& _name = "CameraActor");
+	CameraActor(const string& _name);
 	CameraActor(const Vector2f& _center, const Vector2f& _size, const string& _name);
+	CameraActor(const Vector2f& _size, const string& _name);
 	CameraActor(const FloatRect& _rect, const string& _name);
 	CameraActor(const CameraActor& _other);
-
-protected:
-	virtual void Tick(const float _deltaTime) override;
 };

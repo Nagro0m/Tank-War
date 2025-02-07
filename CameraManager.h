@@ -1,7 +1,5 @@
 #pragma once
-#include "Singleton.h"
 #include "CameraActor.h"
-#include "Level.h"
 #include "RenderType.h"
 
 namespace Camera
@@ -21,7 +19,7 @@ namespace Camera
 		}
 	};
 
-	class CameraManager : public Singleton<CameraManager>
+	class CameraManager
 	{
 		multimap<int, u_int> allElements;
 		map<u_int, RenderData> allRendersData;
@@ -55,8 +53,7 @@ namespace Camera
 		FORCEINLINE void Register(CameraActor* _camera)
 		{
 			if (!_camera) return;
-			allCameras.insert({ _camera->GetName(), _camera });
-			//allCameras.insert({ _camera->GetDisplayName(), _camera });
+			allCameras.insert({ _camera->GetDisplayName(), _camera });
 		}
 
 	public:
@@ -65,10 +62,10 @@ namespace Camera
 		void RenderAllCameras(RenderWindow& _window);
 		void UnbindOnRenderWindow(const u_int& _uniqueId);
 
-		template <typename Type = CameraActor, typename ...Args, IS_BASE_OF(CameraActor, Type)>
-		Type* CreateCamera(Args... _args)
+	public:
+		template <typename Type = CameraActor, IS_BASE_OF(CameraActor, Type)>
+		Type* AddCamera(Type* _camera)
 		{
-			Type* _camera = Level::SpawnActor(Type(_args...));
 			Register(_camera);
 
 			if (!current)

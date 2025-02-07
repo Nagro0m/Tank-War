@@ -1,10 +1,9 @@
 #include "ShapeObject.h"
 #include "TextureManager.h"
 
-ShapeObject::ShapeObject(const float _radius, const string& _path, const IntRect& _rect,
-						 const size_t& _pointCount)
+ShapeObject::ShapeObject(const CircleShapeData& _data)
 {
-	objectData = ShapeObjectData(SOT_CIRCLE, CircleShapeData(_radius, _path, _rect, _pointCount));
+	objectData = ShapeObjectData(SOT_CIRCLE, _data);
 	InitCircle(*objectData.data.circleData);
 }
 

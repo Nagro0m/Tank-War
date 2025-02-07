@@ -14,6 +14,7 @@ class Tank : public MeshActor
 	float fuelTank;
 	bool isMoving;
 	MovementComponent* movement;
+	CollisionComponent* collision;
 	//AnimationComponent* animation;
 	float pitch;
 	SoundSample* sound;
@@ -29,35 +30,18 @@ class Tank : public MeshActor
 		isReadyToShoot = true;
 	}
 public:
-	FORCEINLINE int GetLife() const 
+	FORCEINLINE int GetLife() const
 	{
 		return life;
 	}
+
 	FORCEINLINE void ResetSpeed()
 	{
-		movement->SetSpeed(0.0f); // D'abord, on arrête le mouvement
-
-		// Normalisation manuelle de la direction
-		Vector2f _direction = movement->GetDirection();
-		float _length = sqrt(_direction.x * _direction.x + _direction.y * _direction.y);
-
-		if (_length > 0.0f) // Éviter la division par zéro
-		{
-			_direction.x /= _length;
-			_direction.y /= _length;
-		}
-
-		SetPosition(GetPosition() - _direction * 1.0f); // Corrige la position
+		movement->SetSpeed(0.0f);
 		pitch = 1.0f;
 		sound->SetPitch(pitch);
 	}
 
-
-	FORCEINLINE void AddDamage(const int _dammage)
-	{
-		life -= _dammage;
-	}
-	
 	FORCEINLINE CollisionComponent* GetCollision() const
 	{
 		return collision;
@@ -68,7 +52,7 @@ public:
 	{
 		return movement->GetSpeed() == maxSpeed;
 	}
-	FORCEINLINE void SetMaxSpeed(float _value) 
+	FORCEINLINE void SetMaxSpeed(float _value)
 	{
 		maxSpeed = _value;
 	}
@@ -99,9 +83,8 @@ public:
 	void SlowDown();
 	void Shoot();
 	void PlaySample();
-	void ChangeLife( float _offset);
+	void ChangeLife(const float _offset);
 	void UpdateFuelTank(const float _deltaTime);
 	void Refuel();
 	void SpawnTireTrack();
-	void Die();
 };

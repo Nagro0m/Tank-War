@@ -4,7 +4,6 @@
 
 namespace Input
 {
-
 	class InputManager : public Singleton<InputManager>
 	{
 		map<string, ActionMap*> actionsMaps;
@@ -67,7 +66,7 @@ namespace Input
 	};
 }
 
-#pragma region Exemple
+#pragma region Examples
 /*
 ActionMap* _actionMap = M_INPUT.CreateActionMap("Demo");
 //DIGITAL

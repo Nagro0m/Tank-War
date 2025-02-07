@@ -1,5 +1,5 @@
 #pragma once
-#include "Object.h"
+#include "TransformableObject.h"
 
 enum TextureExtensionType
 {
@@ -12,6 +12,7 @@ enum ShapeObjectType
 {
 	SOT_CIRCLE,
 	SOT_RECTANGLE,
+	SOT_VERTEX,
 
 	SOT_COUNT,
 };
@@ -23,8 +24,8 @@ struct CircleShapeData
 	IntRect rect;
 	size_t pointCount;
 
-	CircleShapeData(const float _radius, const string& _path, const IntRect& _rect,
-					const size_t& _pointCount)
+	CircleShapeData(const float _radius, const string& _path = "", const IntRect& _rect = IntRect(),
+					const size_t& _pointCount = 30)
 	{
 		radius = _radius;
 		path = _path;
@@ -51,7 +52,7 @@ struct RectangleShapeData
 	TextureExtensionType textureType;
 	bool isRepeated;
 
-	RectangleShapeData(const Vector2f& _size = Vector2f(), const string& _path = "", const TextureExtensionType& _textureType = PNG,
+	RectangleShapeData(const Vector2f& _size, const string& _path = "", const TextureExtensionType& _textureType = PNG,
 					   const bool _isRepeated = false, const IntRect& _rect = IntRect())
 	{
 		size = _size;
@@ -121,7 +122,7 @@ struct ShapeObjectData
 	}
 };
 
-class ShapeObject : public Object
+class ShapeObject : public TransformableObject
 {
 	Texture texture;
 	Shape* shape;
@@ -173,8 +174,7 @@ public:
 	}
 
 public:
-	ShapeObject(const float _radius, const string& _path = "", const IntRect& _rect = IntRect(),
-				const size_t& _pointCount = 30); // Circle
+	ShapeObject(const CircleShapeData& _data); // Circle
 	ShapeObject(const RectangleShapeData& _data); // Rectangle
 	ShapeObject(const ShapeObject& _other);
 	~ShapeObject();

@@ -5,7 +5,7 @@ class Grass : public MeshActor
 {
 public:
 	Grass(const RectangleShapeData& _data);
-	Grass(const float _size, const string& _path);
+	Grass(const CircleShapeData& _data);
 
 	Grass(const Grass& _other);
 
@@ -15,7 +15,6 @@ public:
 	virtual void CollisionEnter(const CollisionData& _data) override;
 	virtual void CollisionUpdate(const CollisionData& _data) override;
 	virtual void CollisionExit(const CollisionData& _data) override;
-	virtual Grass* Clone() const override { return new Grass(*this); }
 
 };
 

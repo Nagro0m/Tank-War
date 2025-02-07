@@ -19,7 +19,7 @@ namespace Input
 	using ScrolledMouseWheel = Event::MouseWheelScrolled;
 	using MovedMouse = Event::MouseMoved;
 	using MovedRawMouse = Event::MouseMovedRaw;
-	using EnteredMouse = Event::MouseEntered;
+	using EnteredMouse= Event::MouseEntered;
 	using LeftMouse = Event::MouseLeft;
 
 	//Window
@@ -41,7 +41,7 @@ namespace Input
 	using MovedTouch = Event::TouchMoved;
 	using EndedTouch = Event::TouchEnded;
 	using ChangedSensor = Event::SensorChanged;
-
+	
 #pragma endregion
 
 	struct CallBackType
@@ -307,7 +307,7 @@ namespace Input
 		{
 			assert((_type == KeyPressed || _type == KeyHold ||
 				_type == KeyReleased || _type == MouseButtonPressed || _type == MouseButtonHold ||
-				_type == MouseButtonReleased || _type == SensorChanged || _type == MouseWheelScrolled) &&
+				_type == MouseButtonReleased || _type == SensorChanged || _type == MouseWheelScrolled ) &&
 				"Invalid constructor to use this ActionType!");
 
 			value = ComputeValueTypeWithActionType(_type);
@@ -492,7 +492,7 @@ namespace Input
 		/// <param name="_data">ActionData dont la ValueType est Axis2</param>
 		/// <param name="_callback"></param>
 		Action(const string& _name, const ActionData& _data, const function<void(const Vector2f& _parameter)>& _callback);
-
+		
 
 		/// <summary>
 		/// Constructeur d'action dont la ValueType est Axis !
@@ -501,7 +501,7 @@ namespace Input
 		/// <param name="_data">ActionData dont la ValueType est Axis</param>
 		/// <param name="_callback"></param>
 		Action(const string& _name, const ActionData& _data, const function<void(const float _parameter)>& _callback);
-
+		
 
 		/// <summary>
 		/// Constructeur d'action dont la ValueType est Digital !
@@ -510,7 +510,7 @@ namespace Input
 		/// <param name="_data">ActionData dont la ValueType est Digital</param>
 		/// <param name="_callback"></param>
 		Action(const string& _name, const ActionData& _data, const function<void()>& _callback);
-
+		
 		/// <summary>
 		/// Constructeur d'actions dont les ValueTypes sont Digital !
 		/// </summary>
@@ -518,7 +518,7 @@ namespace Input
 		/// <param name="_data">ActionData dont la ValueType est Digital</param>
 		/// <param name="_callback"></param>
 		Action(const string& _name, const vector<ActionData>& _allData, const function<void()>& _callback);
-
+		
 		/// <summary>
 		/// Constructeur d'actions dont les ValueTypes sont Axis2 !
 		/// </summary>
@@ -526,7 +526,7 @@ namespace Input
 		/// <param name="_data">ActionData dont la ValueType est Axis2</param>
 		/// <param name="_callback"></param>
 		Action(const string& _name, const vector<ActionData>& _allData, const function<void(const Vector2f& _parameter)>& _callback);
-
+		
 		/// <summary>
 		/// Constructeur d'actions dont les ValueTypes sont Axis !
 		/// </summary>
@@ -534,13 +534,13 @@ namespace Input
 		/// <param name="_data">ActionData dont la ValueType est Axis</param>
 		/// <param name="_callback"></param>
 		Action(const string& _name, const vector<ActionData>& _allData, const function<void(const float _parameter)>& _callback);
-
+		
 	public:
 		void TryToExecute(const EventInfo& _event);
 
 	private:
 		TypeIndex ComputeTypeIndexByActionType(const ActionType& _typeIndex);
-
-
+		
+	
 	};
 }

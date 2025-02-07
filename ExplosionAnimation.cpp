@@ -2,8 +2,9 @@
 #include "AudioManager.h"
 
 
-ExplosionAnimation::ExplosionAnimation(const RectangleShapeData& _data) : MeshActor(_data, "Effects/Explosion", 0.5f)
+ExplosionAnimation::ExplosionAnimation(const RectangleShapeData& _data) : MeshActor(_data, "Effects/Explosion")
 {
+	SetLifeSpan(0.5f);
 	animation = CreateComponent<AnimationComponent>();
 }
 
@@ -20,15 +21,15 @@ void ExplosionAnimation::Construct()
 	const Vector2i& _spriteSize = Vector2i(258, 258);
 	const vector<SpriteData>& _spritesData =
 	{
-		SpriteData(_timeBetween, Vector2i(0, 0),_spriteSize),
-		SpriteData(_timeBetween,Vector2i(258, 0),_spriteSize),
-		SpriteData(_timeBetween,Vector2i(516, 0),_spriteSize),
-		SpriteData(_timeBetween,Vector2i(774, 0),_spriteSize),
-		SpriteData(_timeBetween,Vector2i(1032, 0),_spriteSize),
-		SpriteData(_timeBetween,Vector2i(1290, 0),_spriteSize),
-		SpriteData(_timeBetween,Vector2i(1548, 0),_spriteSize),
-		SpriteData(_timeBetween,Vector2i(1806, 0),_spriteSize),
-		SpriteData(_timeBetween,Vector2i(2064, 0),_spriteSize),
+		SpriteData(Vector2i(0, 0),_spriteSize, _timeBetween),
+		SpriteData(Vector2i(258, 0),_spriteSize, _timeBetween),
+		SpriteData(Vector2i(516, 0),_spriteSize, _timeBetween),
+		SpriteData(Vector2i(774, 0),_spriteSize, _timeBetween),
+		SpriteData(Vector2i(1032, 0),_spriteSize, _timeBetween),
+		SpriteData(Vector2i(1290, 0),_spriteSize, _timeBetween),
+		SpriteData(Vector2i(1548, 0),_spriteSize, _timeBetween),
+		SpriteData(Vector2i(1806, 0),_spriteSize, _timeBetween),
+		SpriteData(Vector2i(2064, 0),_spriteSize, _timeBetween),
 	};
 
 	AnimationData _animationData = AnimationData(1.0f, _spritesData, true, false);

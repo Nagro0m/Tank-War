@@ -14,6 +14,5 @@ public:
 	virtual void CollisionEnter(const CollisionData& _data) override;
 	virtual void CollisionUpdate(const CollisionData& _data) override;
 	virtual void CollisionExit(const CollisionData& _data) override;
-	virtual Root* Clone() const override { return new Root(*this); }
 };
 
