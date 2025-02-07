@@ -8,6 +8,7 @@
 #include "ShootAnimation.h"
 #include "LoadAnimation.h"
 #include "Layer.h"
+#include "ExplosionAnimation.h"
 
 Tank::Tank(vector<KeyType> _code, const string& _path, const string& _name, float _fuelTank) : MeshActor(RectangleShapeData(Vector2f(60.0f, 110.0f), _path))
 {
@@ -100,6 +101,7 @@ void Tank::Tick(const float _deltaTime)
 
 	distance += (1) * movement->GetSpeed();
 	SpawnTireTrack();
+	Die();
 }
 
 void Tank::CollisionEnter(const CollisionData& _data)
@@ -135,8 +137,6 @@ void Tank::CollisionEnter(const CollisionData& _data)
 		}
 	}
 	
-	distance += (1 ) * movement->GetSpeed();
-	SpawnTireTrack();
 }
 
 void Tank::CollisionUpdate(const CollisionData& _data)
@@ -294,8 +294,9 @@ void Tank::PlaySample()
 	sound->SetLoop(true);
 }
 
-void Tank::ChangeLife(const float _offset)
+void Tank::ChangeLife( float _offset)
 {
+	_offset *= 20;
 	life = clamp(life + _offset, 0.0f, 100.0f);
 	M_GAMEHUD.ChangeLifeBarWithLife(name, life);
 }
@@ -329,4 +330,18 @@ void Tank::SpawnTireTrack()
 		distance = 0;
 	}
 	
+}
+
+void Tank::Die()
+{
+	if (life == 0)
+	{
+		ExplosionAnimation* _explosion = Level::SpawnActor(ExplosionAnimation(RectangleShapeData(Vector2f(500, 500), "Effects/Explosion")));
+		_explosion->SetOriginAtMiddle();
+		_explosion->SetPosition(GetPosition());
+		/*Camera::M_CAMERA.GetCurrent()->SetTarget(nullptr);
+		movement = nullptr;
+		SetToDelete();*/
+		life = -20;
+	}
 }
