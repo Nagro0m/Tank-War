@@ -35,6 +35,9 @@ struct CollisionData
 };
 
 
+struct OBB {
+	Vector2f corners[4]; // Les 4 coins tournés du rectangle
+};
 //enum collisionStep -> ENTER, UPDATE, EXIT, NONE;
 
 
@@ -85,4 +88,27 @@ protected:
 
 private:
 	void CheckCollision();
+	void ComputeOBB(const Vector2f& center, const Vector2f& size, float rotationDegrees, OBB& obb) {
+		float radians = rotationDegrees * 3.14159265f / 180.f;
+		float cosA = std::cos(radians);
+		float sinA = std::sin(radians);
+
+		Vector2f halfSize = size / 2.f;
+		Vector2f localCorners[4] = {
+			{ -halfSize.x, -halfSize.y },
+			{  halfSize.x, -halfSize.y },
+			{  halfSize.x,  halfSize.y },
+			{ -halfSize.x,  halfSize.y },
+		};
+
+		for (int i = 0; i < 4; ++i) {
+			float x = localCorners[i].x;
+			float y = localCorners[i].y;
+			obb.corners[i] = {
+				center.x + x * cosA - y * sinA,
+				center.y + x * sinA + y * cosA
+			};
+		}
+	}
 };
+

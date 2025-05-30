@@ -3,7 +3,7 @@
 #include "Level.h"
 #include "Tank.h"
 
-Bullet::Bullet(const Vector2f& _direction) : MeshActor(RectangleShapeData(Vector2f(50.0f, 50.0f), "Tank/Bullet/Bullet"), "BulletActor", GetRandomNumberInRange(2, 4))
+Bullet::Bullet(const Vector2f& _direction, Actor* _owner) : MeshActor(RectangleShapeData(Vector2f(50.0f, 50.0f), "Tank/Bullet/Bullet"), "BulletActor", GetRandomNumberInRange(2, 4))
 {
 	direction = _direction;
 	movement = CreateComponent<MovementComponent>(500.0f);
@@ -12,7 +12,7 @@ Bullet::Bullet(const Vector2f& _direction) : MeshActor(RectangleShapeData(Vector
 	vector<pair<string, CollisionType>> _responsesMesh = { {"BardedWire", CT_BLOCK}, {"Tree", CT_BLOCK} ,{"Rock", CT_BLOCK}, { "Tank", CT_OVERLAP } };
 	collision->AddResponses(_responsesMesh);
 	isExplode = false;
-	explosionNumber = 0;
+	owner = _owner;
 }
 
 Bullet::Bullet(const Bullet& _other) : MeshActor(_other)
@@ -20,7 +20,7 @@ Bullet::Bullet(const Bullet& _other) : MeshActor(_other)
 	SetLayer(_other.GetLayer());
 	direction = _other.direction;
 	movement = CreateComponent<MovementComponent>(500.0f);
-	explosionNumber = _other.explosionNumber;
+	owner = _other.owner;
 	//collision = CreateComponent<CollisionComponent>(*_other.collision);
 }
 
@@ -57,12 +57,18 @@ void Bullet::BeginPlay()
 void Bullet::CollisionEnter(const CollisionData& _data)
 {
 	if (IsToDelete()) return;
+	if (_data.other == owner) return;
 }
 
 void Bullet::CollisionUpdate(const CollisionData& _data)
 {
 	if (IsToDelete()) return;
-
+		cout << "collision with" << _data.other->GetName() << endl;
+	if (_data.other == owner)
+	{
+		cout << "owner" << endl;
+		return;
+	}
 	if (_data.response == CT_BLOCK)
 	{
 		if (_data.other->GetLayer() == Layer::LayerType::BREAKABLE)
@@ -78,13 +84,6 @@ void Bullet::CollisionUpdate(const CollisionData& _data)
 			Explosion();
 		}
 	}
-
-	else if (explosionNumber != 3)
-	{
-		++explosionNumber;
-		return;
-	}
-
 	else if (_data.response == CT_OVERLAP)
 	{
 		if (_data.other->GetLayer() == Layer::LayerType::PLAYER)

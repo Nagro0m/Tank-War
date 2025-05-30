@@ -40,6 +40,12 @@ void GameHUD::Initialize(const int _playersCount)
 		separation->SetPosition(Vector2f(955, 0));
 		M_HUD.AddToViewport(separation);
 	}
+	label = new Label(to_string(timer), Screen, "Cartoon", TTF);
+	label->SetPosition(Vector2f(955, 0));
+	M_HUD.AddToViewport(label);
+
+	new Timer(bind(&GameHUD::UpdateTimer, this), seconds(1), true, true);
+
 }
 
 UI::Image* GameHUD::CreateLifeBar(const string& _name, const string& _texture, const Vector2f& _position)
@@ -49,9 +55,7 @@ UI::Image* GameHUD::CreateLifeBar(const string& _name, const string& _texture, c
 
 	_lifeBar->SetPosition(_position);
 	M_TEXTURE.SetTextureRect(_lifeBar->GetShape(), Vector2i(), Vector2i(500, 71));
-	M_HUD.AddToViewport(_lifeBar);
-
-	
+	M_HUD.AddToViewport(_lifeBar);	
 
 	return _lifeBar;
 }
@@ -74,6 +78,12 @@ void GameHUD::SpawnLoadAnimation()
 	LoadAnimation* _load = Level::SpawnActor(LoadAnimation(RectangleShapeData(Vector2f(100.0f, 100.0f), "Effects/Load4")));
 	_load->SetOriginAtMiddle();
 	_load->SetPosition(Vector2f(200, 200));
+}
+
+void GameHUD::UpdateTimer()
+{
+	--timer;
+	label->SetString(to_string(timer));
 }
 
 

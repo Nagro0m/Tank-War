@@ -13,6 +13,18 @@ public:
 	{
 		return shape;
 	}
+	FORCEINLINE Vector2f GetSize() const
+	{
+		if (!shape || !shape->GetData().data.rectangleData)
+			return { 0.f, 0.f }; // Valeur par défaut si erreur
+
+		return shape->GetData().data.rectangleData->size;
+	}
+
+	FORCEINLINE float GetRadius() const
+	{
+		return shape->GetData().data.circleData->radius;
+	}
 	FORCEINLINE void SetShape(ShapeObject* _shape)
 	{
 		shape = _shape;

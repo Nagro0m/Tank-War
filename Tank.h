@@ -14,7 +14,8 @@ class Tank : public MeshActor
 	float fuelTank;
 	bool isMoving;
 	MovementComponent* movement;
-	//AnimationComponent* animation;
+	AnimationComponent* animation;
+
 	float pitch;
 	SoundSample* sound;
 	SoundSample* rearSound;
@@ -23,12 +24,19 @@ class Tank : public MeshActor
 	vector<KeyType> code;
 	float distance;
 	string name;
+	string hull;
+	string weapon;
+	string track;
 
 	FORCEINLINE void SetIsReadyToShoot()
 	{
 		isReadyToShoot = true;
 	}
 public:
+
+	void SetHull(const string& _hull);
+	void SetWeapon(const string& _weapon);
+
 	FORCEINLINE int GetLife() const 
 	{
 		return life;
@@ -92,6 +100,7 @@ public:
 	virtual void CollisionUpdate(const CollisionData& _data) override;
 	virtual void CollisionExit(const CollisionData& _data) override;
 
+	void CreateTrackAnimation();
 	void ComputeDirection(const float _rotation);
 	void Right();
 	void Left();

@@ -8,7 +8,7 @@ class Bullet : public MeshActor
 	Vector2f direction;
 	MovementComponent* movement;
 	bool isExplode;
-	int explosionNumber;
+	Actor* owner;
 
 public:
 	FORCEINLINE CollisionComponent* GetCollision() const
@@ -16,7 +16,7 @@ public:
 		return collision;
 	}
 public:
-	Bullet(const Vector2f& _direction);
+	Bullet(const Vector2f& _direction, Actor* _owner);
 	Bullet(const Bullet& _other);
 
 public:

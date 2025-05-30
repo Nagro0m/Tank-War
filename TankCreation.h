@@ -20,7 +20,7 @@ class TankCreation
 	vector<Track> tracks;
 	MeshActor* currentActor;
 	vector<MeshActor*> tankMenu;
-	UI::Label* menuLabel;<
+	UI::Label* menuLabel;
 
 public:
 	TankCreation(const int _tankNumber = 1);

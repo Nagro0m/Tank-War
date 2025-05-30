@@ -109,6 +109,7 @@ struct ShapeObjectData
 
 		if (type == SOT_CIRCLE)
 		{
+			cout << "circle" << endl;
 			data.circleData = new CircleShapeData(*_other.data.circleData);
 		}
 
@@ -135,6 +136,10 @@ public:
 	FORCEINLINE virtual Shape* GetDrawable() const override
 	{
 		return shape;
+	}
+	FORCEINLINE ShapeObjectData& GetData()
+	{
+		return objectData;
 	}
 	FORCEINLINE virtual void SetOrigin(const Vector2f& _origin) override
 	{

@@ -8,15 +8,33 @@
 #include "ShootAnimation.h"
 #include "LoadAnimation.h"
 #include "Layer.h"
+#include "MeshActor.h"
 #include "ExplosionAnimation.h"
 
-Tank::Tank(vector<KeyType> _code, const string& _path, const string& _name, float _fuelTank) : MeshActor(RectangleShapeData(Vector2f(60.0f, 110.0f), _path))
+void Tank::SetHull(const string& _hull)
 {
+	MeshActor* _hullActor = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(120.0f, 120.0f), "Tank/" + _hull)));
+	_hullActor->SetOriginAtMiddle();
+	hull = _hull;
+	AddChild(_hullActor, AttachmentType::AT_SNAP_TO_TARGET);
+}
+
+void Tank::SetWeapon(const string& _weapon)
+{
+	MeshActor* _weaponActor = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(40.0f, 90.0f), "Tank/" + _weapon)));
+	_weaponActor->SetOriginAtMiddle();
+	weapon = _weapon;
+	AddChild(_weaponActor, AttachmentType::AT_SNAP_TO_TARGET);
+}
+
+Tank::Tank(vector<KeyType> _code, const string& _path, const string& _name, float _fuelTank) : MeshActor(RectangleShapeData(Vector2f(75.0f, 120.0f), _path, PNG, false, IntRect(Vector2i(0.0f, 0.0f), Vector2i(280, 384))))
+{
+	SetOriginAtMiddle();
 	life = 100.0f;
 	fuelTank = _fuelTank;
 	isMoving = false;
 	movement = CreateComponent<MovementComponent>(0.0f);
-	//collision = CreateComponent<CollisionComponent>("Tank", IS_ALL, CT_OVERLAP);
+
 	collision->SetInformation("Tank", IS_ALL, CT_OVERLAP, true);
 	pitch = 1.0f;
 	sound = nullptr;
@@ -25,6 +43,7 @@ Tank::Tank(vector<KeyType> _code, const string& _path, const string& _name, floa
 	isReadyToShoot = true;
 	code = _code;
 	name = _name;
+	track = _path;
 	distance = 0.0f;
 	SetLayer(Layer::LayerType::PLAYER);
 
@@ -39,7 +58,6 @@ Tank::Tank(const Tank& _other) : MeshActor(_other)
 	isMoving = _other.isMoving;
 	movement = CreateComponent<MovementComponent>(_other.movement);
 	collision = CreateComponent<CollisionComponent>(*_other.collision);
-	//animation = CreateComponent<AnimationComponent>(_other.animation);
 	pitch = _other.pitch;
 	sound = _other.sound;
 	rearSound = _other.rearSound;
@@ -48,7 +66,9 @@ Tank::Tank(const Tank& _other) : MeshActor(_other)
 	code = _other.code;
 	name = _other.name;
 	distance = _other.distance;
-
+	hull = _other.hull;
+	weapon = _other.weapon;
+	track = _other.track;
 	SetLayer(_other.GetLayer());
 }
 
@@ -58,9 +78,10 @@ void Tank::Construct()
 
 	SetOriginAtMiddle();
 	PlaySample();
-	SoundSample* _backgroundEngineSound = M_AUDIO.PlaySample<SoundSample>("Tank_Engine");
-	_backgroundEngineSound->SetLoop(true);
-	_backgroundEngineSound->SetVolume(5.0f);
+	CreateTrackAnimation();
+	//SoundSample* _backgroundEngineSound = M_AUDIO.PlaySample<SoundSample>("Tank_Engine");
+	//_backgroundEngineSound->SetLoop(true);
+	//_backgroundEngineSound->SetVolume(5.0f);
 
 	ActionMap* _actionMap = M_INPUT.CreateActionMap("Tank_" + name);
 
@@ -119,7 +140,7 @@ void Tank::CollisionEnter(const CollisionData& _data)
 
 		if (_data.other->GetLayer() == Layer::LayerType::WORLD_STATIC)
 		{
-			M_AUDIO.PlaySample<SoundSample>("Collision")->SetVolume(90.0f);
+			if (movement->GetSpeed() != 0.0f) M_AUDIO.PlaySample<SoundSample>("Collision");
 			ResetSpeed();
 		}
 
@@ -148,7 +169,6 @@ void Tank::CollisionUpdate(const CollisionData& _data)
 
 		if (_data.other->GetLayer() == Layer::LayerType::WORLD_STATIC)
 		{
-			M_AUDIO.PlaySample<SoundSample>("Collision")->SetVolume(90.0f);
 			ResetSpeed();
 		}
 	}
@@ -169,6 +189,26 @@ void Tank::CollisionUpdate(const CollisionData& _data)
 void Tank::CollisionExit(const CollisionData& _data)
 {
 	if (IsToDelete()) return;
+}
+
+void Tank::CreateTrackAnimation()
+{
+	//const float _timeBetween = 0.0125f;
+	//const Vector2i& _spriteSize = Vector2i(75, 120);
+	//const vector<SpriteData>& _spritesData =
+	//{
+	//	SpriteData(_timeBetween,Vector2i(0, 0),_spriteSize),
+	//	SpriteData(_timeBetween, Vector2i(0, 384),_spriteSize),
+	//};
+
+	//const AnimationData& _movingAnimationData = AnimationData(2.0f, _spritesData, true, false);
+	//const AnimationData& _idleAnimationData = AnimationData(1, 1, SpriteData(_timeBetween, Vector2i(0, 384), _spriteSize));
+
+	//animation->AddAnimation(new Animation("Moving", GetMesh()->GetShape(), _movingAnimationData));
+	//animation->AddAnimation(new Animation("Idle", GetMesh()->GetShape(), _idleAnimationData));
+	//animation->SetCurrentAnimation("Moving");
+	//animation->StartAnimation();
+
 }
 
 void Tank::ComputeDirection(const float _rotation)
@@ -273,7 +313,7 @@ void Tank::Shoot()
 
 	const Vector2f& _canonPosition = GetPosition() + movement->GetDirection() * 56.0f;
 
-	Bullet* _bullet = Level::SpawnActor(Bullet(movement->GetDirection()));
+	Bullet* _bullet = Level::SpawnActor(Bullet(movement->GetDirection(), this));
 	_bullet->SetRotation(GetRotation());
 	_bullet->SetOriginAtMiddle();
 	_bullet->SetPosition(_canonPosition);
@@ -290,7 +330,7 @@ void Tank::Shoot()
 void Tank::PlaySample()
 {
 	sound = M_AUDIO.PlaySample<SoundSample>("Tank_Engine", WAV);
-	sound->SetVolume(35.0f);
+	sound->SetVolume(0.0f);
 	sound->SetLoop(true);
 }
 

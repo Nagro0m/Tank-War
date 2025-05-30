@@ -3,8 +3,8 @@
 
 CollisionStep CollisionComponent::ComputeOthersStep(Actor* _other, const CollisionStep& _step)
 {
-	if (othersStep.contains(_other) && othersStep[_other] == CS_ENTER || othersStep[_other] == CS_UPDATE)
-	{
+    if ((othersStep.contains(_other) && othersStep[_other] == CS_ENTER) || othersStep[_other] == CS_UPDATE)
+    {
 		othersStep[_other] = CS_UPDATE;
 	}
 	else
@@ -42,17 +42,17 @@ void CollisionComponent::Tick(const float _deltaTime)
 		CheckCollision();
 	}
 }
+
 void CollisionComponent::CheckCollision()
 {
     if (!enable) return;
-
     if (!(status & IS_PHYSIC)) return;
-
     const set<CollisionComponent*>& _allComponent = M_COLLISION.GetAllCollisionComponents();
-    const FloatRect& _ownerRect = Cast<MeshActor>(owner)->GetHitbox();
-
-    // Définition du seuil minimal pour une collision significative
-    const float seuil_min = 0.1f * _ownerRect.size.x;  // 10% de la largeur de l'objet
+    const MeshActor* _ownerMesh = Cast<MeshActor>(owner);
+    if (!_ownerMesh) return;
+    const Vector2f& _ownerPos = _ownerMesh->GetPosition();
+    if (_ownerMesh->GetMesh()->GetShape()->GetData().type == ShapeObjectType::SOT_CIRCLE) return;
+    const Vector2f& _ownerSize = _ownerMesh->GetMesh()->GetShape()->GetData().data.rectangleData->size;
 
     for (CollisionComponent* _otherComponent : _allComponent)
     {
@@ -61,50 +61,138 @@ void CollisionComponent::CheckCollision()
 
         const string& _otherName = _otherComponent->GetChannelName();
         if (!responses.contains(_otherName)) continue;
+        if (_otherComponent->responses.empty()) continue;
 
         const CollisionType& _otherResponse = responses.at(_otherName);
-        if (_otherComponent->responses.empty()) continue;
         const CollisionType& _ownerResponse = _otherComponent->responses.at(channelName);
         if (_otherResponse == CT_NONE) continue;
 
-        MeshActor* _other = Cast<MeshActor>(_otherComponent->owner);
-        const FloatRect& _otherRect = _other->GetHitbox();
+        MeshActor* _otherMesh = Cast<MeshActor>(_otherComponent->owner);
+        const Vector2f& _otherPos = _otherMesh->GetPosition();
+        if (_ownerMesh->GetMesh()->GetShape()->GetData().type == ShapeObjectType::SOT_CIRCLE) continue;
 
-        // Calculer la distance entre les centres des objets
-        float distX = std::abs(_ownerRect.getCenter().x - _otherRect.getCenter().x);
-        float distY = std::abs(_ownerRect.getCenter().y - _otherRect.getCenter().y);
-        // Calculer les seuils de distance pour chaque objet
-        float maxDistX = (_ownerRect.size.x + _otherRect.size.x) / 2;
-        float maxDistY = (_ownerRect.size.y + _otherRect.size.y) / 2;
+        const Vector2f& _otherSize = _otherMesh->GetMesh()->GetSize();
 
-        // Si les objets sont trop éloignés sur l'axe X ou Y, pas de collision
-        if (distX > maxDistX || distY > maxDistY)
+        bool _isColliding = false;
+        FloatRect intersection = {};
+
+        if (_ownerSize != Vector2f{ 0.f, 0.f } && _otherSize != Vector2f{ 0.f, 0.f })
         {
-            continue; // Ignore cette collision si trop éloigné
-        }
+            OBB ownerOBB, otherOBB;
+            Vector2f ownerCenter = _ownerPos + _ownerSize / 2.f;
+            Vector2f otherCenter = _otherPos + _otherSize / 2.f;
 
-        // Si les objets sont proches et potentiellement en collision, vérifier l'intersection
-        if (const optional<FloatRect> _intersection = _ownerRect.findIntersection(_otherRect))
-        {
-            // Vérifie si l'intersection est suffisamment grande
-            if (_intersection->size.x > seuil_min && _intersection->size.y > seuil_min)
-            {
-                CollisionStep _step = ComputeOthersStep(_other, CS_ENTER);
-                const CollisionData& _ownerData = { owner, _ownerResponse, *_intersection, _step };
-                const CollisionData& _otherData = { _other, _otherResponse, *_intersection, _step };
-                M_COLLISION.Collide(_ownerData, _otherData);
+            ComputeOBB(ownerCenter, _ownerSize, _ownerMesh->GetRotation().asDegrees(), ownerOBB);
+            ComputeOBB(otherCenter, _otherSize, _otherMesh->GetRotation().asDegrees(), otherOBB);
+
+            auto Normalize = [](const Vector2f& v) -> Vector2f {
+                float len = std::sqrt(v.x * v.x + v.y * v.y);
+                return len != 0.f ? Vector2f{ v.x / len, v.y / len } : v;
+                };
+
+            auto ProjectOntoAxis = [](const OBB& obb, const Vector2f& axis, float& min, float& max) {
+                min = max = obb.corners[0].x * axis.x + obb.corners[0].y * axis.y;
+                for (int i = 1; i < 4; ++i) {
+                    float proj = obb.corners[i].x * axis.x + obb.corners[i].y * axis.y;
+                    if (proj < min) min = proj;
+                    if (proj > max) max = proj;
+                }
+                };
+
+            std::vector<Vector2f> axes;
+            for (int i = 0; i < 4; ++i) {
+                Vector2f edge = {
+                    ownerOBB.corners[(i + 1) % 4].x - ownerOBB.corners[i].x,
+                    ownerOBB.corners[(i + 1) % 4].y - ownerOBB.corners[i].y
+                };
+                axes.push_back(Normalize(Vector2f{ -edge.y, edge.x }));
+            }
+
+            for (int i = 0; i < 4; ++i) {
+                Vector2f edge = {
+                    otherOBB.corners[(i + 1) % 4].x - otherOBB.corners[i].x,
+                    otherOBB.corners[(i + 1) % 4].y - otherOBB.corners[i].y
+                };
+                axes.push_back(Normalize(Vector2f{ -edge.y, edge.x }));
+            }
+
+            _isColliding = true;
+            float minOverlap = std::numeric_limits<float>::max();
+            Vector2f mtvAxis;
+
+            for (const auto& axis : axes) {
+                float minA, maxA, minB, maxB;
+                ProjectOntoAxis(ownerOBB, axis, minA, maxA);
+                ProjectOntoAxis(otherOBB, axis, minB, maxB);
+
+                if (maxA < minB || maxB < minA) {
+                    _isColliding = false;
+                    break;
+                }
+                else {
+                    float overlap = std::min(maxA, maxB) - std::max(minA, minB);
+                    if (overlap < minOverlap) {
+                        minOverlap = overlap;
+                        mtvAxis = axis;
+                        // Ajuste direction pour aller de owner vers other
+                        Vector2f d = otherCenter - ownerCenter;
+                        if ((d.x * mtvAxis.x + d.y * mtvAxis.y) < 0)
+                            mtvAxis = Vector2f{ -mtvAxis.x, -mtvAxis.y };
+                    }
+                }
+            }
+
+            if (_isColliding) {
+                Vector2f mtv = mtvAxis * minOverlap;
+
+                // Tu peux utiliser `mtv` pour la résolution
+                // Pour l’instant, on le visualise avec un petit rectangle au centre
+                Vector2f center = (ownerCenter + otherCenter) / 2.f;
+                intersection.position = center + mtv * 0.5f - Vector2f{ 2.f, 2.f };
+                intersection.size = Vector2f{ 4.f, 4.f };
+
+                // Exemple : appliquer MTV à l’un des objets
+                // _ownerPos += mtv; // pour pousser le owner hors de la collision
             }
         }
         else
         {
-            if (othersStep.contains(_otherComponent->owner))
+            // === Cas CERCLE ===
+            Vector2f centerA = _ownerPos;
+            Vector2f centerB = _otherPos;
+
+            float radiusA = std::max(_ownerSize.x, _ownerSize.y) / 2.f;
+            float radiusB = std::max(_otherSize.x, _otherSize.y) / 2.f;
+
+            float dx = centerA.x - centerB.x;
+            float dy = centerA.y - centerB.y;
+            float distanceSq = dx * dx + dy * dy;
+            float combinedRadius = radiusA + radiusB;
+
+            _isColliding = distanceSq <= combinedRadius * combinedRadius;
+
+            if (_isColliding)
             {
-                CollisionStep _step = ComputeOthersStep(_other, CS_EXIT);
-                const CollisionData& _ownerData = { owner, _ownerResponse, {}, _step };
-                const CollisionData& _otherData = { _other, _otherResponse, {}, _step };
-                M_COLLISION.Collide(_ownerData, _otherData);
-                othersStep.erase(_other);
+                // Pas de vraie "intersection" pour les cercles, mais on remplit la struct
+                intersection.position = Vector2f{ std::min(centerA.x, centerB.x), std::min(centerA.y, centerB.y) };
+                intersection.size = Vector2f{ combinedRadius, combinedRadius }; // valeur symbolique
             }
+        }
+
+        if (_isColliding)
+        {
+            CollisionStep _step = ComputeOthersStep(_otherMesh, CS_ENTER);
+            const CollisionData& _ownerData = { owner, _ownerResponse, intersection, _step };
+            const CollisionData& _otherData = { _otherMesh, _otherResponse, intersection, _step };
+            M_COLLISION.Collide(_ownerData, _otherData);
+        }
+        else if (othersStep.contains(_otherComponent->owner))
+        {
+            CollisionStep _step = ComputeOthersStep(_otherMesh, CS_EXIT);
+            const CollisionData& _ownerData = { owner, _ownerResponse, {}, _step };
+            const CollisionData& _otherData = { _otherMesh, _otherResponse, {}, _step };
+            M_COLLISION.Collide(_ownerData, _otherData);
+            othersStep.erase(_otherMesh);
         }
     }
 }

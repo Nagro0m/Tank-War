@@ -17,18 +17,18 @@ void Level::GenerateLevel()
 
 	vector<LevelElement*> _treeVariants;
 	const float _circleSize = 40.0f;
-	_treeVariants.push_back(new LevelElement(new Tree(_circleSize, "Object/Tree_4"), 2));
-	_treeVariants.push_back(new LevelElement(new Tree(_circleSize, "Object/Tree_3"), 2));
-	_treeVariants.push_back(new LevelElement(new Tree(_circleSize, "Object/Tree_2"), 2));
-	LevelElement* _tree = new LevelElement(new Tree(_circleSize, "Object/Tree_1"), 10, _treeVariants);
+	_treeVariants.push_back(new LevelElement(new Tree(RectangleShapeData(Vector2f(80.0f, 80.0f), "Object/Tree_4")), 2));
+	_treeVariants.push_back(new LevelElement(new Tree(RectangleShapeData(Vector2f(80.0f, 80.0f), "Object/Tree_3")), 2));
+	_treeVariants.push_back(new LevelElement(new Tree(RectangleShapeData(Vector2f(80.0f, 80.0f), "Object/Tree_2")), 2));
+	LevelElement* _tree = new LevelElement(new Tree(RectangleShapeData(Vector2f(80.0f, 80.0f), "Object/Tree_1")), 10, _treeVariants);
 
 	//vector<pair<string, CollisionType>> _responsesMesh = { { "Tank", CT_OVERLAP } };
 	//_tree->AddCollision(_responsesMesh, "Tree");
 
 	vector<LevelElement*> _grassVariants;
 	const float _grassSize = 15.0f;
-	_grassVariants.push_back(new LevelElement(new Grass(_grassSize, "Object/Grass_2"), 2));
-	LevelElement* _grass = new LevelElement(new Grass(_grassSize, "Object/Grass_1"), 5, _grassVariants);
+	_grassVariants.push_back(new LevelElement(new Grass(RectangleShapeData(Vector2f(30.0f, 30.0f), "Object/Grass_2")), 2));
+	LevelElement* _grass = new LevelElement(new Grass(RectangleShapeData(Vector2f(30.0f, 30.0f), "Object/Grass_1")), 5, _grassVariants);
 			
 	//_grass->AddCollision(_responsesMesh, "Grass");
 
@@ -41,10 +41,10 @@ void Level::GenerateLevel()
 
 	vector<LevelElement*> _rockVariants;
 	const float _rockSize = 28.0f;
-	_rockVariants.push_back(new LevelElement(new Rock(_rockSize, "Object/Rock_1"), 1));
-	_rockVariants.push_back(new LevelElement(new Rock(_rockSize, "Object/Rock_2"), 1));
-	_rockVariants.push_back(new LevelElement(new Rock(_rockSize, "Object/Rock_3"), 1));
-	LevelElement* _rock = new LevelElement(new Rock(_rockSize, "Object/Rock_4"), 3, _rockVariants);
+	_rockVariants.push_back(new LevelElement(new Rock(RectangleShapeData(Vector2f(56.0f, 56.0f), "Object/Rock_1")), 1));
+	_rockVariants.push_back(new LevelElement(new Rock(RectangleShapeData(Vector2f(56.0f, 56.0f), "Object/Rock_2")), 1));
+	_rockVariants.push_back(new LevelElement(new Rock(RectangleShapeData(Vector2f(56.0f, 56.0f), "Object/Rock_3")), 1));
+	LevelElement* _rock = new LevelElement(new Rock(RectangleShapeData(Vector2f(56.0f, 56.0f), "Object/Rock_4")), 3, _rockVariants);
 
 	//_rock->AddCollision(_responsesMesh, "Rock");
 

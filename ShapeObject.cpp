@@ -31,7 +31,7 @@ ShapeObject::ShapeObject(const ShapeObject& _other)
 
 ShapeObject::~ShapeObject()
 {
-	delete shape;
+	if (shape) delete shape;
 }
 
 

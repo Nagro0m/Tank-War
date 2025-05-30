@@ -69,8 +69,6 @@ namespace UI
 	public:
 		Label(const string& _text, const RenderType& _type = Screen, const string& _path = "", const FontExtensionType& _fontType = OTF);
 		~Label();
-
-	private:
 		virtual void Render(RenderWindow& _window) override;
 	};
 }

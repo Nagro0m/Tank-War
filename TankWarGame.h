@@ -18,6 +18,8 @@ class TankWarGame : public Game
 	Label* label;
 	GameMode* gameMode;
 	float playersCount;
+	vector<string> datas;
+	map <string, string> dataMap;
 	//TankCreation* tankCreation;
 
 	
@@ -31,6 +33,7 @@ public:
 	virtual void Stop() override;
 
 private:
-
-	void GetDataFromSave();
+	
+	void GetDataFromSave(const string& _filePath);
+	void SplitVariableValues(const string& _row, string& _variable, string& _value, const string& _separator = ":");
 };

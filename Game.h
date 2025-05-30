@@ -15,6 +15,10 @@ public:
 	{
 		return CAST(Vector2f, window.getSize());
 	}
+	FORCEINLINE RenderWindow& GetWindow()
+	{
+		return window;
+	}
 
 public:
 	Game();

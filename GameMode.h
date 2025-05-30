@@ -4,8 +4,9 @@
 #include "InputManager.h"
 
 using namespace Input;
-class GameMode 
+class GameMode
 {
+	map<string, string> dataMap;
 	Tank* player1Tank;
 	Tank* player2Tank;
 
@@ -27,10 +28,10 @@ public:
 
 public:
 
-	void Initialize();
+	void Initialize(const map <string, string>& _dataMap);
 	void InitializeSolo();
 	void InitializeDuo();
 
+private:
+	string GetValueFromVariable(const string& _variable, int _valueId);
 };
-
-
