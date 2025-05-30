@@ -13,15 +13,12 @@ using namespace UI;
 
 class TankWarGame : public Game
 {
-	MeshActor* background;
-	MusicSample* music;
+
 	Level level;
 	Label* label;
-	map<string, MeshActor*> uiAssets;
-	CameraActor* cameraMainMenu;
 	GameMode* gameMode;
 	float playersCount;
-	TankCreation* tankCreation;
+	//TankCreation* tankCreation;
 
 	
 public:
@@ -33,29 +30,7 @@ public:
 	virtual bool Update() override;
 	virtual void Stop() override;
 
+private:
 
-
-public:
-
-	void MainMenu();
-	void GenerateMainMenu();
-
-	void GenerateSettingsMenu();
-
-	MeshActor* CreateActors(const Vector2f& _size, const string& _texture, const Vector2f& _position,
-		bool _useMiddleOrigin = true, float _rotation = 0.0f)
-	{
-		MeshActor* _actor = Level::SpawnActor(MeshActor(RectangleShapeData(_size, _texture)));
-
-		if (_useMiddleOrigin)
-		{
-			_actor->SetOriginAtMiddle();
-		}
-		_actor->SetPosition(_position);
-		if (_rotation != 0.0f)
-		{
-			_actor->Rotate(degrees(_rotation));
-		}
-		return _actor;
-	}
+	void GetDataFromSave();
 };

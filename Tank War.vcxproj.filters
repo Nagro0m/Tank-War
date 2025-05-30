@@ -361,10 +361,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LoadAnimation.cpp">
-	      <Filter>Source Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TankWarMenu.cpp">
+      <Filter>Scripts\GameLoop\Tank</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -597,10 +600,13 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LoadAnimation.h">
-	      <Filter>Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CollisionManager.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TankWarMenu.h">
+      <Filter>Scripts\GameLoop\Tank</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "GameManager.h"
 #include "TankWarGame.h"
+#include "TankWarMenu.h"
 #include "FuelGameplay.h"
 
 void InitConfig()
