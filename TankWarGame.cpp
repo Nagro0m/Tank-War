@@ -10,7 +10,8 @@ TankWarGame::TankWarGame()
 {
 	label = nullptr;
 	//The file is located in x64/Debug/gameData
-	GetDataFromSave("x64/Debug/gameData.txt");
+	saveFile = "x64/Debug/gameData.txt";
+	GetDataFromSave(saveFile);
 	//Get the players count in int
 	if (dataMap["playerCount"].size() != 0)
 		playersCount = stof(dataMap["playerCount"]);
@@ -20,6 +21,7 @@ TankWarGame::TankWarGame()
 
 TankWarGame::~TankWarGame()
 {
+	delete label;
 	delete gameMode;
 }
 
@@ -42,6 +44,12 @@ bool TankWarGame::Update()
 
 void TankWarGame::Stop()
 {
+	for (Tank* _tank : tanks)
+	{
+		_tank->StopTank();
+	}
+	M_GAMEHUD.DeInitialize();
+	SaveData(saveFile);
 	Super::Stop();
 }
 
@@ -65,6 +73,47 @@ void TankWarGame::GetDataFromSave(const string& _filePath)
 		_value.clear();
 	}
 	_file.close();
+}
+
+void TankWarGame::SaveData(const string& _filePath)
+{
+	ifstream inFile(_filePath);
+	vector<string> lines;
+	bool found = false;
+
+	// Lire tout le fichier ligne par ligne
+	string line;
+	while (getline(inFile, line))
+	{
+		if (line.find("winner:") == 0)
+		{
+			found = true;
+			int count = 0;
+
+			// Extraire le nombre après "winner:"
+			istringstream iss(line.substr(7)); // ignore "winner:"
+			iss >> count;
+			++count;
+
+			line = "winner:" + to_string(count);
+		}
+
+		lines.push_back(line);
+	}
+	inFile.close();
+
+	if (!found)
+	{
+		lines.push_back("winner:-1");
+	}
+
+	// Réécriture du fichier avec les lignes mises à jour
+	ofstream outFile(_filePath);
+	for (const string& updatedLine : lines)
+	{
+		outFile << updatedLine << '\n';
+	}
+	outFile.close();
 }
 
 void TankWarGame::SplitVariableValues(const string& _row, string& _variable, string& _value, const string& _separator)

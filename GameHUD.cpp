@@ -1,6 +1,7 @@
 #include "GameHUD.h"
 #include "Level.h"
 #include "LoadAnimation.h"
+#include "TankWarGame.h"
 
 GameHUD::GameHUD()
 {
@@ -48,6 +49,23 @@ void GameHUD::Initialize(const int _playersCount)
 
 }
 
+void GameHUD::DeInitialize()
+{
+	if (!lifeBars.empty())
+	{
+		map<std::string, UI::Image*>::iterator _it;
+		for (_it = lifeBars.begin(); _it != lifeBars.end(); ++_it)
+		{
+			string _key = _it->first;
+			UI::Image* _image = _it->second;
+			M_HUD.RemoveFromViewport(lifeBars[_key]);
+		}
+	}
+	if (separation)	M_HUD.RemoveFromViewport(separation);
+	if (label)	M_HUD.RemoveFromViewport(label);
+
+}
+
 UI::Image* GameHUD::CreateLifeBar(const string& _name, const string& _texture, const Vector2f& _position)
 {
 	UI::Image* _lifeBar = M_HUD.CreateWidget<UI::Image>(_name, RectangleShapeData(Vector2f(375, 57.5), _texture, PNG, 
@@ -83,7 +101,16 @@ void GameHUD::SpawnLoadAnimation()
 void GameHUD::UpdateTimer()
 {
 	--timer;
-	label->SetString(to_string(timer));
+	if (timer <= 0)
+	{
+		Game* _game = M_GAME.GetCurrent();
+		TankWarGame* _tankGame = Cast<TankWarGame>(_game);
+		if (!_tankGame) _game->Stop();
+		_tankGame->SetWinner(-1);
+		_tankGame->Stop();
+	}
+	else label->SetString(to_string(timer));
+
 }
 
 

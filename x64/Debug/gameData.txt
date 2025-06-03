@@ -1,4 +1,0 @@
-playerCount:2
-track:4-3
-hull:8-3
-weapon:6-8

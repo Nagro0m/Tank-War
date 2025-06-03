@@ -9,6 +9,7 @@
 #include "LoadAnimation.h"
 #include "Layer.h"
 #include "MeshActor.h"
+#include "TankWarGame.h"
 #include "ExplosionAnimation.h"
 
 void Tank::SetHull(const string& _hull)
@@ -101,6 +102,12 @@ void Tank::Deconstruct()
 {
 	Super::Deconstruct();
 	//animation->StopAnimation();
+}
+
+void Tank::StopTank()
+{
+	code.clear();
+	movement->SetIsMoving(false);
 }
 
 void Tank::BeginPlay()
@@ -383,5 +390,10 @@ void Tank::Die()
 		movement = nullptr;
 		SetToDelete();*/
 		life = -20;
+		TankWarGame* _game = Cast<TankWarGame>(M_GAME.GetCurrent());
+		if (!_game) return;
+		if (name == "Player1") _game->SetWinner(2);
+		else _game->SetWinner(1);
+		_game->Stop();
 	}
 }

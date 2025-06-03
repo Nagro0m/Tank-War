@@ -20,6 +20,7 @@ public:
 
 public:
 	void Initialize(const int _playersCount = 1);
+	void DeInitialize();
 
 	UI::Image* CreateLifeBar(const string& _name, const string& _texture, const Vector2f& _position);
 	void ChangeLifeBarWithLife(const string& _name, const float _life);

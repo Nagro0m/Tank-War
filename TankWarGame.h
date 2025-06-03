@@ -19,10 +19,15 @@ class TankWarGame : public Game
 	GameMode* gameMode;
 	float playersCount;
 	vector<string> datas;
+	vector<Tank*> tanks;
 	map <string, string> dataMap;
 	//TankCreation* tankCreation;
+	int winner;
+	string saveFile = "x64/Debug/gameData.txt";
+public:
+	void SetWinner(const int _winner) { winner = _winner; }
+	void AddTank(Tank* _tankToAdd) { tanks.push_back(_tankToAdd); }
 
-	
 public:
 	TankWarGame();
 	~TankWarGame();
@@ -35,5 +40,6 @@ public:
 private:
 	
 	void GetDataFromSave(const string& _filePath);
+	void SaveData(const string& _filePath);
 	void SplitVariableValues(const string& _row, string& _variable, string& _value, const string& _separator = ":");
 };
