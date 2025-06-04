@@ -10,7 +10,7 @@ TankWarGame::TankWarGame()
 {
 	label = nullptr;
 	//The file is located in x64/Debug/gameData
-	saveFile = "x64/Debug/gameData.txt";
+	saveFile = "gameData.txt";
 	GetDataFromSave(saveFile);
 	//Get the players count in int
 	if (dataMap["playerCount"].size() != 0)
